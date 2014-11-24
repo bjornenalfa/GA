@@ -10,3 +10,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/GA/nbproject/private/
+GA/build.xml
+GA/manifest.mf
+GA/nbproject/build-impl.xml
+GA/nbproject/genfiles.properties
+GA/nbproject/project.properties
+GA/nbproject/project.xml
+GA/src/ga/GA.java
