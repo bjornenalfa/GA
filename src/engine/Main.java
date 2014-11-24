@@ -5,11 +5,8 @@ public class Main {
         return "kek noobs v2";
     }
     //YOLO
-<<<<<<< HEAD
     //SWAG
-=======
     public void poop(){
         return;
     }
->>>>>>> origin/master
 }
