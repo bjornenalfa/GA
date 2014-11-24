@@ -1,5 +1,7 @@
 package engine;
 
 public class Main {
-    //YOLO SWAG 2.0
+    public String lel(){
+        return "lel";
+    }
 }
