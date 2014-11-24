@@ -3,6 +3,10 @@ package engine;
 import java.awt.Point;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author PastaPojken
+ */
 public class Object {
   Point.Double position;
   Vector2D massCenter; //relative to position
