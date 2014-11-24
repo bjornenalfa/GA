@@ -2,6 +2,6 @@ package engine;
 
 public class Main {
     public String lel(){
-        return "lel";
+        return "kek noobs";
     }
 }
