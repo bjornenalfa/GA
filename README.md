@@ -1,6 +1,7 @@
 GA
 ==
 
-To Do:
-
-
+To do:
++ impulse
++ interpolated movement
++ collision (rotation dependent)
