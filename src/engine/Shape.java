@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -12,38 +13,42 @@ public class Shape {
     double rotation; //relative to object's rotation
     double mass;//mass in Kg
     int x, y; // X, Y coordinates; Width and Height
+    Color myC; //Shape color    
 
     /**
      * Basic "Shape" constructor
      *
+     * @param x - X coordinate
+     * @param y - Y coordinate
      * @param v - vector
      * @param r - rotation, in radians
      * @param m - mass, Kg
+     * @param c - color
      */
-    public Shape(Vector2D v, double r, double m) {
+    public Shape(int x, int y, Vector2D v, double r, double m, Color c) {
         vector = v;
         rotation = r;
         mass = m;
-    }
-
-    public Shape(int x, int y, Vector2D v, double r, double m) {
-        vector = v;
-        rotation = r;
-        mass = m;
+        myC = c;
         this.x = x;
         this.y = y;
     }
 
     /**
      * Rotates shape
+     *
      * @param rad - radians
      */
     public void rotate(double rad) {
-        rotation+=rad;
+        rotation += rad;
     }
 
+    /**
+     * Draws shape
+     * @param g - Graphics
+     */
     public void paint(Graphics g) {
-
+        g.setColor(myC);
     }
 
 }

@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class Main extends JFrame {
 
         MyJPanel panel = new MyJPanel();
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.shapeList.add(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0));
-        panel.shapeList.add(new CircleShape(10, 10, 100, new Vector2D(), 0, 0));
+        panel.shapeList.add(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.blue));
+        panel.shapeList.add(new CircleShape(10, 10, 100, new Vector2D(), 0, 0, Color.yellow));
         setContentPane(panel);
 
         pack();
@@ -35,6 +36,7 @@ public class Main extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+            g.setColor(Color.black);
             for (Shape shape : shapeList) {
                 shape.paint(g);
             }

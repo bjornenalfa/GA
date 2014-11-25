@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -10,19 +11,18 @@ import java.awt.Graphics;
  */
 public class RectangleShape extends Shape {
 
-    int w, h; // X, Y coordinates; Width and Height
+    int w, h; // Width and Height
 
-    public RectangleShape(Vector2D v, double r, double m) {
-        super(v, r, m);
-    }
-
-    public RectangleShape(int x, int y, int w, int h, Vector2D v, double r, double m) {
-        super(x, y, v, r, m);
+    public RectangleShape(int x, int y, int w, int h, Vector2D v, double r, double m, Color c) {
+        super(x, y, v, r, m, c);
         this.w = w;
         this.h = h;
     }
 
+    @Override
     public void paint(Graphics g) {
+        super.paint(g);
+        g.fillRect(x, y, w, h);
         g.drawRect(x, y, w, h);
     }
 
