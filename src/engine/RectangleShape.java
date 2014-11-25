@@ -10,7 +10,7 @@ import java.awt.Graphics;
  */
 public class RectangleShape extends Shape {
 
-    int x, y, w, h; // X, Y coordinates; Width and Height
+    int w, h; // X, Y coordinates; Width and Height
 
     public RectangleShape(Vector2D v, double r, double m) {
         super(v, r, m);
@@ -23,7 +23,7 @@ public class RectangleShape extends Shape {
     }
 
     public void paint(Graphics g) {
-
+        g.drawRect(x, y, w, h);
     }
 
 }

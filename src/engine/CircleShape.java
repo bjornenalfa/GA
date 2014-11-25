@@ -20,7 +20,7 @@ public class CircleShape extends Shape {
     }
 
     public void paint(Graphics g) {
-
+        g.drawOval(x, y, radius, radius);
     }
 
 }
