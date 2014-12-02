@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @author PastaPojken
  */
 public class World {
+
     ArrayList<Object> objects;
     double time = 0;
     double g;
@@ -17,8 +18,11 @@ public class World {
         g = gravity;
     }
 
-    public void update() {
-        
+    public void update(double dt) {  
+        time = dt;
+        for (Object obj : objects) {
+            obj.update(dt);
+        }
     }
 
     public void paint(Graphics paint) {
