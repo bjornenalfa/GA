@@ -13,6 +13,7 @@ public class Object {
     Point.Double nextPosition;
     Vector2D massCenter; //relative to position
     Point.Double velocity;
+    Point.Double acceleration;
     Double rotation;
     Double angularVelocity;
     ArrayList<Shape> shapes = new ArrayList(); //relative to position
@@ -22,16 +23,17 @@ public class Object {
 
     }
 
-    public void update(double dt) {
-        nextPosition = move(position, velocity, dt);
+    public void update(double dt, double g) {
+        nextPosition = move(position, velocity, acceleration, dt);
     }
 
     public Point.Double interpolate(double k) {
         return new Point.Double(position.x + (nextPosition.x - position.x) * k, position.y + (nextPosition.y - position.y) * k);
     }
 
-    static public Point.Double move(Point.Double pos, Point.Double vel, double dt) {
-        return new Point.Double(pos.x + vel.x * dt, pos.y + vel.y * dt);
+    static public Point.Double move(Point.Double pos, Point.Double vel, Point.Double acc, double dt) {
+        return new Point.Double(pos.x+vel.x*dt+(acc.x*dt*dt)/2, pos.y+vel.y*dt+(acc.y*dt*dt)/2);
+        //return new Point.Double(pos.x + vel.x * dt, pos.y + vel.y * dt);
     }
 
     public Object addShapeReturn(Shape shape) {
