@@ -27,7 +27,7 @@ public class CollisionChecker {
     }
 
     public static boolean areTheyAlmostTouching(Line a, Line b, double limit) {
-        if (Line.getAngleBetween(a, b) <= limit) {
+        if (new Vector2D(Line.calculateHypotenuse(a.origin, b.origin), a.vector.getAngle()).getPoint().y <= limit) {
             return true;
         } else {
             return false;

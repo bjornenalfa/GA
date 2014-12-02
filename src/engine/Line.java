@@ -23,7 +23,7 @@ public class Line {
     public static double getAngleBetween(Line a, Line b){
         double cx = Math.abs(a.origin.x-b.origin.x);
         double cy = Math.abs(a.origin.y-b.origin.y);     
-        return Math.atan(cy/cx);
+        return Math.atan2(cy,cx);
     }
     
     
