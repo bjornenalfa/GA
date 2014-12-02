@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class Main extends JFrame {
-
+    //1 unit = 1cm
     public Main() {
         setTitle("TITLE");
 

@@ -16,6 +16,6 @@ public class CollisionChecker {
     }
 
     public static boolean isn(double num) {
-        return num == Math.floor(num);
+        return num == Math.abs(num);
     }
 }
