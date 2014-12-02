@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class World {
 
-    ArrayList<Object> objects;
+    ArrayList<Object> objects = new ArrayList();;
     double time = 0;
     double g;
 

@@ -19,8 +19,8 @@ public class Main extends JFrame {
 
         MyJPanel panel = new MyJPanel();
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.shapeList.add(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE));
-        panel.shapeList.add(new CircleShape(10, 10, 100, new Vector2D(), 0, 0, Color.YELLOW));
+        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE)));
+        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE)));
         setContentPane(panel);
 
         pack();
@@ -32,12 +32,13 @@ public class Main extends JFrame {
 
     class MyJPanel extends JPanel {
 
-        ArrayList<Shape> shapeList = new ArrayList<>();
+        World w;
 
-        public MyJPanel(){
+        public MyJPanel() {
             addKeyBindings();
+            w = new World(9.82);
         }
-        
+
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap().put(KeyStroke.getKeyStroke(exit), "exit");
@@ -52,18 +53,16 @@ public class Main extends JFrame {
                 }
             };
         }
-        
+
         @Override
         public void update(Graphics g) {
             paintComponent(g);
         }
-        
+
         @Override
         protected void paintComponent(Graphics g) {
-            g.setColor(Color.BLACK);
-            for (Shape shape : shapeList) {
-                shape.paint(g);
-            }
+            w.paint(g);
+
         }
 
     }
