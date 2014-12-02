@@ -24,12 +24,13 @@ public class Vector2D {
         //vector = calculateVector(len,ang);
     }
 
-    public void rotate(double deltaAngle) {
+    public Vector2D rotate(double deltaAngle) {
         if (angle == null) {
             angle = calculateAngle(vector);
         }
         angle += deltaAngle;
         vector = null;
+        return this;
     }
 
     public Point.Double getPoint() {
