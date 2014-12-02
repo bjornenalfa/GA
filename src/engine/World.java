@@ -19,7 +19,7 @@ public class World {
     }
 
     public void update(double dt) {  
-        time = dt;
+        time += dt;
         for (Object obj : objects) {
             obj.update(dt,g);
         }
