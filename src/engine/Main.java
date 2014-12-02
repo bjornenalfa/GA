@@ -3,14 +3,9 @@ package engine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 public class Main extends JFrame {
 
@@ -34,33 +29,14 @@ public class Main extends JFrame {
 
         ArrayList<Shape> shapeList = new ArrayList<>();
 
-        public MyJPanel(){
-            addKeyBindings();
-        }
-        
-        private void addKeyBindings() {
-            char exit = KeyEvent.VK_ESCAPE;
-            getInputMap().put(KeyStroke.getKeyStroke(exit), "exit");
-            getActionMap().put("exit", exit());
-        }
-
-        private Action exit() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
-                }
-            };
-        }
-        
         @Override
         public void update(Graphics g) {
             paintComponent(g);
         }
-        
+
         @Override
         protected void paintComponent(Graphics g) {
-            g.setColor(Color.BLACK);
+            g.setColor(Color.black);
             for (Shape shape : shapeList) {
                 shape.paint(g);
             }
@@ -69,6 +45,6 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Main();
+        Main main = new Main();
     }
 }
