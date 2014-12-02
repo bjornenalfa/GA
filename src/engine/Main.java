@@ -3,6 +3,7 @@ package engine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class Main extends JFrame {
 
         MyJPanel panel = new MyJPanel();
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE)));
-        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE)));
+        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
+        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         setContentPane(panel);
 
         pack();
@@ -69,5 +70,6 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         new Main();
+        System.out.println(CollisionChecker.parallel(1, 5, -2, -4, 1, 5, -2, -4));
     }
 }
