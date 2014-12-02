@@ -16,22 +16,23 @@ public class CollisionChecker {
     }
 
     public static boolean parallel(double ax, double ay, double bx, double by, double cx, double cy, double dx, double dy) {
-        double first_slope = ((by - ay) / (bx - ax));
-        double second_slope = ((dy - cy) / (dx - cx));
+        double firstSlope = ((by - ay) / (bx - ax));
+        double secondSlope = ((dy - cy) / (dx - cx));
 
-        if (first_slope == second_slope) {
-            return true;
-        } else {
-            return false;
-        }
+        return firstSlope == secondSlope;
     }
 
-    public static boolean areTheyAlmostTouching(Line a, Line b, double limit) {
-        if (new Vector2D(a.origin.x-b.origin.x, a.origin.y-b.origin.y).rotate(a.vector.getAngle()).getPoint().y <= limit) {
-            return true;
-        } else {
-            return false;
-        }
+    public static boolean parallel(Line a, Line b) {
+        double firstSlope = (a.vector.getPoint().y) / (a.vector.getPoint().x);
+        double secondSlope = (b.vector.getPoint().y) / (b.vector.getPoint().x);
+
+        return firstSlope == secondSlope;
+    }
+
+    public static boolean areTheyAlmostTouching(Line a, Line b, double limit, double slopeLimit) {
+        double firstSlope = a.vector.getAngle() % Math.PI;
+        double secondSlope =  b.vector.getAngle() % Math.PI;
+        return (Math.abs(firstSlope-secondSlope))<=slopeLimit && new Vector2D(a.origin.x - b.origin.x, a.origin.y - b.origin.y).rotate(a.vector.getAngle()).getPoint().y <= limit;
     }
 
     public static boolean isn(double num) {
