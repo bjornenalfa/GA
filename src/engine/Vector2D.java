@@ -32,7 +32,7 @@ public class Vector2D {
         vector = null;
     }
 
-    public Point.Double getVector() {
+    public Point.Double getPoint() {
         if (vector == null) {
             vector = calculateVector(length, angle);
         }

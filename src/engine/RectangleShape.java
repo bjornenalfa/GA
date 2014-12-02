@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,11 @@ public class RectangleShape extends Shape {
     
     public void calcLines() {
         lines.clear();
-        lines.add(new Line())
+        Line top = new Line(new Point.Double(x,y),new Vector2D(w,rotation));
+        lines.add(top);
+        Line left = new Line(new Point.Double(x,y),new Vector2D(h,rotation));
+        lines.add(left);
+        lines.add(new Line(left.vector.getPoint(),top.vector));
     }
 
     @Override
