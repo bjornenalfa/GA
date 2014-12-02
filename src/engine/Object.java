@@ -16,7 +16,7 @@ public class Object {
     Point.Double acceleration;
     Double rotation;
     Double angularVelocity;
-    ArrayList<Shape> shapes = new ArrayList(); //relative to position
+    ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double Mass;
 
     public Object() {
