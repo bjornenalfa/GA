@@ -19,8 +19,8 @@ public class Main extends JFrame {
 
         MyJPanel panel = new MyJPanel();
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.shapeList.add(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.blue));
-        panel.shapeList.add(new CircleShape(10, 10, 100, new Vector2D(), 0, 0, Color.yellow));
+        panel.shapeList.add(new RectangleShape(100, 100, 100, 100, new Vector2D(), 0, 0, Color.BLUE));
+        panel.shapeList.add(new CircleShape(10, 10, 100, new Vector2D(), 0, 0, Color.YELLOW));
         setContentPane(panel);
 
         pack();
