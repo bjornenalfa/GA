@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class Main extends JFrame {
-    //1 unit = 1cm
+    //1 length unit = 1cm
+    //1 mass unit = 1g
+    //1 force unit = 1g*cm/s/s
     public Main() {
         setTitle("TITLE");
 
