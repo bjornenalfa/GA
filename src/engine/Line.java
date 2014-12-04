@@ -32,10 +32,10 @@ public class Line {
         return Math.sqrt((pb.x - pa.x) * (pb.x - pa.x) + (pb.y - pa.y) * (pb.y - pa.y));
     }
 
-    public static double getAngleBetween(Line a, Line b) {
+    /*public static double getAngleBetween(Line a, Line b) { //THIS IS FUCKING BROKEN MATE
         double cx = Math.abs(a.origin.x - b.origin.x);
         double cy = Math.abs(a.origin.y - b.origin.y);
         return Math.atan2(cy, cx);
-    }
+    }*/
 
 }
