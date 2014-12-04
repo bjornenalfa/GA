@@ -17,9 +17,9 @@ public class Vector2D {
         //length = calculateLength(point);
         //angle = calculateAngle(point);
     }
-    
+
     public Vector2D(int i, int i0) {
-        point = new Point.Double(i,i0);
+        point = new Point.Double(i, i0);
     }
 
     public Vector2D(double len, double ang) {
@@ -39,23 +39,29 @@ public class Vector2D {
 
     public Point.Double getPoint() {
         if (point == null) {
-            point = calculateVector(length, angle);
+            point = calculatePoint(length, angle);
         }
         return point;
     }
-    
+
     public double getAngle() {
         if (angle == null) {
             angle = calculateAngle(point);
         }
         return angle;
     }
-    
+
     public double getLength() {
         if (length == null) {
             length = calculateLength(point);
         }
         return angle;
+    }
+
+    public void readyPoint() {
+        if (point == null) {
+            point = calculatePoint(length, angle);
+        }
     }
 
     public static double calculateAngle(Point.Double point) {
@@ -66,7 +72,7 @@ public class Vector2D {
         return Math.sqrt(point.x * point.x + point.y * point.y);
     }
 
-    public static Point.Double calculateVector(double length, double angle) {
+    public static Point.Double calculatePoint(double length, double angle) {
         return new Point.Double(Math.cos(angle) * length, Math.sin(angle) * length);
     }
 }

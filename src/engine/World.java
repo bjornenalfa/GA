@@ -21,8 +21,8 @@ public class World {
 
     public void update(double dt) {
         time += dt;
-        for (Object obj : objects) {
-            obj.update(dt, g);
+        for (Object object : objects) {
+            object.update(dt, g);
         }
     }
 
@@ -40,8 +40,8 @@ public class World {
         }
     }
 
-    public void addObject(Object obj) {
-        objects.add(obj);
+    public void addObject(Object object) {
+        objects.add(object);
     }
 
     public void addPlane(Plane plane) {

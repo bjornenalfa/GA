@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class Main extends JFrame {
+
     //1 length unit = 1cm
     //1 mass unit = 1g
     //1 force unit = 1g*cm/s/s
@@ -23,26 +24,24 @@ public class Main extends JFrame {
         setTitle("TITLE");
 
         MyJPanel panel = new MyJPanel();
-        
+
         setUndecorated(true);
-        setOpacity((float)0.9);
-        
+        setOpacity((float) 0.9);
+
         panel.setPreferredSize(new Dimension(800, 600));
         panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
-        panel.world.addPlane(new Plane(0,500,800,500));
+        panel.world.addPlane(new Plane(0, 500, 800, 500));
         setContentPane(panel);
 
         pack();
-        
-        
-        
+
         setLocationRelativeTo(null);
         setResizable(true);
         setVisible(true);
-        java.awt.Shape shape = new Ellipse2D.Double(0,0,800,600);
+        java.awt.Shape shape = new Ellipse2D.Double(0, 0, 800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         setShape(shape);
     }
 

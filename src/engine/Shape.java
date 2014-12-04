@@ -45,6 +45,7 @@ public class Shape {
 
     /**
      * Draws shape
+     *
      * @param g - Graphics
      */
     public void paint(Graphics g) {
