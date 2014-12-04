@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -21,6 +23,10 @@ public class Main extends JFrame {
         setTitle("TITLE");
 
         MyJPanel panel = new MyJPanel();
+        
+        setUndecorated(true);
+        setOpacity((float)0.9);
+        
         panel.setPreferredSize(new Dimension(800, 600));
         panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
@@ -28,10 +34,16 @@ public class Main extends JFrame {
         setContentPane(panel);
 
         pack();
+        
+        
+        
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setVisible(true);
+        java.awt.Shape shape = new Ellipse2D.Double(0,0,800,600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        setShape(shape);
     }
 
     class MyJPanel extends JPanel {
