@@ -22,8 +22,9 @@ public class Main extends JFrame {
 
         MyJPanel panel = new MyJPanel();
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
-        panel.w.addObj(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
+        panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
+        panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
+        panel.world.addPlane(new Plane(0,500,800,500));
         setContentPane(panel);
 
         pack();
@@ -35,11 +36,11 @@ public class Main extends JFrame {
 
     class MyJPanel extends JPanel {
 
-        World w;
+        World world;
 
         public MyJPanel() {
             addKeyBindings();
-            w = new World(9.82);
+            world = new World(9.82);
         }
 
         private void addKeyBindings() {
@@ -64,7 +65,7 @@ public class Main extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-            w.paint(g);
+            world.paint(g);
 
         }
 

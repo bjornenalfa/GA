@@ -8,14 +8,18 @@ import java.awt.Point;
  */
 public class Vector2D {
 
-    Point.Double vector;
+    Point.Double point;
     Double length;
     Double angle;
 
     public Vector2D(Point.Double point) {
-        vector = point;
+        this.point = point;
         //length = calculateLength(point);
         //angle = calculateAngle(point);
+    }
+    
+    public Vector2D(int i, int i0) {
+        point = new Point.Double(i,i0);
     }
 
     public Vector2D(double len, double ang) {
@@ -26,30 +30,30 @@ public class Vector2D {
 
     public Vector2D rotate(double deltaAngle) {
         if (angle == null) {
-            angle = calculateAngle(vector);
+            angle = calculateAngle(point);
         }
         angle += deltaAngle;
-        vector = null;
+        point = null;
         return this;
     }
 
     public Point.Double getPoint() {
-        if (vector == null) {
-            vector = calculateVector(length, angle);
+        if (point == null) {
+            point = calculateVector(length, angle);
         }
-        return vector;
+        return point;
     }
     
     public double getAngle() {
         if (angle == null) {
-            angle = calculateAngle(vector);
+            angle = calculateAngle(point);
         }
         return angle;
     }
     
     public double getLength() {
         if (length == null) {
-            length = calculateLength(vector);
+            length = calculateLength(point);
         }
         return angle;
     }
