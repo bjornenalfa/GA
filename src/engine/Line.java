@@ -18,10 +18,10 @@ public class Line {
         vector = vec;
     }
 
-    public Line(int i, int i0, int i1, int i2) {
-        origin = new Point.Double(i, i0);
-        end = new Point.Double(i1, i2);
-        vector = new Vector2D(i1 - i, i2 - i0);
+    public Line(int x, int y, int x2, int y2) {
+        origin = new Point.Double(x, y);
+        end = new Point.Double(x2, y2);
+        vector = new Vector2D(x2 - x, y2 - y);
     }
 
     public Point.Double getEnd() {
@@ -32,10 +32,8 @@ public class Line {
         return Math.sqrt((pb.x - pa.x) * (pb.x - pa.x) + (pb.y - pa.y) * (pb.y - pa.y));
     }
 
-    /*public static double getAngleBetween(Line a, Line b) { //THIS IS FUCKING BROKEN MATE
-        double cx = Math.abs(a.origin.x - b.origin.x);
-        double cy = Math.abs(a.origin.y - b.origin.y);
-        return Math.atan2(cy, cx);
-    }*/
+    public static double getAngleBetween(double dx, double dy) {
+        return Math.atan2(dy,dx);
+    }
 
 }
