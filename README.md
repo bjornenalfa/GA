@@ -9,3 +9,4 @@ To do:
   + Various - Fix updates (bjornealfa) 
   + Shape - Fix shit (pastapojken)
   + World
+  + test line intersect and almost parallel
