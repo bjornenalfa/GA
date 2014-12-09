@@ -63,10 +63,21 @@ public class Vector2D {
             point = calculatePoint(length, angle);
         }
     }
-    
+
     public void add(Vector2D secondVector) {
+        readyPoint();
         point.x += secondVector.getPoint().x;
         point.y += secondVector.getPoint().y;
+    }
+
+    public void multiply(double num) {
+        if (length != null) {
+            length *= num;
+        }
+        if (point != null) {
+            point.x *= num;
+            point.y *= num;
+        }
     }
 
     public static double calculateAngle(Point.Double point) {

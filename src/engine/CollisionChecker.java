@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author bjodet982
@@ -53,5 +55,9 @@ public class CollisionChecker {
 
     public static boolean isn(double num) {
         return num == Math.abs(num);
+    }
+
+    static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes) {
+
     }
 }

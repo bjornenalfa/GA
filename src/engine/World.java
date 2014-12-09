@@ -22,8 +22,9 @@ public class World {
     public void update(double dt) {
         time += dt;
         for (Object object : objects) {
-            object.update(dt, g);
+            object.preUpdate(dt, g);
         }
+        CollisionChecker.findNewCollisions(objects, planes);
     }
 
     public void paint(Graphics graphics) {
