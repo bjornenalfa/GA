@@ -32,6 +32,7 @@ public class World {
     }
 
     public void paint(Graphics graphics) {
+        graphics.clearRect(0, 0, 800, 600);
         graphics.setColor(Color.BLACK);
         for (Object object : objects) {
             for (Shape shape : object.shapes) {
