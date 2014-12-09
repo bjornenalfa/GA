@@ -13,6 +13,7 @@ public class Object {
     Point.Double nextPosition;
     Vector2D massCenter; //relative to position
     Point.Double velocity;
+    Point.Double nextVelocity;
     Point.Double acceleration;
     double rotation;
     double angularVelocity;
@@ -41,10 +42,12 @@ public class Object {
 
     public void preUpdate(double dt, double g) {
         nextPosition = move(position, velocity, acceleration, dt);
+        nextVelocity = new Point.Double(velocity.x, velocity.y + g * dt);
     }
-    
+
     public void endUpdate() {
         position = nextPosition;
+        velocity = nextVelocity;
     }
 
     public Point.Double interpolate(double k, double dt) {

@@ -23,12 +23,12 @@ public class Force {
         double scale = 1;
         g.drawLine((int) attackPoint.x, (int) attackPoint.y, (int) (vector.getPoint().x * scale), (int) (vector.getPoint().y * scale));
     }
-    
-    public double getAcc(double m){
-        return vector.getLength()/m;
+
+    public double getAcc(double m) {
+        return vector.getLength() / m;
     }
-    
-    public double getForce(){
+
+    public double getForce() {
         return vector.getLength();
     }
 }
