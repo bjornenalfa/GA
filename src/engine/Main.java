@@ -39,8 +39,8 @@ public class Main extends JFrame {
         setOpacity((float) 0.9);
 
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
-        panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
+        panel.world.objects.add(new Object(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE),new Point.Double(100,100)));
+        //panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         panel.world.addPlane(new Plane(0, 500, 800, 500));
         setContentPane(panel);
 //        setMenuBar(makeMenuBar());

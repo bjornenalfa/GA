@@ -9,12 +9,12 @@ import java.util.ArrayList;
  */
 public class Object {
 
-    Point.Double position;
+    Point.Double position = new Point.Double(0,0);
     Point.Double nextPosition;
     Vector2D massCenter; //relative to position
-    Point.Double velocity;
+    Point.Double velocity = new Point.Double(0,0);
     Point.Double nextVelocity;
-    Point.Double acceleration;
+    Point.Double acceleration = new Point.Double(0,0);
     double rotation;
     double angularVelocity;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
@@ -24,7 +24,7 @@ public class Object {
     ArrayList<Plane> touching = new ArrayList();
 
     public Object() {
-
+        
     }
 
     public Object(Shape shape, Point.Double pos) {
