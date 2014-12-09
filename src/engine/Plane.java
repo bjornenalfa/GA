@@ -10,6 +10,7 @@ public class Plane {
 
     Line surface;
     double friction;
+    int ID;
 
     public Plane(Line line) {
         surface = line;

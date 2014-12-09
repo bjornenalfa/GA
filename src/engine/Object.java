@@ -14,13 +14,29 @@ public class Object {
     Vector2D massCenter; //relative to position
     Point.Double velocity;
     Point.Double acceleration;
-    Double rotation;
-    Double angularVelocity;
+    double rotation;
+    double angularVelocity;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double Mass;
-
+    int ID;
+    ArrayList<Object> collisions = new ArrayList();
+    ArrayList<Plane> touching = new ArrayList();
+    
     public Object() {
 
+    }
+    
+    public Object(Shape shape, Point.Double pos) {
+        shapes.add(shape);
+        position = pos;
+    }
+    
+    public void calcMassCenter() {
+        massCenter = new Vector2D(0,0);
+        for (Shape shape : shapes) {
+            //todo, discuss next time
+            //massCenter.
+        }
     }
 
     public void update(double dt, double g) {

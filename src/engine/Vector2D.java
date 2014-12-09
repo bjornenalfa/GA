@@ -63,6 +63,11 @@ public class Vector2D {
             point = calculatePoint(length, angle);
         }
     }
+    
+    public void add(Vector2D secondVector) {
+        point.x += secondVector.getPoint().x;
+        point.y += secondVector.getPoint().y;
+    }
 
     public static double calculateAngle(Point.Double point) {
         return Math.atan2(point.y, point.x);
