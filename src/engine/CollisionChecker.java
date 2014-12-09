@@ -14,7 +14,7 @@ public class CollisionChecker {
          double ce = (px-qx)*(ey-py)-(py-qy)*(ex-px);
          double cf = (px-qx)*(fy-py)-(py-qy)*(fx-px);
          return (isn(cp) != isn(cq)) && (isn(ce) != isn(cf));*/
-        return (isn((fx - ex) * (py - fy) - (fy - ey) * (px - fx)) != isn((fx - ex) * (qy - fy) - (fy - ey) * (qx - fx))) && (isn((px - qx) * (ey - py) - (py - qy) * (ex - px)) != isn((px - qx) * (fy - py) - (py - qy) * (fx - px)));
+        return (isNegative((fx - ex) * (py - fy) - (fy - ey) * (px - fx)) != isNegative((fx - ex) * (qy - fy) - (fy - ey) * (qx - fx))) && (isNegative((px - qx) * (ey - py) - (py - qy) * (ex - px)) != isNegative((px - qx) * (fy - py) - (py - qy) * (fx - px)));
     }
 
     public static boolean intersect(Line line1, Line line2) { // CALCULATE INTERSECTIONS
@@ -30,7 +30,7 @@ public class CollisionChecker {
          double ce = (line1.vector.point.y)*(line2.origin.x-line1.origin.x)-(line1.vector.point.x)*(line2.origin.y-line1.origin.y);
          double cf = (line1.vector.point.y)*(line2.end.x-line1.origin.x)-(line1.vector.point.x)*(line2.end.y-line1.origin.y);
          return (isn(cp) != isn(cq)) && (isn(ce) != isn(cf));*/
-        return (isn((line2.vector.point.x) * (line1.origin.y - line2.end.y) - (line2.vector.point.y) * (line1.origin.x - line2.end.x)) != isn((line2.vector.point.x) * (line1.end.y - line2.end.y) - (line2.vector.point.y) * (line1.end.x - line2.end.x))) && (isn((line1.vector.point.y) * (line2.origin.x - line1.origin.x) - (line1.vector.point.x) * (line2.origin.y - line1.origin.y)) != isn((line1.vector.point.y) * (line2.end.x - line1.origin.x) - (line1.vector.point.x) * (line2.end.y - line1.origin.y)));
+        return (isNegative((line2.vector.point.x) * (line1.origin.y - line2.end.y) - (line2.vector.point.y) * (line1.origin.x - line2.end.x)) != isNegative((line2.vector.point.x) * (line1.end.y - line2.end.y) - (line2.vector.point.y) * (line1.end.x - line2.end.x))) && (isNegative((line1.vector.point.y) * (line2.origin.x - line1.origin.x) - (line1.vector.point.x) * (line2.origin.y - line1.origin.y)) != isNegative((line1.vector.point.y) * (line2.end.x - line1.origin.x) - (line1.vector.point.x) * (line2.end.y - line1.origin.y)));
     }
 
     public static boolean parallel(double ax, double ay, double bx, double by, double cx, double cy, double dx, double dy) {
@@ -53,11 +53,21 @@ public class CollisionChecker {
         return (Math.abs(firstSlope - secondSlope)) <= slopeLimit && new Vector2D(a.origin.x - b.origin.x, a.origin.y - b.origin.y).rotate(a.vector.getAngle()).getPoint().y <= limit;
     }
 
-    public static boolean isn(double num) {
+    public static boolean isNegative(double num) {
         return num == Math.abs(num);
     }
+    
+    public static boolean planeAndShapeIntersect(RectangleShape shape, Plane plane) {
+        shape.calcLines();
+        for (Line line : shape.lines) {
+            if (intersect(line,plane.surface)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes) {
+    public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes) {
 
     }
 }
