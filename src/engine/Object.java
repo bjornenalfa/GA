@@ -42,6 +42,10 @@ public class Object {
     public void preUpdate(double dt, double g) {
         nextPosition = move(position, velocity, acceleration, dt);
     }
+    
+    public void endUpdate() {
+        position = nextPosition;
+    }
 
     public Point.Double interpolate(double k, double dt) {
         //return new Point.Double(position.x + (nextPosition.x - position.x) * k, position.y + (nextPosition.y - position.y) * k);

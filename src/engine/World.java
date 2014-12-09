@@ -25,6 +25,9 @@ public class World {
             object.preUpdate(dt, g);
         }
         CollisionChecker.findNewCollisions(objects, planes);
+        for (Object object : objects) {
+            object.endUpdate();
+        }
     }
 
     public void paint(Graphics graphics) {
