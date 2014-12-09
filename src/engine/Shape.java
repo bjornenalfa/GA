@@ -27,6 +27,7 @@ public class Shape {
      */
     public Shape(int x, int y, Vector2D v, double r, double m, Color c) {
         vector = v;
+        //vector.readyPoint();
         rotation = r;
         mass = m;
         myC = c;
@@ -48,7 +49,7 @@ public class Shape {
      *
      * @param g - Graphics
      */
-    public void paint(Graphics g) {
+    public void paint(Graphics g, Object o) {
         g.setColor(myC);
     }
 

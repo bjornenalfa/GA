@@ -34,10 +34,10 @@ public class RectangleShape extends Shape {
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.fillRect(x, y, w, h);
-        g.drawRect(x, y, w, h);
+    public void paint(Graphics g, Object o) {
+        super.paint(g, o);
+        g.fillRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), w, h);
+        g.drawRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), w, h);
     }
 
 }
