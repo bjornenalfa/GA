@@ -39,7 +39,7 @@ public class Main extends JFrame {
         setOpacity((float) 0.9);
 
         panel.setPreferredSize(new Dimension(800, 600));
-        panel.world.objects.add(new Object(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE),new Point.Double(100,100)));
+        panel.world.objects.add(new Object(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
         //panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         panel.world.addPlane(new Plane(0, 500, 800, 500));
         setContentPane(panel);
@@ -64,9 +64,9 @@ public class Main extends JFrame {
         return menuBar;
     }
 
-    Shape temp = new RectangleShape(1, 1, 1, 1, null, 1, 1, Color.GREEN);
-    Shape shape = null;
-    
+    String temp = "Rectangle";
+    String shape = null;
+
     private MenuItem makeAddObject() {
         MenuItem addObject = new MenuItem("Add Object");
         addObject.setShortcut(new MenuShortcut(KeyEvent.VK_O, true));
@@ -74,24 +74,39 @@ public class Main extends JFrame {
         addObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int chooseShape = JOptionPane.showConfirmDialog(null, radioPanel(), "", JOptionPane.OK_CANCEL_OPTION);
+                int chooseShape = JOptionPane.showConfirmDialog(null, radioPanel(), "Choose shape.", JOptionPane.OK_CANCEL_OPTION);
                 if (chooseShape == JOptionPane.CANCEL_OPTION || chooseShape == JOptionPane.CLOSED_OPTION) {
                     return;
                 } else if (chooseShape == JOptionPane.OK_OPTION) {
-                     shape = temp;
+                    shape = temp;
                 }
-                
+                switch (shape) {
+                    case "Rectangle":
+                        rectangleOptions();
+                        break;
+                    case "Circle":
+                        circleOptions();
+                        break;
+                }
                 panel.world.addObject(new Object());
             }
         });
 
         return addObject;
     }
-
+    
+    private void rectangleOptions(){
+        
+    }
+    
+    private void circleOptions(){
+    
+    }
+    
     private JPanel radioPanel() {
         final JPanel radioPanel = new JPanel(new GridLayout(2, 1));
         ButtonGroup buttonGroup = new ButtonGroup();
-        
+
         JRadioButton rectangle = rectangleChoice();
         JRadioButton circle = circleChoice();
 
@@ -107,19 +122,19 @@ public class Main extends JFrame {
         rectangle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                temp = new RectangleShape(1, 1, 1, 1, null, 1, 1, Color.GREEN);
+                temp = "Rectangle";
             }
         });
         rectangle.setSelected(true);
         return rectangle;
     }
-    
+
     private JRadioButton circleChoice() {
         JRadioButton circle = new JRadioButton("Circle");
         circle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                temp = new CircleShape(1, 1, 1, null, 1, 1, Color.GREEN);
+                temp = "Circle";
             }
         });
         return circle;
@@ -136,7 +151,9 @@ public class Main extends JFrame {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    world.update(0.01);
+                    double dt = Double.parseDouble(JOptionPane.showInputDialog("Enter dt."));
+                    world.update(dt);
+                    repaint();
                 }
             });
             add(button);
@@ -144,7 +161,7 @@ public class Main extends JFrame {
 
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
-            getInputMap().put(KeyStroke.getKeyStroke(exit), "exit");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
         }
 
@@ -165,9 +182,7 @@ public class Main extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             world.paint(g);
-
         }
-
     }
 
     public static void main(String[] args) {
