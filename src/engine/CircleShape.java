@@ -11,7 +11,7 @@ public class CircleShape extends Shape {
 
     int radius; //radius of shape
 
-    public CircleShape(int x, int y, int rad, Vector2D v, double r, double m, Color c) {
+    public CircleShape(double x, double y, int rad, Vector2D v, double r, double m, Color c) {
         super(x, y, v, r, m, c);
         radius = rad;
     }
@@ -19,8 +19,8 @@ public class CircleShape extends Shape {
     @Override
     public void paint(Graphics g, Object o) {
         super.paint(g, o);
-        g.fillOval(x, y, radius, radius);
-        g.drawOval(x, y, radius, radius);
+        g.fillOval((int) x, (int) y, radius, radius);
+        g.drawOval((int) x, (int) y, radius, radius);
     }
 
 }

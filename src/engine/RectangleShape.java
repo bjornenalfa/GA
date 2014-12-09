@@ -3,7 +3,6 @@ package engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
  * Rectangular shape, has width and height;
@@ -18,7 +17,7 @@ public class RectangleShape extends Shape {
     //ArrayList<Line> lines = new ArrayList(4);
     Line[] lines = new Line[4];
 
-    public RectangleShape(int x, int y, int w, int h, Vector2D v, double r, double m, Color c) {
+    public RectangleShape(double x, double y, int w, int h, Vector2D v, double r, double m, Color c) {
         super(x, y, v, r, m, c);
         this.w = w;
         this.h = h;

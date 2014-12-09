@@ -12,7 +12,7 @@ public class Shape {
     Vector2D vector; //Anchor in object's position
     double rotation; //relative to object's rotation
     double mass;//mass in g
-    int x, y; // X, Y coordinates; Width and Height
+    double x, y; // X, Y coordinates; Width and Height
     Color myC; //Shape color    
 
     /**
@@ -25,7 +25,7 @@ public class Shape {
      * @param m - mass, g
      * @param c - color
      */
-    public Shape(int x, int y, Vector2D v, double r, double m, Color c) {
+    public Shape(double x, double y, Vector2D v, double r, double m, Color c) {
         vector = v;
         //vector.readyPoint();
         rotation = r;
