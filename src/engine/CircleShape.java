@@ -19,8 +19,8 @@ public class CircleShape extends Shape {
     @Override
     public void paint(Graphics g, Object o) {
         super.paint(g, o);
-        g.fillOval((int) x, (int) y, radius, radius);
-        g.drawOval((int) x, (int) y, radius, radius);
+        g.fillOval((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), radius, radius);
+        g.drawOval((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), radius, radius);
     }
 
 }
