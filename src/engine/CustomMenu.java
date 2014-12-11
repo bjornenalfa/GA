@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,16 +23,19 @@ import javax.swing.JRadioButton;
  * @author Letfik
  */
 public class CustomMenu extends MenuBar {
-    
+
     MyJPanel panel;
-    
+
     public CustomMenu(MyJPanel panel) {
         this.panel = panel;
-        
-        Menu menu = new Menu("Add");
-        menu.add(makeAddObject());
 
-        add(menu);
+        Menu add = new Menu("Add");
+        add.add(makeAddObject());
+
+        Menu reset = new Menu("Reset");
+        reset.add(makeResetObjects());
+
+        add(add);
     }
 
     String temp = "Rectangle";
@@ -64,6 +68,23 @@ public class CustomMenu extends MenuBar {
         return addObject;
     }
 
+    private MenuItem makeResetObjects() {
+        MenuItem resetObjects = new MenuItem("Reset Objects");
+        resetObjects.setShortcut(new MenuShortcut(KeyEvent.VK_R, true));
+
+        resetObjects.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.");
+                if (confirmReset == JOptionPane.OK_OPTION) {
+                    panel.world.objects = new ArrayList();
+                }
+            }
+        });
+        return resetObjects;
+    }
+
     private void rectangleOptions() {
         double x = Double.parseDouble(inputOptionPane("Enter x."));
         double y = Double.parseDouble(inputOptionPane("Enter y."));
@@ -83,10 +104,10 @@ public class CustomMenu extends MenuBar {
         double r = Double.parseDouble(inputOptionPane("Enter rotation."));
         double m = Double.parseDouble(inputOptionPane("Enter mass."));
         Color c = stringToColor();
-        panel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0,0), r, m, c), new Point.Double(x,y)));
+        panel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
         panel.repaint();
     }
-    
+
     private Color stringToColor() {
         try {
             Field field = Class.forName("java.awt.Color").getField(inputOptionPane("Enter color.").toUpperCase());
@@ -136,4 +157,5 @@ public class CustomMenu extends MenuBar {
         });
         return circle;
     }
+
 }
