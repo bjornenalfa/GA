@@ -44,6 +44,10 @@ public class Object {
         nextPosition = move(position, velocity, new Point.Double(acceleration.x,acceleration.y+g), dt);
         nextVelocity = new Point.Double(velocity.x, velocity.y + g * dt);
         System.out.println("p:{"+nextPosition.x+":"+nextPosition.y+"} v:{"+nextVelocity.x+":"+nextVelocity.y+"}");
+        
+        for (Shape shape : shapes) {
+            shape.calcNextPosition(this);
+        }
     }
 
     public void endUpdate() {

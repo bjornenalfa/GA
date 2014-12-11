@@ -22,7 +22,7 @@ public class RectangleShape extends Shape {
         this.w = w;
         this.h = h;
     }
-
+    
     public void calcLines() {
         Line top = new Line(new Point.Double(x, y), new Vector2D(w, rotation));
         lines[0] = top;

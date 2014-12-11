@@ -57,17 +57,26 @@ public class CollisionChecker {
         return num == Math.abs(num);
     }
     
-    public static boolean planeAndShapeIntersect(RectangleShape shape, Plane plane) {
-        shape.calcLines();
-        for (Line line : shape.lines) {
-            if (intersect(line,plane.surface)) {
-                return true;
+    public static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
+        if (shape instanceof RectangleShape) {
+            RectangleShape rec = (RectangleShape)shape;
+            rec.calcLines();
+            for (Line line : rec.lines) {
+                if (intersect(line,plane.surface)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes) {
-
+        for (Object object : objects) {
+            for (Plane plane : planes) {
+                if (planeAndShapeIntersect(object.shapes.get(0),plane)) {
+                    System.out.println("it is happening");
+                }
+            }
+        }
     }
 }

@@ -52,5 +52,15 @@ public class Shape {
     public void paint(Graphics g, Object o) {
         g.setColor(myC);
     }
+    
+    public void calcPosition(Object o) {
+        x = o.position.x+vector.point.x;
+        y = o.position.y+vector.point.y;
+    }
+    
+    public void calcNextPosition(Object o) {
+        x = o.nextPosition.x+vector.point.x;
+        y = o.nextPosition.y+vector.point.y;
+    }
 
 }
