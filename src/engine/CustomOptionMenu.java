@@ -1,7 +1,7 @@
 package engine;
 
-import engine.Main.MyJPanel;
 import engine.OptionFrame.MyOptionPanel;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -9,6 +9,7 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 import java.awt.Point;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,12 +35,13 @@ public class CustomOptionMenu extends MenuBar {
         add.add(makeAddObject());
         add.add(makeAddPlane());
 
-        Menu reset = new Menu("Reset");
-        reset.add(makeResetObjects());
-        reset.add(makeResetPlanes());
+        Menu remove = new Menu("Remove");
+        remove.add(makeResetObjects());
+        remove.add(makeResetPlanes());
+        remove.add(makeRemoveObject());
 
         add(add);
-        add(reset);
+        add(remove);
     }
 
     String temp = "Rectangle";
@@ -122,41 +124,70 @@ public class CustomOptionMenu extends MenuBar {
         });
         return resetPlanes;
     }
-    
+
+    private MenuItem makeRemoveObject() {
+        MenuItem removeObject = new MenuItem("Remove Object");
+        removeObject.setShortcut(new MenuShortcut(KeyEvent.VK_R, true));
+        removeObject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
+        return removeObject;
+    }
+
     private void rectangleOptions() {
-        double x = Double.parseDouble(inputOptionPane("Enter x."));
-        double y = Double.parseDouble(inputOptionPane("Enter y."));
-        int w = Integer.parseInt(inputOptionPane("Enter width."));
-        int h = Integer.parseInt(inputOptionPane("Enter height."));
-        double r = Double.parseDouble(inputOptionPane("Enter rotation."));
-        double m = Double.parseDouble(inputOptionPane("Enter mass."));
-        Color c = stringToColor();
+        double x = doubleInput("Enter x.");
+        double y = doubleInput("Enter y.");
+        int w = intInput("Enter width.");
+        int h = intInput("Enter height.");
+        double r = doubleInput("Enter rotation.");
+        double m = doubleInput("Enter mass.");
+        Color c = stringToColor("Enter color.");
         panel.world.addObject(new Object(new RectangleShape(x, y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
         panel.repaint();
     }
 
     private void circleOptions() {
-        double x = Double.parseDouble(inputOptionPane("Enter x."));
-        double y = Double.parseDouble(inputOptionPane("Enter y."));
-        int rad = Integer.parseInt(inputOptionPane("Enter radius."));
-        double r = Double.parseDouble(inputOptionPane("Enter rotation."));
-        double m = Double.parseDouble(inputOptionPane("Enter mass."));
-        Color c = stringToColor();
+        double x = doubleInput("Enter x.");
+        double y = doubleInput("Enter y.");
+        int rad = intInput("Enter radius.");
+        double r = doubleInput("Enter rotation.");
+        double m = doubleInput("Enter mass.");
+        Color c = stringToColor("Enter color");
         panel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
         panel.repaint();
     }
 
-    private Color stringToColor() {
+    private int intInput(String text) {
         try {
-            Field field = Class.forName("java.awt.Color").getField(inputOptionPane("Enter color.").toUpperCase());
+            return Integer.parseInt(inputOptionPane(text));
+        } catch (NumberFormatException e) {
+            return intInput(text + " (int)");
+        }
+    }
+
+    private double doubleInput(String text) {
+        try {
+            return Double.parseDouble(inputOptionPane(text));
+        } catch (NumberFormatException e) {
+            return doubleInput(text + " (double)");
+        }
+    }
+
+    private Color stringToColor(String text) {
+        try {
+            Field field = Class.forName("java.awt.Color").getField(inputOptionPane(text).toUpperCase());
             return (Color) field.get(null);
         } catch (ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-            return stringToColor();
+            return stringToColor(text + " (jawa.awt.Color)");
         }
     }
 
     private String inputOptionPane(String text) {
-        return JOptionPane.showInputDialog(text);
+        return JOptionPane.showInputDialog(null, text, "TITLE", JOptionPane.QUESTION_MESSAGE);
     }
 
     private JPanel shapeRadioPanel() {

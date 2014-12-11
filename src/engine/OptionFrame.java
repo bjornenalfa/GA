@@ -16,6 +16,7 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
@@ -30,14 +31,14 @@ public class OptionFrame extends JFrame {
     //1 mass unit = 1g
     //1 force unit = 1g*cm/s/s
     MyOptionPanel panel;
-    MyJPanel myPanel;
+    MyJPanel mainPanel;
 
-    public OptionFrame(MyJPanel myPanel) {
+    public OptionFrame(MyJPanel mainPanel) {
         setTitle("OPTIONFRAME");
 
-        this.myPanel = myPanel;
+        this.mainPanel = mainPanel;
 
-        panel = new MyOptionPanel(myPanel.world);
+        panel = new MyOptionPanel(mainPanel.world);
         setContentPane(panel);
         setMenuBar(new CustomOptionMenu(panel));
         pack();
@@ -62,6 +63,9 @@ public class OptionFrame extends JFrame {
             addKeyBindings();
             this.world = world;
             addButtons();
+            add(new JLabel());
+            add(new JLabel());
+            add(new JLabel());
         }
 
         JButton update;
@@ -77,7 +81,7 @@ public class OptionFrame extends JFrame {
                         dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
                     }
                     world.update(dt);
-                    myPanel.repaint();
+                    mainPanel.repaint();
                 }
             });
             add(update);
@@ -176,7 +180,7 @@ public class OptionFrame extends JFrame {
                 while (true) {
                     while (!paused) {
                         world.update(dt);
-                        myPanel.repaint();
+                        mainPanel.repaint();
                         try {
                             sleep(100);
                         } catch (InterruptedException ex) {
