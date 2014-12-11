@@ -5,14 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Ellipse2D;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -30,13 +27,11 @@ public class Main extends JFrame {
 
         //setUndecorated(true);
         //setOpacity((float) 0.9);
-
         panel.setPreferredSize(new Dimension(800, 600));
         panel.world.objects.add(new Object(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
         //panel.world.addObject(new Object().addShapeReturn(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(100, 100)), 0, 0, Color.BLUE)));
         panel.world.addPlane(new Plane(0, 500, 800, 500));
         setContentPane(panel);
-        setMenuBar(new CustomMenu(panel));
         pack();
 
         setLocationRelativeTo(null);
@@ -56,25 +51,10 @@ public class Main extends JFrame {
         public MyJPanel() {
             addKeyBindings();
             world = new World(10);
-            addButtons();
+
+            OptionFrame optionFrame = new OptionFrame(this);
         }
 
-        private void addButtons() {
-            JButton update = new JButton("Update");
-            update.setMnemonic(KeyEvent.VK_U);
-            update.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (dt == 0) {
-                        dt = Double.parseDouble(JOptionPane.showInputDialog("Enter dt."));
-                    }
-                    world.update(dt);
-                    repaint();
-                }
-            });
-            add(update);
-        }
-        
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");

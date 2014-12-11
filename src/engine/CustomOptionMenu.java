@@ -1,6 +1,7 @@
 package engine;
 
 import engine.Main.MyJPanel;
+import engine.OptionFrame.MyOptionPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -22,11 +23,11 @@ import javax.swing.JRadioButton;
  *
  * @author Letfik
  */
-public class CustomMenu extends MenuBar {
+public class CustomOptionMenu extends MenuBar {
 
-    MyJPanel panel;
+    MyOptionPanel panel;
 
-    public CustomMenu(MyJPanel panel) {
+    public CustomOptionMenu(MyOptionPanel panel) {
         this.panel = panel;
 
         Menu add = new Menu("Add");
@@ -46,7 +47,7 @@ public class CustomMenu extends MenuBar {
 
     private MenuItem makeAddObject() {
         MenuItem addObject = new MenuItem("Add Object");
-        addObject.setShortcut(new MenuShortcut(KeyEvent.VK_O, true));
+        addObject.setShortcut(new MenuShortcut(KeyEvent.VK_O, false));
 
         addObject.addActionListener(new ActionListener() {
             @Override
@@ -72,7 +73,7 @@ public class CustomMenu extends MenuBar {
 
     private MenuItem makeAddPlane() {
         MenuItem addPlane = new MenuItem("Add Plane");
-        addPlane.setShortcut(new MenuShortcut(KeyEvent.VK_P, true));
+        addPlane.setShortcut(new MenuShortcut(KeyEvent.VK_P, false));
 
         addPlane.addActionListener(new ActionListener() {
             @Override
@@ -90,7 +91,7 @@ public class CustomMenu extends MenuBar {
 
     private MenuItem makeResetObjects() {
         MenuItem resetObjects = new MenuItem("Reset Objects");
-        resetObjects.setShortcut(new MenuShortcut(KeyEvent.VK_R, true));
+        resetObjects.setShortcut(new MenuShortcut(KeyEvent.VK_O, true));
 
         resetObjects.addActionListener(new ActionListener() {
             @Override
@@ -107,7 +108,7 @@ public class CustomMenu extends MenuBar {
 
     private MenuItem makeResetPlanes() {
         MenuItem resetPlanes = new MenuItem("Reset Planes");
-        resetPlanes.setShortcut(new MenuShortcut(KeyEvent.VK_Q, true));
+        resetPlanes.setShortcut(new MenuShortcut(KeyEvent.VK_P, true));
 
         resetPlanes.addActionListener(new ActionListener() {
             @Override
