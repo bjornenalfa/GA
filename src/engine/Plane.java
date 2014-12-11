@@ -16,7 +16,7 @@ public class Plane {
         surface = line;
     }
 
-    public Plane(int i, int i0, int i1, int i2) {
+    public Plane(double i, double i0, double i1, double i2) {
         surface = new Line(i, i0, i1, i2);
     }
 

@@ -31,9 +31,11 @@ public class CustomMenu extends MenuBar {
 
         Menu add = new Menu("Add");
         add.add(makeAddObject());
+        add.add(makeAddPlane());
 
         Menu reset = new Menu("Reset");
         reset.add(makeResetObjects());
+        reset.add(makeResetPlanes());
 
         add(add);
         add(reset);
@@ -65,8 +67,25 @@ public class CustomMenu extends MenuBar {
                 }
             }
         });
-
         return addObject;
+    }
+
+    private MenuItem makeAddPlane() {
+        MenuItem addPlane = new MenuItem("Add Plane");
+        addPlane.setShortcut(new MenuShortcut(KeyEvent.VK_P, true));
+
+        addPlane.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double x1 = Double.parseDouble(inputOptionPane("Enter x1."));
+                double y1 = Double.parseDouble(inputOptionPane("Enter y1."));
+                double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
+                double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
+                panel.world.addPlane(new Plane(x1, y1, x2, y2));
+                panel.repaint();
+            }
+        });
+        return addPlane;
     }
 
     private MenuItem makeResetObjects() {
@@ -74,7 +93,6 @@ public class CustomMenu extends MenuBar {
         resetObjects.setShortcut(new MenuShortcut(KeyEvent.VK_R, true));
 
         resetObjects.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
@@ -87,6 +105,23 @@ public class CustomMenu extends MenuBar {
         return resetObjects;
     }
 
+    private MenuItem makeResetPlanes() {
+        MenuItem resetPlanes = new MenuItem("Reset Planes");
+        resetPlanes.setShortcut(new MenuShortcut(KeyEvent.VK_Q, true));
+
+        resetPlanes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
+                if (confirmReset == JOptionPane.YES_OPTION) {
+                    panel.world.planes = new ArrayList();
+                    panel.repaint();
+                }
+            }
+        });
+        return resetPlanes;
+    }
+    
     private void rectangleOptions() {
         double x = Double.parseDouble(inputOptionPane("Enter x."));
         double y = Double.parseDouble(inputOptionPane("Enter y."));

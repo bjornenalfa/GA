@@ -18,7 +18,7 @@ public class Line {
         vector = vec;
     }
 
-    public Line(int x, int y, int x2, int y2) {
+    public Line(double x, double y, double x2, double y2) {
         origin = new Point.Double(x, y);
         end = new Point.Double(x2, y2);
         vector = new Vector2D(x2 - x, y2 - y);

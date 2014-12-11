@@ -56,8 +56,13 @@ public class Main extends JFrame {
         public MyJPanel() {
             addKeyBindings();
             world = new World(9.82);
-            JButton button = new JButton("Update");
-            button.addActionListener(new ActionListener() {
+            addButtons();
+        }
+
+        private void addButtons() {
+            JButton update = new JButton("Update");
+            update.setMnemonic(KeyEvent.VK_U);
+            update.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
@@ -67,9 +72,9 @@ public class Main extends JFrame {
                     repaint();
                 }
             });
-            add(button);
+            add(update);
         }
-
+        
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
@@ -94,6 +99,7 @@ public class Main extends JFrame {
         protected void paintComponent(Graphics g) {
             world.paint(g);
         }
+
     }
 
     public static void main(String[] args) {
