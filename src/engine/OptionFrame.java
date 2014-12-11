@@ -1,16 +1,11 @@
 package engine;
 
 import engine.Main.MyJPanel;
-import java.awt.AWTException;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -31,14 +26,11 @@ public class OptionFrame extends JFrame {
     //1 mass unit = 1g
     //1 force unit = 1g*cm/s/s
     MyOptionPanel panel;
-    MyJPanel mainPanel;
 
     public OptionFrame(MyJPanel mainPanel) {
         setTitle("OPTIONFRAME");
 
-        this.mainPanel = mainPanel;
-
-        panel = new MyOptionPanel(mainPanel.world);
+        panel = new MyOptionPanel(mainPanel);
         setContentPane(panel);
         setMenuBar(new CustomOptionMenu(panel));
         pack();
@@ -53,15 +45,15 @@ public class OptionFrame extends JFrame {
 
     public class MyOptionPanel extends JPanel {
 
-        World world;
+        MyJPanel mainPanel;
         double dt = 0;
         boolean paused;
         MyThread thread = new MyThread();
-        
-        public MyOptionPanel(World world) {
+
+        public MyOptionPanel(MyJPanel mainPanel) {
             setLayout(new GridLayout(2, 3, 5, 5));
             addKeyBindings();
-            this.world = world;
+            this.mainPanel = mainPanel;
             addButtons();
             add(new JLabel());
             add(new JLabel());
@@ -80,7 +72,7 @@ public class OptionFrame extends JFrame {
                     if (dt == 0) {
                         dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
                     }
-                    world.update(dt);
+                    mainPanel.world.update(dt);
                     mainPanel.repaint();
                 }
             });
@@ -179,7 +171,7 @@ public class OptionFrame extends JFrame {
             public void run() {
                 while (true) {
                     while (!paused) {
-                        world.update(dt);
+                        mainPanel.world.update(dt);
                         mainPanel.repaint();
                         try {
                             sleep(100);
@@ -190,7 +182,7 @@ public class OptionFrame extends JFrame {
                 }
             }
         }
-    
+
     }
-    
+
 }

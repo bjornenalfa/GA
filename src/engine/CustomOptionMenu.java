@@ -1,7 +1,6 @@
 package engine;
 
 import engine.OptionFrame.MyOptionPanel;
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -9,7 +8,6 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 import java.awt.Point;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -84,7 +82,7 @@ public class CustomOptionMenu extends MenuBar {
                 double y1 = Double.parseDouble(inputOptionPane("Enter y1."));
                 double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
                 double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
-                panel.world.addPlane(new Plane(x1, y1, x2, y2));
+                panel.mainPanel.world.addPlane(new Plane(x1, y1, x2, y2));
                 panel.repaint();
             }
         });
@@ -100,7 +98,7 @@ public class CustomOptionMenu extends MenuBar {
             public void actionPerformed(ActionEvent e) {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.world.objects = new ArrayList();
+                    panel.mainPanel.world.objects = new ArrayList();
                     panel.repaint();
                 }
             }
@@ -117,7 +115,7 @@ public class CustomOptionMenu extends MenuBar {
             public void actionPerformed(ActionEvent e) {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.world.planes = new ArrayList();
+                    panel.mainPanel.world.planes = new ArrayList();
                     panel.repaint();
                 }
             }
@@ -131,7 +129,7 @@ public class CustomOptionMenu extends MenuBar {
         removeObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                panel.mainPanel.removing = true;
             }
         });
 
@@ -146,7 +144,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color.");
-        panel.world.addObject(new Object(new RectangleShape(x, y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
+        panel.mainPanel.world.addObject(new Object(new RectangleShape(x, y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
         panel.repaint();
     }
 
@@ -157,7 +155,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color");
-        panel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
+        panel.mainPanel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
         panel.repaint();
     }
 

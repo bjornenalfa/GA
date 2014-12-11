@@ -47,6 +47,7 @@ public class Main extends JFrame {
 
         World world;
         double dt = 0;
+        boolean removing = false;
 
         public MyJPanel() {
             addKeyBindings();
