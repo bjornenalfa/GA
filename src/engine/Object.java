@@ -41,8 +41,9 @@ public class Object {
     }
 
     public void preUpdate(double dt, double g) {
-        nextPosition = move(position, velocity, acceleration, dt);
+        nextPosition = move(position, velocity, new Point.Double(acceleration.x,acceleration.y+g), dt);
         nextVelocity = new Point.Double(velocity.x, velocity.y + g * dt);
+        System.out.println("p:{"+nextPosition.x+":"+nextPosition.y+"} v:{"+nextVelocity.x+":"+nextVelocity.y+"}");
     }
 
     public void endUpdate() {

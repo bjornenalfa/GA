@@ -16,8 +16,8 @@ public class Plane {
         surface = line;
     }
 
-    public Plane(double i, double i0, double i1, double i2) {
-        surface = new Line(i, i0, i1, i2);
+    public Plane(double x1, double y1, double x2, double y2) {
+        surface = new Line(x1, y1, x2, y2);
     }
 
     public void paint(Graphics g) {

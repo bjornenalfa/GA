@@ -55,7 +55,7 @@ public class Main extends JFrame {
 
         public MyJPanel() {
             addKeyBindings();
-            world = new World(9.82);
+            world = new World(10);
             addButtons();
         }
 

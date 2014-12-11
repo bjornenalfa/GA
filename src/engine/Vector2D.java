@@ -18,8 +18,8 @@ public class Vector2D {
         //angle = calculateAngle(point);
     }
 
-    public Vector2D(int i, int i0) {
-        point = new Point.Double(i, i0);
+    public Vector2D(int x, int y) {
+        point = new Point.Double(x, y);
     }
 
     public Vector2D(double len, double ang) {

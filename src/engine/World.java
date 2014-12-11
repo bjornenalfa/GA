@@ -28,7 +28,7 @@ public class World {
         for (Object object : objects) {
             object.endUpdate();
         }
-        System.out.println("update done - delta time:"+dt);
+        System.out.println("update done - delta time:"+dt+" - time: "+time);
     }
 
     public void paint(Graphics graphics) {
