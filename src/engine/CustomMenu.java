@@ -36,6 +36,7 @@ public class CustomMenu extends MenuBar {
         reset.add(makeResetObjects());
 
         add(add);
+        add(reset);
     }
 
     String temp = "Rectangle";
@@ -76,9 +77,10 @@ public class CustomMenu extends MenuBar {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.");
-                if (confirmReset == JOptionPane.OK_OPTION) {
+                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
+                if (confirmReset == JOptionPane.YES_OPTION) {
                     panel.world.objects = new ArrayList();
+                    panel.repaint();
                 }
             }
         });
