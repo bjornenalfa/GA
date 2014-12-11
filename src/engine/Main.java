@@ -28,8 +28,8 @@ public class Main extends JFrame {
 
         panel = new MyJPanel();
 
-        setUndecorated(true);
-        setOpacity((float) 0.9);
+        //setUndecorated(true);
+        //setOpacity((float) 0.9);
 
         panel.setPreferredSize(new Dimension(800, 600));
         panel.world.objects.add(new Object(new RectangleShape(100, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
