@@ -1,11 +1,16 @@
 package engine;
 
 import engine.Main.MyJPanel;
+import java.awt.AWTException;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -51,7 +56,7 @@ public class OptionFrame extends JFrame {
         double dt = 0;
         boolean paused;
         MyThread thread = new MyThread();
-
+        
         public MyOptionPanel(World world) {
             setLayout(new GridLayout(2, 3, 5, 5));
             addKeyBindings();
@@ -59,9 +64,12 @@ public class OptionFrame extends JFrame {
             addButtons();
         }
 
+        JButton update;
+        JButton play;
+        JButton pause;
+
         private void addButtons() {
-            JButton update = new JButton("Update");
-            update.setMnemonic(KeyEvent.VK_U);
+            update = new JButton("Update");
             update.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -74,7 +82,7 @@ public class OptionFrame extends JFrame {
             });
             add(update);
 
-            JButton play = new JButton("Play");
+            play = new JButton("Play");
             play.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -91,7 +99,7 @@ public class OptionFrame extends JFrame {
             });
             add(play);
 
-            JButton pause = new JButton("Pause");
+            pause = new JButton("Pause");
             pause.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -105,6 +113,15 @@ public class OptionFrame extends JFrame {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
+            char updateChar = KeyEvent.VK_ESCAPE;
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(updateChar), "update");
+            getActionMap().put("update", updat());
+            char playChar = KeyEvent.VK_ESCAPE;
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(playChar), "play");
+            getActionMap().put("play", play());
+            char pauseChar = KeyEvent.VK_ESCAPE;
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(pauseChar), "pause");
+            getActionMap().put("pause", pause());
         }
 
         private Action exit() {
@@ -112,6 +129,33 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.exit(0);
+                }
+            };
+        }
+
+        private Action updat() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    update.doClick();
+                }
+            };
+        }
+
+        private Action play() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    play.doClick();
+                }
+            };
+        }
+
+        private Action pause() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pause.doClick();
                 }
             };
         }
@@ -134,7 +178,7 @@ public class OptionFrame extends JFrame {
                         world.update(dt);
                         myPanel.repaint();
                         try {
-                            sleep(200);
+                            sleep(100);
                         } catch (InterruptedException ex) {
                             System.out.println("fak");
                         }
@@ -142,7 +186,7 @@ public class OptionFrame extends JFrame {
                 }
             }
         }
-
+    
     }
-
+    
 }
