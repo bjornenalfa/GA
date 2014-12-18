@@ -50,12 +50,14 @@ public class Main extends JFrame {
         World world;
         double dt = 0;
         boolean removing = false;
+        boolean adding = false;
+        OptionFrame optionFrame;
 
         public MyJPanel() {
             addKeyBindings();
             world = new World(10);
 
-            OptionFrame optionFrame = new OptionFrame(this);
+            optionFrame = new OptionFrame(this);
             addMouseListener(getMouseAdapter());
         }
 
@@ -98,10 +100,17 @@ public class Main extends JFrame {
                                 }
                             }
                         }
-                        if(stiff != null){
+                        if (stiff != null) {
                             world.objects.remove(stiff);
                             repaint();
+                            removing = false;
                         }
+                    }
+                    if (adding) {
+                        CustomOptionMenu test = (CustomOptionMenu)optionFrame.getMenuBar();
+                        test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
+                        repaint();
+                        adding = false;
                     }
                 }
             };

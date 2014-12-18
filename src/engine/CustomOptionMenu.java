@@ -31,6 +31,7 @@ public class CustomOptionMenu extends MenuBar {
 
         Menu add = new Menu("Add");
         add.add(makeAddObject());
+        add.add(makeAddObjectAt());
         add.add(makeAddPlane());
 
         Menu remove = new Menu("Remove");
@@ -52,20 +53,7 @@ public class CustomOptionMenu extends MenuBar {
         addObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int chooseShape = JOptionPane.showConfirmDialog(null, shapeRadioPanel(), "Choose shape.", JOptionPane.OK_CANCEL_OPTION);
-                if (chooseShape == JOptionPane.CANCEL_OPTION || chooseShape == JOptionPane.CLOSED_OPTION) {
-                    return;
-                } else if (chooseShape == JOptionPane.OK_OPTION) {
-                    shape = temp;
-                }
-                switch (shape) {
-                    case "Rectangle":
-                        rectangleOptions();
-                        break;
-                    case "Circle":
-                        circleOptions();
-                        break;
-                }
+                chooseShape(null);
             }
         });
         return addObject;
@@ -87,6 +75,18 @@ public class CustomOptionMenu extends MenuBar {
             }
         });
         return addPlane;
+    }
+
+    private MenuItem makeAddObjectAt() {
+        MenuItem addObjectAt = new MenuItem("Add Object at Click");
+        addObjectAt.setShortcut(new MenuShortcut(KeyEvent.VK_R, false));
+        addObjectAt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.mainPanel.adding = true;
+            }
+        });
+        return addObjectAt;
     }
 
     private MenuItem makeResetObjects() {
@@ -132,30 +132,62 @@ public class CustomOptionMenu extends MenuBar {
                 panel.mainPanel.removing = true;
             }
         });
-
         return removeObject;
+    }
+
+    public void chooseShape(Point.Double p) {
+        int chooseShape = JOptionPane.showConfirmDialog(null, shapeRadioPanel(), "Choose shape.", JOptionPane.OK_CANCEL_OPTION);
+        if (chooseShape == JOptionPane.CANCEL_OPTION || chooseShape == JOptionPane.CLOSED_OPTION) {
+            return;
+        } else if (chooseShape == JOptionPane.OK_OPTION) {
+            shape = temp;
+        }
+        switch (shape) {
+            case "Rectangle":
+                if (p == null) {
+                    rectangleOptions();
+                } else {
+                    rectangleOptions(p);
+                }
+                break;
+            case "Circle":
+                if (p == null) {
+                    circleOptions();
+                } else {
+                    circleOptions(p);
+                }
+                break;
+        }
     }
 
     private void rectangleOptions() {
         double x = doubleInput("Enter x.");
         double y = doubleInput("Enter y.");
+        rectangleOptions(new Point.Double(x, y));
+    }
+
+    private void rectangleOptions(Point.Double p) {
         int w = intInput("Enter width.");
         int h = intInput("Enter height.");
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color.");
-        panel.mainPanel.world.addObject(new Object(new RectangleShape(x, y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
+        panel.mainPanel.world.addObject(new Object(new RectangleShape(p.x, p.y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
 
     private void circleOptions() {
         double x = doubleInput("Enter x.");
         double y = doubleInput("Enter y.");
+        circleOptions(new Point.Double(x, y));
+    }
+
+    private void circleOptions(Point.Double p) {
         int rad = intInput("Enter radius.");
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color");
-        panel.mainPanel.world.addObject(new Object(new CircleShape(x, y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(x, y)));
+        panel.mainPanel.world.addObject(new Object(new CircleShape(p.x, p.y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
 
@@ -225,5 +257,4 @@ public class CustomOptionMenu extends MenuBar {
         return circle;
     }
 
-    
 }

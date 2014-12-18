@@ -1,11 +1,14 @@
 package engine;
 
 import engine.Main.MyJPanel;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -55,9 +58,9 @@ public class OptionFrame extends JFrame {
             addKeyBindings();
             this.mainPanel = mainPanel;
             addButtons();
-            add(new JLabel());
-            add(new JLabel());
-            add(new JLabel());
+            add(new JLabel("<html><div style=\"text-align: center;\">" + "" + "</html>)"));
+            add(new JLabel("<html><div style=\"text-align: center;\">" + "" + "</html>"));
+            add(new JLabel("<html><div style=\"text-align: center;\">" + "" + "</html>"));
         }
 
         JButton update;
@@ -109,13 +112,13 @@ public class OptionFrame extends JFrame {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
-            char updateChar = KeyEvent.VK_ESCAPE;
+            char updateChar = KeyEvent.VK_U;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(updateChar), "update");
             getActionMap().put("update", updat());
-            char playChar = KeyEvent.VK_ESCAPE;
+            char playChar = KeyEvent.VK_P;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(playChar), "play");
             getActionMap().put("play", play());
-            char pauseChar = KeyEvent.VK_ESCAPE;
+            char pauseChar = KeyEvent.VK_SPACE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(pauseChar), "pause");
             getActionMap().put("pause", pause());
         }
@@ -163,6 +166,8 @@ public class OptionFrame extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
 
         class MyThread extends Thread {
@@ -176,7 +181,6 @@ public class OptionFrame extends JFrame {
                         try {
                             sleep(100);
                         } catch (InterruptedException ex) {
-                            System.out.println("fak");
                         }
                     }
                 }
