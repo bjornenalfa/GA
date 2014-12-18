@@ -28,10 +28,8 @@ public class RectangleShape extends Shape {
         lines[0] = top;
         Line left = new Line(new Point.Double(x, y), new Vector2D(h, rotation + Math.PI / 2));
         lines[1] = left;
-        lines[2] = new Line(new Point.Double(x+w, y), new Vector2D(h, rotation + Math.PI / 2));
-        lines[3] = new Line(new Point.Double(x, y+h), new Vector2D(w, rotation));
-//        lines[2] = new Line(left.vector.getPoint(), top.vector);
-//        lines[3] = new Line(top.vector.getPoint(), left.vector);
+        lines[2] = new Line(left.end, top.vector);
+        lines[3] = new Line(top.end, left.vector);
     }
 
     @Override
