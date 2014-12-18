@@ -74,21 +74,39 @@ public class Main extends JFrame {
             };
         }
 
-        private MouseAdapter getMouseAdapter(){
+        private MouseAdapter getMouseAdapter() {
             return new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    if(removing){
-                        for (Object objects : world.objects) {
-                            for (Shape shape : objects.shapes) {
-                                
+                    if (removing) {
+                        Object stiff = null;
+                        for (Object object : world.objects) {
+                            int w, h;
+                            for (Shape shape : object.shapes) {
+                                if (shape instanceof RectangleShape) {
+                                    RectangleShape rs = (RectangleShape) shape;
+                                    w = rs.w;
+                                    h = rs.h;
+                                } else if (shape instanceof CircleShape) {
+                                    CircleShape cs = (CircleShape) shape;
+                                    w = cs.radius;
+                                    h = cs.radius;
+                                }
+                                if (shape.contains(e.getPoint())) {
+                                    stiff = object;
+                                    break;
+                                }
                             }
+                        }
+                        if(stiff != null){
+                            world.objects.remove(stiff);
+                            repaint();
                         }
                     }
                 }
             };
         }
-        
+
         @Override
         public void update(Graphics g) {
             paintComponent(g);
