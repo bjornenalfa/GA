@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -54,6 +56,7 @@ public class Main extends JFrame {
             world = new World(10);
 
             OptionFrame optionFrame = new OptionFrame(this);
+            addMouseListener(getMouseAdapter());
         }
 
         private void addKeyBindings() {
@@ -71,6 +74,21 @@ public class Main extends JFrame {
             };
         }
 
+        private MouseAdapter getMouseAdapter(){
+            return new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if(removing){
+                        for (Object objects : world.objects) {
+                            for (Shape shape : objects.shapes) {
+                                
+                            }
+                        }
+                    }
+                }
+            };
+        }
+        
         @Override
         public void update(Graphics g) {
             paintComponent(g);
