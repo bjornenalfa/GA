@@ -56,24 +56,39 @@ public class CollisionChecker {
     public static boolean isNegative(double num) {
         return num == Math.abs(num);
     }
-    
-    public static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
-        if (shape instanceof RectangleShape) {
-            RectangleShape rec = (RectangleShape)shape;
-            rec.calcLines();
-            for (Line line : rec.lines) {
-                if (intersect(line,plane.surface)) {
-                    return true;
-                }
+
+    private static boolean planeAndRectangleIntersect(RectangleShape rec, Plane plane) {
+        rec.calcLines();
+        for (Line line : rec.lines) {
+            if (intersect(line, plane.surface)) {
+                return true;
             }
         }
         return false;
+    }
+    
+    private static boolean planeAndCircleIntersect(CircleShape shape, Plane plane){
+        System.out.println("NOT IMPLEMENTED - CircleShape collision!");
+        return false;
+    }
+
+    public static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
+        boolean collision = false;
+        if (shape instanceof RectangleShape) {
+            collision = planeAndRectangleIntersect((RectangleShape)shape, plane);
+        }
+
+        if (shape instanceof CircleShape) {
+            collision = planeAndCircleIntersect((CircleShape)shape, plane);
+        }
+
+        return collision;
     }
 
     public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes) {
         for (Object object : objects) {
             for (Plane plane : planes) {
-                if (planeAndShapeIntersect(object.shapes.get(0),plane)) {
+                if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
                     System.out.println("it is happening");
                 }
             }
