@@ -76,9 +76,7 @@ public class CollisionChecker {
         boolean collision = false;
         if (shape instanceof RectangleShape) {
             collision = planeAndRectangleIntersect((RectangleShape)shape, plane);
-        }
-
-        if (shape instanceof CircleShape) {
+        } else if (shape instanceof CircleShape) {
             collision = planeAndCircleIntersect((CircleShape)shape, plane);
         }
 
