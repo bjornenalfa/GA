@@ -64,13 +64,26 @@ public class Main extends JFrame {
         }
 
     }
-    
-        private void resizeWorld(World w, double resize) {
+
+    private void resizeWorld(World w, double res) {
         for (Object o : w.objects) {
-            
+            for (Shape s : o.shapes) {
+                if (s instanceof RectangleShape) {
+                    RectangleShape rs = (RectangleShape) s;
+                    rs.height -= res;
+                    rs.width -= res;
+                } else if (s instanceof CircleShape) {
+                    CircleShape rs = (CircleShape) s;
+                    rs.radius -= res;
+                }
+            }
         }
         for (Plane o : w.planes) {
-            
+            if (o.surface.vector.getAngle() % 360 == 0) {
+                o.surface.vector.getPoint().x -= (res*10);
+            } else {
+                o.surface.vector.getPoint().y -= (res*10);
+            }
         }
 
     }
@@ -88,7 +101,7 @@ public class Main extends JFrame {
             public void keyReleased(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
                     keyDownControl = false;
-                } 
+                }
             }
         };
     }
@@ -180,12 +193,13 @@ public class Main extends JFrame {
                     if (keyDownControl) {
                         moveWorld(world, oldX - x, oldY - y);
                     }
-                    oldY = y; oldX = x;
+                    oldY = y;
+                    oldX = x;
                 }
 
                 @Override
                 public void mouseWheelMoved(MouseWheelEvent e) {
-                    
+                    resizeWorld(world, e.getWheelRotation());
                 }
             };
         }
