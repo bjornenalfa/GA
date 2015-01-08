@@ -64,8 +64,17 @@ public class Shape {
         x = o.nextPosition.x + vector.point.x;
         y = o.nextPosition.y + vector.point.y;
     }
-
+    
     public boolean contains(Point p) {
+        return contains(new Point.Double(p.x,p.y));
+    }
+    
+    public boolean contains(Point.Double p) {
+        return false;
+    }
+
+    //If needed implement different code for each different shape
+   /* public boolean contains(Point p) {
         return contains(p.x, p.y);
     }
 
@@ -86,6 +95,6 @@ public class Shape {
             }
         }
         return count % 2 != 0;
-    }
+    }*/
 
 }

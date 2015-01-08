@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -45,6 +46,12 @@ public class CollisionChecker {
         double secondSlope = (b.vector.getPoint().y) / (b.vector.getPoint().x);
 
         return firstSlope == secondSlope;
+    }
+    
+    public static boolean pointInRectangleShape(RectangleShape rs, Point.Double p) {
+        Vector2D vector = new Vector2D(p.x-rs.x,p.y-rs.y);
+        vector.rotate(-rs.rotation);
+        return !(vector.point.x<0 || vector.point.x>rs.width || vector.point.y < 0 || vector.point.y > rs.height);
     }
 
     public static boolean areTheyAlmostTouching(Line a, Line b, double limit, double slopeLimit) {

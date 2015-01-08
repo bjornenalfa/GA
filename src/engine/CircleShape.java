@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -21,6 +22,11 @@ public class CircleShape extends Shape {
         super.paint(g, o);
         g.fillOval((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), radius, radius);
         g.drawOval((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), radius, radius);
+    }
+
+    @Override
+    public boolean contains(Point.Double p) {
+        return p.distanceSq(x, y) < radius * radius;
     }
 
 }
