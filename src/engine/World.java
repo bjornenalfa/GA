@@ -24,11 +24,11 @@ public class World {
         for (Object object : objects) {
             object.preUpdate(dt, g);
         }
-        CollisionChecker.findNewCollisions(objects, planes);
+        CollisionChecker.findNewCollisions(objects, planes, dt, g);
         for (Object object : objects) {
             object.endUpdate();
         }
-        System.out.println("update done - delta time:"+dt+" - time: "+time);
+        System.out.println("update done - delta time:" + dt + " - time: " + time);
     }
 
     public void paint(Graphics graphics) {
@@ -36,7 +36,7 @@ public class World {
         graphics.setColor(Color.BLACK);
         for (Object object : objects) {
             for (Shape shape : object.shapes) {
-                shape.paint(graphics,object);
+                shape.paint(graphics, object);
             }
         }
 
