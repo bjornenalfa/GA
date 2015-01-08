@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -21,11 +23,13 @@ public class Main extends JFrame {
     //1 mass unit = 1g
     //1 force unit = 1g*cm/s/s
     MyJPanel panel;
+    boolean keyDownControl = false;
 
     public Main() {
         setTitle("TITLE");
 
         panel = new MyJPanel();
+        this.addKeyListener(keyL());
 
         //setUndecorated(true);
         //setOpacity((float) 0.9);
@@ -45,6 +49,46 @@ public class Main extends JFrame {
 //        setShape(shape);
     }
 
+    private void moveWorld(World w) {
+        for (int i = 0; i < w.objects.size(); i++) {
+            w.objects.get(i).position.setLocation(0, 0);
+        }
+
+    }
+
+    private KeyListener keyL() {
+        return new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    keyDownControl = true;
+                }/*else if (ke.getKeyCode() == KeyEvent.VK_KP_UP) {
+                    keyDownControl = true;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_DOWN) {
+                    keyDownControl = true;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_LEFT) {
+                    keyDownControl = true;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
+                    keyDownControl = true;
+                }*/
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    keyDownControl = false;
+                } /*else if (ke.getKeyCode() == KeyEvent.VK_KP_UP) {
+                    keyDownControl = false;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_DOWN) {
+                    keyDownControl = false;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_LEFT) {
+                    keyDownControl = false;
+                } else if (ke.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
+                }*/
+            }
+        };
+    }
+
     public class MyJPanel extends JPanel {
 
         World world;
@@ -58,7 +102,9 @@ public class Main extends JFrame {
             world = new World(10);
 
             optionFrame = new OptionFrame(this);
-            addMouseListener(getMouseAdapter());
+            MouseAdapter ma = getMouseAdapter();
+            addMouseListener(ma);
+            addMouseMotionListener(ma);
         }
 
         private void addKeyBindings() {
@@ -107,12 +153,20 @@ public class Main extends JFrame {
                         }
                     }
                     if (adding) {
-                        CustomOptionMenu test = (CustomOptionMenu)optionFrame.getMenuBar();
+                        CustomOptionMenu test = (CustomOptionMenu) optionFrame.getMenuBar();
                         test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
                         repaint();
                         adding = false;
                     }
                 }
+
+                @Override
+                public void mouseDragged(MouseEvent me) {
+                    if(keyDownControl){
+                        moveWorld(world);
+                    }
+                }
+
             };
         }
 
