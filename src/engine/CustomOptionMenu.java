@@ -1,5 +1,6 @@
 package engine;
 
+import engine.Main.MyJPanel;
 import engine.OptionFrame.MyOptionPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -24,10 +25,12 @@ import javax.swing.JRadioButton;
  */
 public class CustomOptionMenu extends MenuBar {
 
-    MyOptionPanel panel;
+    MyOptionPanel optionPanel;
+    MyJPanel panel;
 
     public CustomOptionMenu(MyOptionPanel panel) {
-        this.panel = panel;
+        this.optionPanel = panel;
+        this.panel = panel.mainPanel;
 
         Menu add = new Menu("Add");
         add.add(makeAddObject());
@@ -70,7 +73,7 @@ public class CustomOptionMenu extends MenuBar {
                 double y1 = Double.parseDouble(inputOptionPane("Enter y1."));
                 double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
                 double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
-                panel.mainPanel.world.addPlane(new Plane(x1, y1, x2, y2));
+                panel.world.addPlane(new Plane(x1, y1, x2, y2));
                 panel.repaint();
             }
         });
@@ -83,7 +86,7 @@ public class CustomOptionMenu extends MenuBar {
         addObjectAt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.mainPanel.adding = true;
+                panel.adding = true;
             }
         });
         return addObjectAt;
@@ -98,7 +101,7 @@ public class CustomOptionMenu extends MenuBar {
             public void actionPerformed(ActionEvent e) {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.mainPanel.world.objects = new ArrayList();
+                    panel.world.objects = new ArrayList();
                     panel.repaint();
                 }
             }
@@ -115,7 +118,7 @@ public class CustomOptionMenu extends MenuBar {
             public void actionPerformed(ActionEvent e) {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.mainPanel.world.planes = new ArrayList();
+                    panel.world.planes = new ArrayList();
                     panel.repaint();
                 }
             }
@@ -129,7 +132,7 @@ public class CustomOptionMenu extends MenuBar {
         removeObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.mainPanel.removing = true;
+                panel.removing = true;
             }
         });
         return removeObject;
@@ -172,7 +175,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color.");
-        panel.mainPanel.world.addObject(new Object(new RectangleShape(p.x, p.y, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
+        panel.world.addObject(new Object(new RectangleShape(p.x-w/2, p.y-h/2, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x-w/2, p.y-h/2)));
         panel.repaint();
     }
 
@@ -187,7 +190,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color");
-        panel.mainPanel.world.addObject(new Object(new CircleShape(p.x, p.y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
+        panel.world.addObject(new Object(new CircleShape(p.x, p.y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
 
