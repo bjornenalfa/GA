@@ -87,8 +87,8 @@ public class Main extends JFrame {
                             for (Shape shape : object.shapes) {
                                 if (shape instanceof RectangleShape) {
                                     RectangleShape rs = (RectangleShape) shape;
-                                    w = rs.w;
-                                    h = rs.h;
+                                    w = rs.width;
+                                    h = rs.height;
                                 } else if (shape instanceof CircleShape) {
                                     CircleShape cs = (CircleShape) shape;
                                     w = cs.radius;

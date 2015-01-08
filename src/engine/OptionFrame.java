@@ -144,7 +144,7 @@ public class OptionFrame extends JFrame {
                 for (Shape s : o.shapes) {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(s.x, s.y, rs.w, rs.h, s.vector, s.rotation, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(s.x, s.y, rs.width, rs.height, s.vector, s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         newO.addShape(new CircleShape(s.x, s.y, cs.radius, s.vector, s.rotation, s.mass, s.myC));
