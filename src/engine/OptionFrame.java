@@ -52,14 +52,12 @@ public class OptionFrame extends JFrame {
         boolean paused;
         MyThread thread = new MyThread();
         World backupWorld;
-        boolean backedUp = false;
 
         public MyOptionPanel(MyJPanel mainPanel) {
             setLayout(new GridLayout(2, 3, 5, 5));
             addKeyBindings();
             this.mainPanel = mainPanel;
             addButtons();
-            add(timeLabel);
             add(dtLabel);
         }
 
@@ -67,7 +65,7 @@ public class OptionFrame extends JFrame {
         JButton play;
         JButton pause;
         JButton reset;
-        JLabel timeLabel = new JLabel();
+        JButton save;
         JLabel dtLabel = new JLabel();
 
         private void addButtons() {
@@ -78,9 +76,6 @@ public class OptionFrame extends JFrame {
 
                     if (dt == 0) {
                         dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
-                    }
-                    if (!backedUp) {
-                        makeBackup();
                     }
                     mainPanel.world.update(dt);
                     updateLabels();
@@ -102,9 +97,6 @@ public class OptionFrame extends JFrame {
                         } catch (Exception ex) {
                         }
                     }
-                    if (!backedUp) {
-                        makeBackup();
-                    }
                     paused = false;
                 }
             });
@@ -123,17 +115,22 @@ public class OptionFrame extends JFrame {
             reset.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (backedUp) {
-                        mainPanel.world = backupWorld;
-                        backupWorld = null;
-                        backedUp = false;
-                        timeLabel.setText("");
-                        dtLabel.setText("");
-                        mainPanel.repaint();
-                    }
+                    mainPanel.world = backupWorld;
+                    backupWorld = null;
+                    dtLabel.setText("");
+                    mainPanel.repaint();
                 }
             });
             add(reset);
+
+            save = new JButton("Save");
+            save.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    makeBackup();
+                }
+            });
+            add(save);
         }
 
         private void makeBackup() {
@@ -155,7 +152,6 @@ public class OptionFrame extends JFrame {
             for (Plane p : mainPanel.world.planes) {
                 backupWorld.planes.add(new Plane(p.surface));
             }
-            backedUp = true;
         }
 
         private void addKeyBindings() {
@@ -222,7 +218,6 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            timeLabel.setText(("<html><div style=\"text-align: center;\">" + "<font color=white> " + mainPanel.world.time + " <font>" + "</html>"));
             dtLabel.setText(("<html><div style=\"text-align: center;\">" + "<font color=white> " + dt + " <font>" + "</html>"));
         }
 

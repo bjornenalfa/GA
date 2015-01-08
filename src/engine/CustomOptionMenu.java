@@ -285,6 +285,7 @@ public class CustomOptionMenu extends MenuBar {
                 panel.world = new World(10);
                 panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.repaint();
             }
         });
         return setupOne;
@@ -298,6 +299,7 @@ public class CustomOptionMenu extends MenuBar {
                 panel.world = new World(10);
                 panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
                 panel.world.addPlane(new Plane(0, 0, 800, 600));
+                panel.repaint();
             }
         });
         return setupTwo;
