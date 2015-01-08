@@ -83,6 +83,7 @@ public class OptionFrame extends JFrame {
                         makeBackup();
                     }
                     mainPanel.world.update(dt);
+                    updateLabels();
                     mainPanel.repaint();
                 }
             });

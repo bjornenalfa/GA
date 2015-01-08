@@ -42,8 +42,13 @@ public class CustomOptionMenu extends MenuBar {
         remove.add(makeResetPlanes());
         remove.add(makeRemoveObject());
 
+        Menu setup = new Menu("Setup");
+        setup.add(makeSetupOne());
+        setup.add(makeSetupTwo());
+
         add(add);
         add(remove);
+        add(setup);
     }
 
     String temp = "Rectangle";
@@ -175,7 +180,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color.");
-        panel.world.addObject(new Object(new RectangleShape(p.x-w/2, p.y-h/2, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x-w/2, p.y-h/2)));
+        panel.world.addObject(new Object(new RectangleShape(p.x - w / 2, p.y - h / 2, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
         panel.repaint();
     }
 
@@ -198,7 +203,11 @@ public class CustomOptionMenu extends MenuBar {
         try {
             return Integer.parseInt(inputOptionPane(text));
         } catch (NumberFormatException e) {
-            return intInput(text + " (int)");
+            if (text.contains("(int)")) {
+                return intInput(text);
+            } else {
+                return intInput(text + " (int)");
+            }
         }
     }
 
@@ -206,7 +215,11 @@ public class CustomOptionMenu extends MenuBar {
         try {
             return Double.parseDouble(inputOptionPane(text));
         } catch (NumberFormatException e) {
-            return doubleInput(text + " (double)");
+            if (text.contains("(double)")) {
+                return doubleInput(text);
+            } else {
+                return doubleInput(text + " (double)");
+            }
         }
     }
 
@@ -215,7 +228,11 @@ public class CustomOptionMenu extends MenuBar {
             Field field = Class.forName("java.awt.Color").getField(inputOptionPane(text).toUpperCase());
             return (Color) field.get(null);
         } catch (ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-            return stringToColor(text + " (jawa.awt.Color)");
+            if (text.contains("(jawa.awt.Color)")) {
+                return stringToColor(text);
+            } else {
+                return stringToColor(text + " (jawa.awt.Color)");
+            }
         }
     }
 
@@ -258,6 +275,43 @@ public class CustomOptionMenu extends MenuBar {
             }
         });
         return circle;
+    }
+
+    private MenuItem makeSetupOne() {
+        MenuItem setupOne = new MenuItem("Setup One");
+        setupOne.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(10);
+                panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.addPlane(new Plane(0, 500, 800, 500));
+            }
+        });
+        return setupOne;
+    }
+
+    private MenuItem makeSetupTwo() {
+        MenuItem setupTwo = new MenuItem("Setup Two");
+        setupTwo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(10);
+                panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.addPlane(new Plane(0, 0, 800, 600));
+            }
+        });
+        return setupTwo;
+    }
+
+    private MenuItem makeSetupThree() {
+        MenuItem setupThree = new MenuItem("Setup Three");
+        setupThree.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        return setupThree;
     }
 
 }
