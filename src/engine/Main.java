@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Ellipse2D;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -49,9 +51,26 @@ public class Main extends JFrame {
 //        setShape(shape);
     }
 
-    private void moveWorld(World w) {
-        for (int i = 0; i < w.objects.size(); i++) {
-            w.objects.get(i).position.setLocation(0, 0);
+    private void moveWorld(World w, double x, double y) {
+        for (Object o : w.objects) {
+            o.position.x -= x;
+            o.position.y -= y;
+        }
+        for (Plane o : w.planes) {
+            o.surface.origin.x -= x;
+            o.surface.end.x -= x;
+            o.surface.origin.y -= y;
+            o.surface.end.y -= y;
+        }
+
+    }
+    
+        private void resizeWorld(World w, double resize) {
+        for (Object o : w.objects) {
+            
+        }
+        for (Plane o : w.planes) {
+            
         }
 
     }
@@ -62,29 +81,14 @@ public class Main extends JFrame {
             public void keyPressed(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
                     keyDownControl = true;
-                }/*else if (ke.getKeyCode() == KeyEvent.VK_KP_UP) {
-                    keyDownControl = true;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_DOWN) {
-                    keyDownControl = true;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_LEFT) {
-                    keyDownControl = true;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
-                    keyDownControl = true;
-                }*/
+                }
             }
 
             @Override
             public void keyReleased(KeyEvent ke) {
                 if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
                     keyDownControl = false;
-                } /*else if (ke.getKeyCode() == KeyEvent.VK_KP_UP) {
-                    keyDownControl = false;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_DOWN) {
-                    keyDownControl = false;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_LEFT) {
-                    keyDownControl = false;
-                } else if (ke.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
-                }*/
+                } 
             }
         };
     }
@@ -105,6 +109,7 @@ public class Main extends JFrame {
             MouseAdapter ma = getMouseAdapter();
             addMouseListener(ma);
             addMouseMotionListener(ma);
+            addMouseWheelListener(ma);
         }
 
         private void addKeyBindings() {
@@ -124,6 +129,14 @@ public class Main extends JFrame {
 
         private MouseAdapter getMouseAdapter() {
             return new MouseAdapter() {
+                double oldY, oldX;
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    oldY = e.getY();
+                    oldX = e.getX();
+                }
+
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     if (removing) {
@@ -161,12 +174,19 @@ public class Main extends JFrame {
                 }
 
                 @Override
-                public void mouseDragged(MouseEvent me) {
-                    if(keyDownControl){
-                        moveWorld(world);
+                public void mouseDragged(MouseEvent e) {
+                    double y = e.getY();
+                    double x = e.getX();
+                    if (keyDownControl) {
+                        moveWorld(world, oldX - x, oldY - y);
                     }
+                    oldY = y; oldX = x;
                 }
 
+                @Override
+                public void mouseWheelMoved(MouseWheelEvent e) {
+                    
+                }
             };
         }
 
