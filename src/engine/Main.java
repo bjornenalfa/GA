@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Ellipse2D;
+import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -31,7 +33,7 @@ public class Main extends JFrame {
         setTitle("TITLE");
 
         panel = new MyJPanel();
-        this.addKeyListener(keyL());
+//        this.addKeyListener(keyL());
 
         //setUndecorated(true);
         //setOpacity((float) 0.9);
@@ -80,9 +82,9 @@ public class Main extends JFrame {
         }
         for (Plane o : w.planes) {
             if (o.surface.vector.getAngle() % 360 == 0) {
-                o.surface.vector.getPoint().x -= (res*10);
+                o.surface.vector.getPoint().x -= (res * 10);
             } else {
-                o.surface.vector.getPoint().y -= (res*10);
+                o.surface.vector.getPoint().y -= (res * 10);
             }
         }
 
@@ -127,8 +129,35 @@ public class Main extends JFrame {
 
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
+            char ctrl = KeyEvent.VK_CONTROL;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_CONTROL, InputEvent.CTRL_DOWN_MASK, false), "ctrl_down");
+            getActionMap().put("ctrl_down", ctrl_down());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released ctrl CONTROL"), "ctrl_up");
+            getActionMap().put("ctrl_up", ctrl_up());
+
+        }
+
+        private Action ctrl_down() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    keyDownControl = true;
+                    System.out.println("pressed");
+                }
+
+            };
+        }
+
+        private Action ctrl_up() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    keyDownControl = false;
+                    System.out.println("released");
+                }
+            };
         }
 
         private Action exit() {
