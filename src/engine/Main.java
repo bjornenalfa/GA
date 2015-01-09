@@ -5,16 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Ellipse2D;
-import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -33,7 +28,6 @@ public class Main extends JFrame {
         setTitle("TITLE");
 
         panel = new MyJPanel();
-//        this.addKeyListener(keyL());
 
         //setUndecorated(true);
         //setOpacity((float) 0.9);
@@ -82,30 +76,12 @@ public class Main extends JFrame {
         }
         for (Plane o : w.planes) {
             if (o.surface.vector.getAngle() % 360 == 0) {
-                o.surface.vector.getPoint().x -= (res * 10);
+                o.surface.vector.getPoint().x -= res;
             } else {
-                o.surface.vector.getPoint().y -= (res * 10);
+                o.surface.vector.getPoint().y -= res;
             }
         }
 
-    }
-
-    private KeyListener keyL() {
-        return new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
-                    keyDownControl = true;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_CONTROL) {
-                    keyDownControl = false;
-                }
-            }
-        };
     }
 
     public class MyJPanel extends JPanel {
@@ -119,22 +95,20 @@ public class Main extends JFrame {
         public MyJPanel() {
             addKeyBindings();
             world = new World(10);
-
+            
             optionFrame = new OptionFrame(this);
-            MouseAdapter ma = getMouseAdapter();
-            addMouseListener(ma);
-            addMouseMotionListener(ma);
-            addMouseWheelListener(ma);
+            addMouseListener(getMouseAdapter());
+            addMouseMotionListener(getMouseAdapter());
+            addMouseWheelListener(getMouseAdapter());
         }
 
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
-            char ctrl = KeyEvent.VK_CONTROL;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_CONTROL, InputEvent.CTRL_DOWN_MASK, false), "ctrl_down");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl CONTROL"), "ctrl_down");
             getActionMap().put("ctrl_down", ctrl_down());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released ctrl CONTROL"), "ctrl_up");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released CONTROL"), "ctrl_up");
             getActionMap().put("ctrl_up", ctrl_up());
 
         }
@@ -144,7 +118,6 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     keyDownControl = true;
-                    System.out.println("pressed");
                 }
 
             };
@@ -155,7 +128,6 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     keyDownControl = false;
-                    System.out.println("released");
                 }
             };
         }
