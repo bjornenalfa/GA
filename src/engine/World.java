@@ -36,7 +36,7 @@ public class World {
         graphics.setColor(Color.BLACK);
         for (Object object : objects) {
             for (Shape shape : object.shapes) {
-                shape.paint(graphics, object);
+                shape.paint(graphics);
             }
         }
 
