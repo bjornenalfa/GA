@@ -55,7 +55,7 @@ public class Vector2D {
         if (length == null) {
             length = calculateLength(point);
         }
-        return angle;
+        return length;
     }
 
     public void readyPoint() {
@@ -78,6 +78,10 @@ public class Vector2D {
             point.x *= num;
             point.y *= num;
         }
+    }
+    
+    public void calculateLength() {
+        length = calculateLength(point);
     }
 
     public static double calculateAngle(Point.Double point) {
