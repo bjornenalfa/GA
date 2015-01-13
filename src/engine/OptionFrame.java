@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -52,6 +53,7 @@ public class OptionFrame extends JFrame {
         boolean paused;
         MyThread thread = new MyThread();
         World backupWorld;
+        boolean saved = false;
 
         public MyOptionPanel(MyJPanel mainPanel) {
             setLayout(new GridLayout(2, 3, 5, 5));
@@ -66,7 +68,7 @@ public class OptionFrame extends JFrame {
         JButton pause;
         JButton reset;
         JButton save;
-        JLabel dtLabel = new JLabel();
+        JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
 
         private void addButtons() {
             update = new JButton("Update");
@@ -115,10 +117,12 @@ public class OptionFrame extends JFrame {
             reset.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    mainPanel.world = backupWorld;
-                    backupWorld = null;
-                    dtLabel.setText("");
-                    mainPanel.repaint();
+                    if (saved) {
+                        mainPanel.world = backupWorld;
+                        backupWorld = null;
+                        dtLabel.setText("");
+                        mainPanel.repaint();
+                    }
                 }
             });
             add(reset);
@@ -128,6 +132,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     makeBackup();
+                    saved = true;
                 }
             });
             add(save);
@@ -141,10 +146,10 @@ public class OptionFrame extends JFrame {
                 for (Shape s : o.shapes) {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(s.x, s.y, rs.width, rs.height, s.vector, s.rotation, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(rs.width, rs.height, s.vector, s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO.addShape(new CircleShape(s.x, s.y, cs.radius, s.vector, s.rotation, s.mass, s.myC));
+                        newO.addShape(new CircleShape(cs.radius, s.vector, s.rotation, s.mass, s.myC));
                     }
                 }
                 backupWorld.objects.add(newO);
@@ -218,7 +223,7 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            dtLabel.setText(("<html><div style=\"text-align: center;\">" + "<font color=white> " + dt + " <font>" + "</html>"));
+            dtLabel.setText(("<html><font color=white> " + dt + " </font></html>"));
         }
 
         @Override

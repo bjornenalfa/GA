@@ -180,7 +180,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color.");
-        panel.world.addObject(new Object(new RectangleShape(p.x - w / 2, p.y - h / 2, w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
+        panel.world.addObject(new Object(new RectangleShape(w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
         panel.repaint();
     }
 
@@ -195,7 +195,7 @@ public class CustomOptionMenu extends MenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColor("Enter color");
-        panel.world.addObject(new Object(new CircleShape(p.x, p.y, rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
+        panel.world.addObject(new Object(new CircleShape(rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
 
@@ -283,7 +283,7 @@ public class CustomOptionMenu extends MenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(10);
-                panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.repaint();
             }
@@ -297,7 +297,7 @@ public class CustomOptionMenu extends MenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(10);
-                panel.world.objects.add(new Object(new RectangleShape(400, 100, 100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 800, 600));
                 panel.repaint();
             }
