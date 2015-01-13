@@ -35,8 +35,15 @@ public class RectangleShape extends Shape {
     @Override
     public void paint(Graphics g, Object o) {
         super.paint(g, o);
+        calcLines();
+        
         g.fillRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), width, height);
         g.drawRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), width, height);
+        
+        g.setColor(Color.RED);
+        for (Line line : lines ) {
+            g.drawLine((int)(line.origin.x), (int)(line.origin.y), (int)(line.end.x), (int)(line.end.y));
+        }
     }
     
     @Override
