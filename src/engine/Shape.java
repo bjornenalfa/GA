@@ -57,6 +57,7 @@ public class Shape {
     }
 
     public void calcPosition() {
+        vector.readyPoint();
         x = parent.position.x + vector.point.x;
         y = parent.position.y + vector.point.y;
     }
@@ -76,6 +77,7 @@ public class Shape {
 
     public void setParent(Object object) {
         parent = object;
+        calcPosition();
     }
 
     //If needed implement different code for each different shape

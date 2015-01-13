@@ -14,6 +14,8 @@ import java.awt.Polygon;
 public class RectangleShape extends Shape {
 
     int width, height; // Width and Height
+    
+    Vector2D middleToOrigin;
 
     //ArrayList<Line> lines = new ArrayList(4);
     Line[] lines = new Line[4];
@@ -22,6 +24,9 @@ public class RectangleShape extends Shape {
 
     public RectangleShape(int w, int h, Vector2D v, double r, double m, Color c) {
         super(v, r, m, c);
+        middleToOrigin = new Vector2D(-w/2,-h/2);
+        middleToOrigin.rotate(r);
+        vector.add(middleToOrigin);
         width = w;
         height = h;
     }
@@ -50,8 +55,11 @@ public class RectangleShape extends Shape {
         y = parent.nextPosition.y + vector.point.y;
     }
 
-    public void rotateAroundRelativePoint() {
-
+    @Override
+    public void rotate(double angle) {
+        middleToOrigin.rotate(angle);
+        rotation += angle;
+        vector.rotate(angle);
     }
 
     @Override

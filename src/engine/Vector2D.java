@@ -33,6 +33,7 @@ public class Vector2D {
             angle = calculateAngle(point);
         }
         angle += deltaAngle;
+        readyLength();
         point = null;
         return this;
     }
@@ -61,6 +62,12 @@ public class Vector2D {
     public void readyPoint() {
         if (point == null) {
             point = calculatePoint(length, angle);
+        }
+    }
+    
+    public void readyLength() {
+        if (length == null) {
+            calculateLength();
         }
     }
 
