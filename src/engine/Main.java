@@ -24,7 +24,7 @@ public class Main extends JFrame {
     //1 force unit = 1g*cm/s/s
     MyJPanel panel;
     boolean keyDownControl = false;
-    double scale = 1;
+    double scale = 1, mouseX = 0, mouseY = 0;
 
     public Main() {
         setTitle("TITLE");
@@ -73,6 +73,7 @@ public class Main extends JFrame {
     }
 
     public class MyJPanel extends JPanel {
+
         World world;
         double dt = 0;
         boolean removing = false;
@@ -82,7 +83,7 @@ public class Main extends JFrame {
         public MyJPanel() {
             addKeyBindings();
             world = new World(10);
-            
+
             optionFrame = new OptionFrame(this);
             addMouseListener(getMouseAdapter());
             addMouseMotionListener(getMouseAdapter());
@@ -129,7 +130,7 @@ public class Main extends JFrame {
 
         private MouseAdapter getMouseAdapter() {
             return new MouseAdapter() {
-                double oldY, oldX;
+                double prevX = 0, prevY = 0;
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
@@ -168,14 +169,20 @@ public class Main extends JFrame {
                 }
 
                 @Override
+                public void mousePressed(MouseEvent e) {
+                    prevX=e.getX();
+                    prevY=e.getY();
+                }
+                
+                @Override
                 public void mouseDragged(MouseEvent e) {
-                    double y = e.getY();
-                    double x = e.getX();
                     if (keyDownControl) {
-                        moveWorld(world, oldX - x, oldY - y);
+                        mouseX=prevX-e.getX();
+                        mouseX=prevY-e.getY();
+                        repaint();
+                        prevX=e.getX();
+                        prevY=e.getY();
                     }
-                    oldY = y;
-                    oldX = x;
                 }
 
                 @Override
@@ -193,13 +200,12 @@ public class Main extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            g2.translate(0, 0);
+            g2.translate(mouseX, mouseY);
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
             g2.scale(scale, scale);
-            world.paint(g);
-            g2.translate(this.getWidth(), this.getHeight());
+            world.paint(g2);
+            g2.translate(-mouseX, -mouseY);
         }
-
     }
 
     public static void main(String[] args) {
