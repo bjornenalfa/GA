@@ -31,18 +31,18 @@ public class World {
         System.out.println("update done - delta time:" + dt + " - time: " + time);
     }
 
-    public void paint(Graphics graphics) {
-        graphics.clearRect(0, 0, 1920, 1080);
-        graphics.setColor(Color.BLACK);
+    public void paint(Graphics g) {
+//        g.clearRect(0, 0, 1920, 1080);
+        g.setColor(Color.BLACK);
         for (Object object : objects) {
             for (Shape shape : object.shapes) {
-                shape.paint(graphics);
+                shape.paint(g);
             }
         }
 
-        graphics.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
         for (Plane plane : planes) {
-            plane.paint(graphics);
+            plane.paint(g);
         }
     }
 

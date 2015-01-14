@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -50,7 +52,7 @@ public class OptionFrame extends JFrame {
 
         MyJPanel mainPanel;
         double dt = 0;
-        boolean paused;
+        boolean paused = true;
         MyThread thread = new MyThread();
         World backupWorld;
         boolean saved = false;
@@ -90,7 +92,6 @@ public class OptionFrame extends JFrame {
             play.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     if (dt == 0) {
                         dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
                         try {
@@ -250,6 +251,11 @@ public class OptionFrame extends JFrame {
                             sleep(100);
                         } catch (InterruptedException ex) {
                         }
+                    }
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

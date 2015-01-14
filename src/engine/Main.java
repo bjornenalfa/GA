@@ -3,6 +3,7 @@ package engine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,6 +24,7 @@ public class Main extends JFrame {
     //1 force unit = 1g*cm/s/s
     MyJPanel panel;
     boolean keyDownControl = false;
+    double scale = 1;
 
     public Main() {
         setTitle("TITLE");
@@ -59,34 +61,18 @@ public class Main extends JFrame {
             o.surface.origin.y -= y;
             o.surface.end.y -= y;
         }
-
+        repaint();
     }
 
     private void resizeWorld(World w, double res) {
-        for (Object o : w.objects) {
-            for (Shape s : o.shapes) {
-                if (s instanceof RectangleShape) {
-                    RectangleShape rs = (RectangleShape) s;
-                    rs.height -= res;
-                    rs.width -= res;
-                } else if (s instanceof CircleShape) {
-                    CircleShape rs = (CircleShape) s;
-                    rs.radius -= res;
-                }
-            }
+        scale -= (res / 10);
+        if (scale < 0.1) {
+            scale = 0.1;
         }
-        for (Plane o : w.planes) {
-            if (o.surface.vector.getAngle() % 360 == 0) {
-                o.surface.vector.getPoint().x -= res;
-            } else {
-                o.surface.vector.getPoint().y -= res;
-            }
-        }
-
+        repaint();
     }
 
     public class MyJPanel extends JPanel {
-
         World world;
         double dt = 0;
         boolean removing = false;
@@ -111,7 +97,6 @@ public class Main extends JFrame {
             getActionMap().put("ctrl_down", ctrl_down());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released CONTROL"), "ctrl_up");
             getActionMap().put("ctrl_up", ctrl_up());
-
         }
 
         private Action ctrl_down() {
@@ -145,12 +130,6 @@ public class Main extends JFrame {
         private MouseAdapter getMouseAdapter() {
             return new MouseAdapter() {
                 double oldY, oldX;
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    oldY = e.getY();
-                    oldX = e.getX();
-                }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
@@ -213,7 +192,12 @@ public class Main extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.translate(0, 0);
+            g2.clearRect(0, 0, this.getWidth(), this.getHeight());
+            g2.scale(scale, scale);
             world.paint(g);
+            g2.translate(this.getWidth(), this.getHeight());
         }
 
     }
