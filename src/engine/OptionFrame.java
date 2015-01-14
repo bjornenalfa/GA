@@ -253,7 +253,7 @@ public class OptionFrame extends JFrame {
                         }
                     }
                     try {
-                        sleep(100);
+                        sleep(100); //MUST HAVE OR NO LOOP D:
                     } catch (InterruptedException ex) {
                         Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
