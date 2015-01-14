@@ -20,3 +20,6 @@ GA/nbproject/build-impl.xml
 GA/nbproject/genfiles.properties
 GA/nbproject/project.properties
 GA/nbproject/project.xml
+nbproject
+build.xml
+manifest.mf
