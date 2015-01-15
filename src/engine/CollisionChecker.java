@@ -2,6 +2,9 @@ package engine;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 /**
  *
@@ -58,19 +61,23 @@ public class CollisionChecker {
         return !(vector.point.x < 0 || vector.point.x > rs.width || vector.point.y < 0 || vector.point.y > rs.height);
     }
 
-    public static boolean areTheyAlmostTouching(Line a, Line b, double limit, double slopeLimit) {
-        double firstSlope = a.vector.getAngle() % Math.PI;
-        double secondSlope = b.vector.getAngle() % Math.PI;
-        return (Math.abs(firstSlope - secondSlope)) <= slopeLimit && new Vector2D(a.origin.x - b.origin.x, a.origin.y - b.origin.y).rotate(a.vector.getAngle()).getPoint().y <= limit;
+    public static boolean areLinesAlmostTouching(Line line1, Line line2, double distance, double angleLimit) {
+        double firstSlope = line1.vector.getAngle() % Math.PI;
+        double secondSlope = line2.vector.getAngle() % Math.PI;
+        return (Math.abs(firstSlope - secondSlope)) <= angleLimit && new Vector2D(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y).rotate(line1.vector.getAngle()).getPoint().y <= distance;
+    }
+    
+    public static boolean areLineAndPointAlmostTouching(Line line, Point.Double point, double distance) {
+        return new Vector2D(line.origin.x - point.x, line.origin.y - point.y).rotate(line.vector.getAngle()).getPoint().y <= distance;
     }
 
     public static boolean isNegative(double num) {
         return num == Math.abs(num);
     }
 
-    private static boolean planeAndRectangleIntersect(RectangleShape rec, Plane plane) {
-        rec.calcLines();
-        for (Line line : rec.lines) {
+    private static boolean planeAndRectangleIntersect(RectangleShape rectangle, Plane plane) {
+        rectangle.calcLines();
+        for (Line line : rectangle.lines) {
             if (intersect(line, plane.surface)) {
                 return true;
             }
@@ -78,13 +85,13 @@ public class CollisionChecker {
         return false;
     }
     
-    private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rec, Plane plane) {
-        rec.calcLines();
+    private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rectangle, Plane plane) {
+        rectangle.calcLines();
         Point.Double point = null;
         int line1 = -1;
         int line2 = -1;
         for (int i = 0;i<4;i++) {
-            if (intersect(rec.lines[i], plane.surface)) {
+            if (intersect(rectangle.lines[i], plane.surface)) {
                 if (line1 == -1) {
                     line1 = i;
                 } else {
@@ -94,10 +101,10 @@ public class CollisionChecker {
             }
         }
         switch (line1*10+line2) {
-            case 1: point = rec.lines[0].origin;
-            case 3: point = rec.lines[0].end;
-            case 12: point = rec.lines[1].end;
-            case 23: point = rec.lines[2].end;
+            case 1: point = rectangle.lines[0].origin;
+            case 3: point = rectangle.lines[0].end;
+            case 12: point = rectangle.lines[1].end;
+            case 23: point = rectangle.lines[2].end;
         }
         return point;
     }
@@ -113,6 +120,25 @@ public class CollisionChecker {
             collision = planeAndRectangleIntersect((RectangleShape) shape, plane);
         } else if (shape instanceof CircleShape) {
             collision = planeAndCircleIntersect((CircleShape) shape, plane);
+        }
+
+        return collision;
+    }
+    
+    private static boolean planeAndRectangleTouch(RectangleShape rectangleShape, Plane plane) {
+        return false;
+    }
+
+    private static boolean planeAndCircleTouch(CircleShape circleShape, Plane plane) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static boolean planeAndShapeTouch(Shape shape, Plane plane) {
+        boolean collision = false;
+        if (shape instanceof RectangleShape) {
+            collision = planeAndRectangleTouch((RectangleShape) shape, plane);
+        } else if (shape instanceof CircleShape) {
+            collision = planeAndCircleTouch((CircleShape) shape, plane);
         }
 
         return collision;
@@ -140,4 +166,21 @@ public class CollisionChecker {
             }
         }
     }
+    
+    
+    
+    ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        try {
+            java.lang.Object result = engine.eval(scanner.next());
+            if (((Double)result).intValue() == ((Double)result)) {
+                System.out.println(((Double)result).intValue());
+            } else {
+                long multi = 10*10*10*10*10*10;
+                multi*=10*10*10*10*10;
+                System.out.println((double)((long)((((Double)result))*multi))/multi);
+            }
+        } catch (ScriptException ex) {
+            
+        };
 }
