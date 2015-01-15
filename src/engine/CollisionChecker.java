@@ -62,9 +62,11 @@ public class CollisionChecker {
     }
 
     public static boolean areLinesAlmostTouching(Line line1, Line line2, double distance, double angleLimit) {
-        double firstSlope = line1.vector.getAngle() % Math.PI;
-        double secondSlope = line2.vector.getAngle() % Math.PI;
-        return (Math.abs(firstSlope - secondSlope)) <= angleLimit && new Vector2D(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y).rotate(line1.vector.getAngle()).getPoint().y <= distance;
+        double firstAngle = line1.vector.getAngle() % Math.PI;
+        double secondAngle = line2.vector.getAngle() % Math.PI;
+        //System.out.println("distance: " + Math.abs(new Vector2D(new Point.Double(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y)).rotate(-line1.vector.getAngle()).getPoint().y));
+        //System.out.println("angle differance: "+Math.abs(firstAngle - secondAngle));
+        return (Math.abs(firstAngle - secondAngle)) <= angleLimit && Math.abs(new Vector2D(new Point.Double(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y)).rotate(-line1.vector.getAngle()).getPoint().y) <= distance;
     }
     
     public static boolean areLineAndPointAlmostTouching(Line line, Point.Double point, double distance) {
@@ -125,7 +127,12 @@ public class CollisionChecker {
         return collision;
     }
     
-    private static boolean planeAndRectangleTouch(RectangleShape rectangleShape, Plane plane) {
+    private static boolean planeAndRectangleTouch(RectangleShape rectangle, Plane plane) {
+        for (Line line : rectangle.lines) {
+            if (areLinesAlmostTouching(line, plane.surface, 0.1, 0.1)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -148,7 +155,7 @@ public class CollisionChecker {
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
-                    System.out.println("it is happening");
+                    //System.out.println("it is happening");
                     double k = 0.5;
                     double change = 0.25;
                     for (int i = 0; i < 8; i++) {
@@ -165,22 +172,26 @@ public class CollisionChecker {
                 }
             }
         }
-    }
-    
-    
-    
-    ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("js");
-        try {
-            java.lang.Object result = engine.eval(scanner.next());
-            if (((Double)result).intValue() == ((Double)result)) {
-                System.out.println(((Double)result).intValue());
-            } else {
-                long multi = 10*10*10*10*10*10;
-                multi*=10*10*10*10*10;
-                System.out.println((double)((long)((((Double)result))*multi))/multi);
+        
+        for (Object object : objects) {
+            for (Plane plane : planes) {
+                if (planeAndShapeTouch(object.shapes.get(0), plane)) {
+                    System.out.println("touching :>");
+                    /*double k = 0.5;
+                    double change = 0.25;
+                    for (int i = 0; i < 8; i++) {
+                        object.preUpdate(dt * k, g);
+                        if (planeAndShapeTouch(object.shapes.get(0), plane)) {
+                            k -= change;
+                        } else {
+                            k += change;
+                        }
+                        change /= 2;
+                    }
+                    object.preUpdate(dt * (k - change * 2), g);*/
+                    //object.velocity = new Point.Double(0, 0);
+                }
             }
-        } catch (ScriptException ex) {
-            
-        };
+        }
+    }
 }
