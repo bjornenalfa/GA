@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -78,7 +81,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
-                        dt = CustomOptionMenu.doubleInput("Enter dt.");
+                        dt = CustomOptionMenu.stringParser("Enter dt.");
                     }
                     mainPanel.world.update(dt);
                     updateLabels();
@@ -92,9 +95,10 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
-                        dt = CustomOptionMenu.doubleInput("Enter dt.");
+                        dt = CustomOptionMenu.stringParser("Enter dt.");
                     }
                     try {
+                        save.doClick();
                         thread.start();
                         System.out.println("started");
                     } catch (Exception ex) {
@@ -119,11 +123,9 @@ public class OptionFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if (saved) {
                         mainPanel.world = backupWorld;
-                        backupWorld = null;
-                        dt = 0;
-                        dtLabel.setText("");
-                        mainPanel.repaint();
-                        saved = false;
+                        save.doClick();
+//                        dtLabel.setText("");
+//                        mainPanel.repaint();
                     }
                 }
             });
@@ -231,6 +233,7 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
+            
             dtLabel.setText(("<html><font color=white> " + "dt : " + dt + " </font></html>"));
         }
 
@@ -255,7 +258,7 @@ public class OptionFrame extends JFrame {
                         updateLabels();
                         mainPanel.repaint();
                         try {
-                            sleep((int)(dt*1000*panel.playbackSpeed));
+                            sleep((int) (dt * 1000 * panel.playbackSpeed));
                         } catch (InterruptedException ex) {
                         }
                     }
