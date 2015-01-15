@@ -188,7 +188,7 @@ public class Main extends JFrame {
                         }
                     }
                     if (adding) {
-                        CustomOptionMenu test = (CustomOptionMenu) optionFrame.getMenuBar();
+                        CustomOptionMenu test = (CustomOptionMenu) optionFrame.getJMenuBar();
                         test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
                         repaint();
                         adding = false;
