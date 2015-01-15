@@ -4,26 +4,27 @@ import engine.Main.MyJPanel;
 import engine.OptionFrame.MyOptionPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-import java.awt.MenuShortcut;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.KeyStroke;
 
 /**
  *
  * @author Letfik
  */
-public class CustomOptionMenu extends MenuBar {
+public class CustomOptionMenu extends JMenuBar {
 
     MyOptionPanel optionPanel;
     MyJPanel panel;
@@ -32,19 +33,21 @@ public class CustomOptionMenu extends MenuBar {
         this.optionPanel = panel;
         this.panel = panel.mainPanel;
 
-        Menu add = new Menu("Add");
-        add.add(makeAddObject());
+        JMenu add = new JMenu("Add");
         add.add(makeAddObjectAt());
         add.add(makeAddPlane());
+        add.add(makeAddObject());
 
-        Menu remove = new Menu("Remove");
-        remove.add(makeResetObjects());
-        remove.add(makeResetPlanes());
+        JMenu remove = new JMenu("Remove");
         remove.add(makeRemoveObject());
+        remove.add(makeResetPlanes());
+        remove.add(makeResetObjects());
 
-        Menu setup = new Menu("Setup");
+        JMenu setup = new JMenu("Setup");
         setup.add(makeSetupOne());
         setup.add(makeSetupTwo());
+
+        JMenu playback = playbackMenu();
 
         add(add);
         add(remove);
@@ -54,10 +57,9 @@ public class CustomOptionMenu extends MenuBar {
     String temp = "Rectangle";
     String shape = null;
 
-    private MenuItem makeAddObject() {
-        MenuItem addObject = new MenuItem("Add Object");
-        addObject.setShortcut(new MenuShortcut(KeyEvent.VK_O, false));
-
+    private JMenuItem makeAddObject() {
+        JMenuItem addObject = new JMenuItem("Add Object");
+        addObject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.SHIFT_DOWN_MASK));
         addObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,10 +69,9 @@ public class CustomOptionMenu extends MenuBar {
         return addObject;
     }
 
-    private MenuItem makeAddPlane() {
-        MenuItem addPlane = new MenuItem("Add Plane");
-        addPlane.setShortcut(new MenuShortcut(KeyEvent.VK_P, false));
-
+    private JMenuItem makeAddPlane() {
+        JMenuItem addPlane = new JMenuItem("Add Plane");
+        addPlane.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK));
         addPlane.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,9 +86,9 @@ public class CustomOptionMenu extends MenuBar {
         return addPlane;
     }
 
-    private MenuItem makeAddObjectAt() {
-        MenuItem addObjectAt = new MenuItem("Add Object at Click");
-        addObjectAt.setShortcut(new MenuShortcut(KeyEvent.VK_R, false));
+    private JMenuItem makeAddObjectAt() {
+        JMenuItem addObjectAt = new JMenuItem("Add Object at Click");
+        addObjectAt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK));
         addObjectAt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,10 +98,9 @@ public class CustomOptionMenu extends MenuBar {
         return addObjectAt;
     }
 
-    private MenuItem makeResetObjects() {
-        MenuItem resetObjects = new MenuItem("Reset Objects");
-        resetObjects.setShortcut(new MenuShortcut(KeyEvent.VK_O, true));
-
+    private JMenuItem makeResetObjects() {
+        JMenuItem resetObjects = new JMenuItem("Reset Objects");
+        resetObjects.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
         resetObjects.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,10 +114,9 @@ public class CustomOptionMenu extends MenuBar {
         return resetObjects;
     }
 
-    private MenuItem makeResetPlanes() {
-        MenuItem resetPlanes = new MenuItem("Reset Planes");
-        resetPlanes.setShortcut(new MenuShortcut(KeyEvent.VK_P, true));
-
+    private JMenuItem makeResetPlanes() {
+        JMenuItem resetPlanes = new JMenuItem("Reset Planes");
+        resetPlanes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
         resetPlanes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,9 +130,9 @@ public class CustomOptionMenu extends MenuBar {
         return resetPlanes;
     }
 
-    private MenuItem makeRemoveObject() {
-        MenuItem removeObject = new MenuItem("Remove Object");
-        removeObject.setShortcut(new MenuShortcut(KeyEvent.VK_R, true));
+    private JMenuItem makeRemoveObject() {
+        JMenuItem removeObject = new JMenuItem("Remove Object");
+        removeObject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         removeObject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -277,8 +276,31 @@ public class CustomOptionMenu extends MenuBar {
         return circle;
     }
 
-    private MenuItem makeSetupOne() {
-        MenuItem setupOne = new MenuItem("Setup One");
+    private JMenu playbackMenu() {
+        JMenu menu = new JMenu();
+        ButtonGroup bg = new ButtonGroup();
+
+        JRadioButton hhs = new JRadioButton("1/4 speed");
+        bg.add(hhs);
+        menu.add(hhs);
+        JRadioButton hs = new JRadioButton("1/2 speed");
+        bg.add(hs);
+        menu.add(hs);
+        JRadioButton ns = new JRadioButton("1 speed");
+        bg.add(ns);
+        menu.add(ns);
+        JRadioButton ds = new JRadioButton("2 speed");
+        bg.add(ds);
+        menu.add(ds);
+        JRadioButton dds = new JRadioButton("4 speed");
+        bg.add(dds);
+        menu.add(ds);
+
+        return menu;
+    }
+
+    private JMenuItem makeSetupOne() {
+        JMenuItem setupOne = new JMenuItem("Setup One");
         setupOne.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -291,8 +313,8 @@ public class CustomOptionMenu extends MenuBar {
         return setupOne;
     }
 
-    private MenuItem makeSetupTwo() {
-        MenuItem setupTwo = new MenuItem("Setup Two");
+    private JMenuItem makeSetupTwo() {
+        JMenuItem setupTwo = new JMenuItem("Setup Two");
         setupTwo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -305,8 +327,8 @@ public class CustomOptionMenu extends MenuBar {
         return setupTwo;
     }
 
-    private MenuItem makeSetupThree() {
-        MenuItem setupThree = new MenuItem("Setup Three");
+    private JMenuItem makeSetupThree() {
+        JMenuItem setupThree = new JMenuItem("Setup Three");
         setupThree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

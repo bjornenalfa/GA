@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -37,7 +36,7 @@ public class OptionFrame extends JFrame {
 
         panel = new MyOptionPanel(mainPanel);
         setContentPane(panel);
-        setMenuBar(new CustomOptionMenu(panel));
+        setJMenuBar(new CustomOptionMenu(panel));
         pack();
 
         setAlwaysOnTop(true);
