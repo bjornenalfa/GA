@@ -205,22 +205,6 @@ public class CustomOptionMenu extends JMenuBar {
         panel.repaint();
     }
     
-    public static Double stringParser(String s) {
-        try {
-            java.lang.Object result = engine.eval((inputOptionPane(s)));
-            if (((Double) result).intValue() == ((Double) result)) {
-                return ((Double) result);
-            } else {
-                long multi = 10 * 10 * 10 * 10 * 10 * 10;
-                multi *= 10 * 10 * 10 * 10 * 10;
-                return (double) ((long) ((((Double) result)) * multi)) / multi;
-            }
-        } catch (ScriptException ex) {
-            Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0.0;
-    }
-
     public static int intInput(String text) {
         try {
             return Integer.parseInt(inputOptionPane(text));
@@ -235,7 +219,7 @@ public class CustomOptionMenu extends JMenuBar {
 
     public static double doubleInput(String text) {
         try {
-            return Double.parseDouble(inputOptionPane(text));
+            return stringParser(text);
         } catch (NumberFormatException e) {
             if (text.contains("(double)")) {
                 return doubleInput(text);
@@ -262,6 +246,16 @@ public class CustomOptionMenu extends JMenuBar {
         return JOptionPane.showInputDialog(null, text, "TITLE", JOptionPane.QUESTION_MESSAGE);
     }
 
+    public static Double stringParser(String text) {
+        try {
+            java.lang.Object result = engine.eval((inputOptionPane(text)));
+            return (double) result;
+        } catch (ScriptException ex) {
+            Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0.0;
+    }
+    
     private JPanel shapeRadioPanel() {
         final JPanel radioPanel = new JPanel(new GridLayout(2, 1));
         ButtonGroup buttonGroup = new ButtonGroup();

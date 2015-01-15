@@ -233,7 +233,6 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            
             dtLabel.setText(("<html><font color=white> " + "dt : " + dt + " </font></html>"));
         }
 
