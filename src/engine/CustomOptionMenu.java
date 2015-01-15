@@ -11,6 +11,11 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,6 +31,8 @@ import javax.swing.KeyStroke;
  */
 public class CustomOptionMenu extends JMenuBar {
 
+    static final ScriptEngineManager manager = new ScriptEngineManager();
+    static final ScriptEngine engine = manager.getEngineByName("js");
     MyOptionPanel optionPanel;
     MyJPanel panel;
 
@@ -196,6 +203,22 @@ public class CustomOptionMenu extends JMenuBar {
         Color c = stringToColorInput("Enter color");
         panel.world.addObject(new Object(new CircleShape(rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
+    }
+    
+    public static Double stringParser(String s) {
+        try {
+            java.lang.Object result = engine.eval((inputOptionPane(s)));
+            if (((Double) result).intValue() == ((Double) result)) {
+                return ((Double) result);
+            } else {
+                long multi = 10 * 10 * 10 * 10 * 10 * 10;
+                multi *= 10 * 10 * 10 * 10 * 10;
+                return (double) ((long) ((((Double) result)) * multi)) / multi;
+            }
+        } catch (ScriptException ex) {
+            Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0.0;
     }
 
     public static int intInput(String text) {
