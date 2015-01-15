@@ -77,6 +77,30 @@ public class CollisionChecker {
         }
         return false;
     }
+    
+    private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rec, Plane plane) {
+        rec.calcLines();
+        Point.Double point = null;
+        int line1 = -1;
+        int line2 = -1;
+        for (int i = 0;i<4;i++) {
+            if (intersect(rec.lines[i], plane.surface)) {
+                if (line1 == -1) {
+                    line1 = i;
+                } else {
+                    line2 = i;
+                    break;
+                }
+            }
+        }
+        switch (line1*10+line2) {
+            case 1: point = rec.lines[0].origin;
+            case 3: point = rec.lines[0].end;
+            case 12: point = rec.lines[1].end;
+            case 23: point = rec.lines[2].end;
+        }
+        return point;
+    }
 
     private static boolean planeAndCircleIntersect(CircleShape shape, Plane plane) {
         System.out.println("NOT IMPLEMENTED - CircleShape collision!");
