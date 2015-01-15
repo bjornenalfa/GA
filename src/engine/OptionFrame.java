@@ -93,11 +93,11 @@ public class OptionFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
                         dt = CustomOptionMenu.doubleInput("Enter dt.");
-                        try {
-                            thread.start();
-                            System.out.println("started");
-                        } catch (Exception ex) {
-                        }
+                    }
+                    try {
+                        thread.start();
+                        System.out.println("started");
+                    } catch (Exception ex) {
                     }
                     paused = false;
                 }
@@ -148,10 +148,10 @@ public class OptionFrame extends JFrame {
                 for (Shape s : o.shapes) {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x+50, s.vector.point.y+50)), s.rotation, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x + 50, s.vector.point.y + 50)), s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x+50, s.vector.point.y+50)), s.rotation, s.mass, s.myC));
+                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x + 50, s.vector.point.y + 50)), s.rotation, s.mass, s.myC));
                     }
                 }
                 newO.velocity = o.velocity;
@@ -231,7 +231,7 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            dtLabel.setText(("<html><font color=white> " + dt + " </font></html>"));
+            dtLabel.setText(("<html><font color=white> " + "dt : " + dt + " </font></html>"));
         }
 
         @Override
