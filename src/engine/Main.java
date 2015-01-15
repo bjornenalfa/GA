@@ -178,7 +178,7 @@ public class Main extends JFrame {
                 public void mouseDragged(MouseEvent e) {
                     if (keyDownControl) {
                         mouseX=prevX-e.getX();
-                        mouseX=prevY-e.getY();
+                        mouseY=prevY-e.getY();
                         repaint();
                         prevX=e.getX();
                         prevY=e.getY();
