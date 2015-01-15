@@ -73,6 +73,7 @@ public class Object {
 
     public void addShape(Shape shape) {
         shapes.add(shape);
+        shape.setParent(this);
     }
 
 }
