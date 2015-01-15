@@ -22,6 +22,7 @@ public class Object {
     int ID;
     ArrayList<Object> collisions = new ArrayList();
     ArrayList<Plane> touching = new ArrayList();
+    ArrayList<Force> forces = new ArrayList();
 
     public Object() {
 
