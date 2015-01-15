@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +25,7 @@ public class Main extends JFrame {
     //1 force unit = 1g*cm/s/s
     MyJPanel panel;
     boolean keyDownControl = false;
-    double scale = 1, mouseX = 0, mouseY = 0;
+    double scale = 1, translateX, translateY;
 
     public Main() {
         setTitle("TITLE");
@@ -85,19 +86,24 @@ public class Main extends JFrame {
             world = new World(10);
 
             optionFrame = new OptionFrame(this);
-            addMouseListener(getMouseAdapter());
-            addMouseMotionListener(getMouseAdapter());
-            addMouseWheelListener(getMouseAdapter());
+            MouseAdapter ma = getMouseAdapter();
+            addMouseListener(ma);
+            addMouseMotionListener(ma);
+            addMouseWheelListener(ma);
         }
 
         private void addKeyBindings() {
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", exit());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl CONTROL"), "ctrl_down");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_CONTROL, InputEvent.CTRL_DOWN_MASK), "ctrl_down");
             getActionMap().put("ctrl_down", ctrl_down());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released CONTROL"), "ctrl_up");
             getActionMap().put("ctrl_up", ctrl_up());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.CTRL_DOWN_MASK), "ctrl+0");
+            getActionMap().put("ctrl+0", ctrl0());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "pos_r");
+            getActionMap().put("pos_r", pos_r());
         }
 
         private Action ctrl_down() {
@@ -115,6 +121,27 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     keyDownControl = false;
+                }
+            };
+        }
+
+        private Action ctrl0() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    scale = 1;
+                    repaint();
+                }
+            };
+        }
+
+        private Action pos_r() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    translateX=0;
+                    translateY=0;  
+                    repaint();
                 }
             };
         }
@@ -166,22 +193,30 @@ public class Main extends JFrame {
                         repaint();
                         adding = false;
                     }
+                    prevX = 0;
+                    prevY = 0;
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    prevX=e.getX();
-                    prevY=e.getY();
+                    if (keyDownControl) {
+                        if (prevX == 0 || prevY == 0) {
+                            prevX = e.getX();
+                            prevY = e.getY();
+                        }
+                    }
                 }
-                
+
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (keyDownControl) {
-                        mouseX=prevX-e.getX();
-                        mouseY=prevY-e.getY();
+                        double nowX = e.getX();
+                        double nowY = e.getY();
+                        translateX -= (prevX - nowX) / scale;
+                        translateY -= (prevY - nowY) / scale;
                         repaint();
-                        prevX=e.getX();
-                        prevY=e.getY();
+                        prevX = nowX;
+                        prevY = nowY;
                     }
                 }
 
@@ -200,11 +235,11 @@ public class Main extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            g2.translate(mouseX, mouseY);
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
             g2.scale(scale, scale);
+            g2.translate(translateX, translateY);
             world.paint(g2);
-            g2.translate(-mouseX, -mouseY);
+            g2.translate(-translateX, -translateY);
         }
     }
 
