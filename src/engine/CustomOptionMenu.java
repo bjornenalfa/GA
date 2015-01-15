@@ -179,7 +179,7 @@ public class CustomOptionMenu extends MenuBar {
         int h = intInput("Enter height.");
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
-        Color c = stringToColor("Enter color.");
+        Color c = stringToColorInput("Enter color.");
         panel.world.addObject(new Object(new RectangleShape(w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
         panel.repaint();
     }
@@ -194,12 +194,12 @@ public class CustomOptionMenu extends MenuBar {
         int rad = intInput("Enter radius.");
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
-        Color c = stringToColor("Enter color");
+        Color c = stringToColorInput("Enter color");
         panel.world.addObject(new Object(new CircleShape(rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
 
-    private int intInput(String text) {
+    public static int intInput(String text) {
         try {
             return Integer.parseInt(inputOptionPane(text));
         } catch (NumberFormatException e) {
@@ -211,7 +211,7 @@ public class CustomOptionMenu extends MenuBar {
         }
     }
 
-    private double doubleInput(String text) {
+    public static double doubleInput(String text) {
         try {
             return Double.parseDouble(inputOptionPane(text));
         } catch (NumberFormatException e) {
@@ -223,20 +223,20 @@ public class CustomOptionMenu extends MenuBar {
         }
     }
 
-    private Color stringToColor(String text) {
+    public static Color stringToColorInput(String text) {
         try {
             Field field = Class.forName("java.awt.Color").getField(inputOptionPane(text).toUpperCase());
             return (Color) field.get(null);
         } catch (ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
             if (text.contains("(jawa.awt.Color)")) {
-                return stringToColor(text);
+                return stringToColorInput(text);
             } else {
-                return stringToColor(text + " (jawa.awt.Color)");
+                return stringToColorInput(text + " (jawa.awt.Color)");
             }
         }
     }
 
-    private String inputOptionPane(String text) {
+    private static String inputOptionPane(String text) {
         return JOptionPane.showInputDialog(null, text, "TITLE", JOptionPane.QUESTION_MESSAGE);
     }
 

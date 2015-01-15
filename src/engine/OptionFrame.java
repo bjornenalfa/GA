@@ -77,9 +77,8 @@ public class OptionFrame extends JFrame {
             update.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     if (dt == 0) {
-                        dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
+                        dt = CustomOptionMenu.doubleInput("Enter dt.");
                     }
                     mainPanel.world.update(dt);
                     updateLabels();
@@ -93,7 +92,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
-                        dt = Double.parseDouble(JOptionPane.showInputDialog(null, "Enter dt.", "TITLE", JOptionPane.QUESTION_MESSAGE));
+                        dt = CustomOptionMenu.doubleInput("Enter dt.");
                         try {
                             thread.start();
                             System.out.println("started");
@@ -121,8 +120,10 @@ public class OptionFrame extends JFrame {
                     if (saved) {
                         mainPanel.world = backupWorld;
                         backupWorld = null;
+                        dt = 0;
                         dtLabel.setText("");
                         mainPanel.repaint();
+                        saved = false;
                     }
                 }
             });
@@ -147,12 +148,18 @@ public class OptionFrame extends JFrame {
                 for (Shape s : o.shapes) {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(rs.width, rs.height, s.vector, s.rotation, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x+50, s.vector.point.y+50)), s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO.addShape(new CircleShape(cs.radius, s.vector, s.rotation, s.mass, s.myC));
+                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x+50, s.vector.point.y+50)), s.rotation, s.mass, s.myC));
                     }
                 }
+                newO.velocity = o.velocity;
+                newO.acceleration = o.acceleration;
+                newO.Mass = o.Mass;
+                newO.angularVelocity = o.angularVelocity;
+                newO.massCenter = o.massCenter;
+                newO.rotation = o.rotation;
                 backupWorld.objects.add(newO);
             }
             for (Plane p : mainPanel.world.planes) {
