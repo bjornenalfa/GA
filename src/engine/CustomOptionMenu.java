@@ -204,7 +204,7 @@ public class CustomOptionMenu extends JMenuBar {
         panel.world.addObject(new Object(new CircleShape(rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         panel.repaint();
     }
-    
+
     public static int intInput(String text) {
         try {
             return Integer.parseInt(inputOptionPane(text));
@@ -247,15 +247,19 @@ public class CustomOptionMenu extends JMenuBar {
     }
 
     public static Double stringParser(String text) {
+        String s = inputOptionPane(text);
+        if (!s.contains("/") && !s.contains(".")) {
+            s += ".0";
+        }
         try {
-            java.lang.Object result = engine.eval((inputOptionPane(text)));
+            java.lang.Object result = engine.eval((s));
             return (double) result;
         } catch (ScriptException ex) {
             Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0.0;
     }
-    
+
     private JPanel shapeRadioPanel() {
         final JPanel radioPanel = new JPanel(new GridLayout(2, 1));
         ButtonGroup buttonGroup = new ButtonGroup();

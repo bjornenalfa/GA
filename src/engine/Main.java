@@ -105,7 +105,7 @@ public class Main extends JFrame {
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "pos_r");
             getActionMap().put("pos_r", pos_r());
         }
-
+        
         private Action ctrl_down() {
             return new AbstractAction() {
                 @Override

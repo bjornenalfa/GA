@@ -81,7 +81,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
-                        dt = CustomOptionMenu.stringParser("Enter dt.");
+                        dt = CustomOptionMenu.doubleInput("Enter dt.");
                     }
                     mainPanel.world.update(dt);
                     updateLabels();
@@ -95,7 +95,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (dt == 0) {
-                        dt = CustomOptionMenu.stringParser("Enter dt.");
+                        dt = CustomOptionMenu.doubleInput("Enter dt.");
                     }
                     try {
                         save.doClick();
