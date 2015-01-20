@@ -164,17 +164,7 @@ public class Main extends JFrame {
                     if (removing) {
                         Object stiff = null;
                         for (Object object : world.objects) {
-                            int w, h;
                             for (Shape shape : object.shapes) {
-                                if (shape instanceof RectangleShape) {
-                                    RectangleShape rs = (RectangleShape) shape;
-                                    w = rs.width;
-                                    h = rs.height;
-                                } else if (shape instanceof CircleShape) {
-                                    CircleShape cs = (CircleShape) shape;
-                                    w = cs.radius;
-                                    h = cs.radius;
-                                }
                                 if (shape.contains(e.getPoint())) {
                                     stiff = object;
                                     break;
