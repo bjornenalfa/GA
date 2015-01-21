@@ -58,7 +58,7 @@ public class OptionFrame extends JFrame {
         MyThread thread = new MyThread();
         World backupWorld;
         boolean saved = false;
-        private double playbackSpeed = 1;
+        double playbackSpeed = 1;
 
         public MyOptionPanel(MyJPanel mainPanel) {
             setLayout(new GridLayout(2, 3, 5, 5));

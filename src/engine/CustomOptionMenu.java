@@ -53,12 +53,15 @@ public class CustomOptionMenu extends JMenuBar {
         JMenu setup = new JMenu("Setup");
         setup.add(makeSetupOne());
         setup.add(makeSetupTwo());
+        setup.add(makeSetupThree());
 
         JMenu playback = playbackMenu();
-
+        playback.setText("Playback Speed");
+        
         add(add);
         add(remove);
         add(setup);
+        add(playback);
     }
 
     String temp = "Rectangle";
@@ -302,20 +305,55 @@ public class CustomOptionMenu extends JMenuBar {
         ButtonGroup bg = new ButtonGroup();
 
         JRadioButton hhs = new JRadioButton("1/4 speed");
+        hhs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 4;
+            }
+        });
         bg.add(hhs);
         menu.add(hhs);
+        
         JRadioButton hs = new JRadioButton("1/2 speed");
+        hs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 2;
+            }
+        });
         bg.add(hs);
         menu.add(hs);
+        
         JRadioButton ns = new JRadioButton("1 speed");
+        ns.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 1;
+            }
+        });
+        ns.setSelected(true);
         bg.add(ns);
         menu.add(ns);
+        
         JRadioButton ds = new JRadioButton("2 speed");
+        ds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 1/2;
+            }
+        });
         bg.add(ds);
         menu.add(ds);
+        
         JRadioButton dds = new JRadioButton("4 speed");
+        dds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 1/4;
+            }
+        });
         bg.add(dds);
-        menu.add(ds);
+        menu.add(dds);
 
         return menu;
     }
@@ -353,7 +391,10 @@ public class CustomOptionMenu extends JMenuBar {
         setupThree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                panel.world = new World(10);
+                panel.world.addPlane(new Plane(0, 0, 800, 600));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0, Color.BLUE), new Point.Double(400, 100)));
+                panel.repaint();
             }
         });
         return setupThree;
