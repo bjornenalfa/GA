@@ -339,7 +339,7 @@ public class CustomOptionMenu extends JMenuBar {
         ds.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                optionPanel.playbackSpeed = 1/2;
+                optionPanel.playbackSpeed = 0.5;
             }
         });
         bg.add(ds);
@@ -349,7 +349,7 @@ public class CustomOptionMenu extends JMenuBar {
         dds.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                optionPanel.playbackSpeed = 1/4;
+                optionPanel.playbackSpeed = 0.25;
             }
         });
         bg.add(dds);
