@@ -83,7 +83,7 @@ public class Main extends JFrame {
 
         public MyJPanel() {
             addKeyBindings();
-            world = new World(new Vector2D(0, 10));
+            world = new World(10);
 
             optionFrame = new OptionFrame(this);
             MouseAdapter ma = getMouseAdapter();
@@ -105,7 +105,7 @@ public class Main extends JFrame {
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "pos_r");
             getActionMap().put("pos_r", pos_r());
         }
-
+        
         private Action ctrl_down() {
             return new AbstractAction() {
                 @Override
@@ -139,8 +139,8 @@ public class Main extends JFrame {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    translateX = 0;
-                    translateY = 0;
+                    translateX=0;
+                    translateY=0;  
                     repaint();
                 }
             };

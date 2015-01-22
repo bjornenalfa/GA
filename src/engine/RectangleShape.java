@@ -3,6 +3,7 @@ package engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 
 /**
  * Rectangular shape, has width and height;
