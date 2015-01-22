@@ -168,7 +168,10 @@ public class CollisionChecker {
                         change /= 2;
                     }
                     object.preUpdate(dt * (k - change * 2), g);
-                    object.velocity = new Point.Double(0, 0);
+                    object.nextVelocity = new Point.Double(0, 0);
+                    
+                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape)object.shapes.get(0), plane);
+                    Vector2D momentAxis = new Vector2D(balancePoint,object.massCenter.getPoint());
                 }
             }
         }

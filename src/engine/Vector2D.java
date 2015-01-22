@@ -23,6 +23,10 @@ public class Vector2D {
         point = new Point.Double(x, y);
     }
 
+    public Vector2D(Point.Double point1, Point.Double point2) {
+        point = new Point.Double(point2.x - point1.x, point2.y - point1.y);
+    }
+
     public Vector2D(double len, double ang) {
         length = len;
         angle = ang;
