@@ -15,6 +15,7 @@ public class Shape {
     double rotation; //relative to object's rotation
     double mass;//mass in g
     double x, y; // X, Y coordinates; Width and Height
+    double I; //Tröghetsmomentet
     Color myC; //Shape color    
     Object parent;
 
@@ -79,6 +80,10 @@ public class Shape {
     public void setParent(Object object) {
         parent = object;
         calcPosition();
+    }
+    
+    public void calculateI() {
+        I = 1;
     }
 
     //If needed implement different code for each different shape

@@ -87,11 +87,11 @@ public class CollisionChecker {
     private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rectangle, Plane plane) {
         rectangle.calcLines();
         Point.Double point = null;
-        int line1 = -1;
-        int line2 = -1;
+        int line1 = 10000;
+        int line2 = 10000;
         for (int i = 0; i < 4; i++) {
             if (intersect(rectangle.lines[i], plane.surface)) {
-                if (line1 == -1) {
+                if (line1 == 10000) {
                     line1 = i;
                 } else {
                     line2 = i;
@@ -99,7 +99,7 @@ public class CollisionChecker {
                 }
             }
         }
-        switch (line1 * 10 + line2) {
+        switch ((line1 * 10 + line2)) {
             case 1:
                 point = rectangle.lines[0].origin;
             case 3:
@@ -156,8 +156,16 @@ public class CollisionChecker {
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
+                    
+                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+                    Vector2D momentAxis = new Vector2D(balancePoint, object.massCenter.getPoint());
+                    Vector2D normalComponent = Vector2D.getNormalComponent(g,momentAxis);
+                    object.angularAcceleration = normalComponent.getLength()*object.getMass()*object.getI();
+                    System.out.println("AA:"+(normalComponent.getLength()*object.getMass()*object.getI()));
+                    //System.out.println("NCL: "+ normalComponent.getLength());
+                    
                     //System.out.println("it is happening");
-                    double k = 0.5;
+                    /*double k = 0.5;
                     double change = 0.25;
                     for (int i = 0; i < 8; i++) {
                         object.preUpdate(dt * k, g);
@@ -168,14 +176,8 @@ public class CollisionChecker {
                         }
                         change /= 2;
                     }
-                    object.preUpdate(dt * (k - change * 2), g);
+                    object.preUpdate(dt * (k + change * 2), g);*/
                     object.nextVelocity = new Point.Double(0, 0);
-
-                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
-                    Vector2D momentAxis = new Vector2D(balancePoint, object.massCenter.getPoint());
-                    Vector2D normalComponent = Vector2D.getNormalComponent(g,momentAxis);
-                    object.rotate(normalComponent.getLength());
-                    
                 }
             }
         }

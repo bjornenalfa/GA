@@ -28,6 +28,15 @@ public class RectangleShape extends Shape {
         vector.add(middleToOrigin);
         width = w;
         height = h;
+        calculateI();
+    }
+    
+    /**
+     * Räknar ut tröghetsmomentet
+     */
+    @Override
+    public void calculateI() {
+        I = (1.0/12.0) * mass * 0.001 * (width*width*0.0001 + height*height*0.0001);
     }
 
     public void calcLines() { //Calculated from the top left corner :>
@@ -50,6 +59,7 @@ public class RectangleShape extends Shape {
 
     @Override
     public void calcNextPosition() {
+        vector.readyPoint();
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
     }

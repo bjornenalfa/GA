@@ -17,6 +17,9 @@ public class Object {
     Point.Double acceleration = new Point.Double(0, 0);
     double rotation;
     double angularVelocity;
+    double angularAcceleration;
+    double nextRotation;
+    double nextAngularVelocity;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double Mass;
     int ID;
@@ -31,6 +34,7 @@ public class Object {
     public Object(Shape shape, Point.Double pos) {
         shapes.add(shape);
         position = pos;
+        calcMassCenter();
         shape.setParent(this);
     }
 
@@ -45,7 +49,10 @@ public class Object {
     public void preUpdate(double dt, Vector2D g) {
         nextPosition = move(position, velocity, new Point.Double(acceleration.x + g.point.x, acceleration.y + g.point.y), dt);
         nextVelocity = new Point.Double(velocity.x + g.point.x * dt, velocity.y + g.point.y * dt);
+        nextRotation = rotation + angularVelocity * dt;
+        nextAngularVelocity = angularVelocity + angularAcceleration * dt * dt / 2;
         System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.x + ":" + nextVelocity.y + "}");
+        System.out.println("av:"+angularVelocity+";r:"+rotation+";aa:"+angularAcceleration);
 
         for (Shape shape : shapes) {
             shape.calcNextPosition();
@@ -55,6 +62,9 @@ public class Object {
     public void endUpdate() {
         position = nextPosition;
         velocity = nextVelocity;
+        rotate(nextRotation-rotation);
+        //rotation = nextRotation;
+        angularVelocity = nextAngularVelocity;
     }
 
     public Point.Double interpolate(double k, double dt) {
@@ -82,5 +92,17 @@ public class Object {
         for (Shape shape : shapes) {
             shape.rotate(angle);
         }
+    }
+
+    public double getMass() {
+        double mass = 0;
+        for (Shape shape : shapes) {
+            mass += shape.mass;
+        }
+        return mass;
+    }
+
+    public double getI() {
+        return shapes.get(0).I;
     }
 }
