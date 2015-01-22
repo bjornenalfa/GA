@@ -42,9 +42,9 @@ public class Object {
         }
     }
 
-    public void preUpdate(double dt, double g) {
-        nextPosition = move(position, velocity, new Point.Double(acceleration.x, acceleration.y + g), dt);
-        nextVelocity = new Point.Double(velocity.x, velocity.y + g * dt);
+    public void preUpdate(double dt, Vector2D g) {
+        nextPosition = move(position, velocity, new Point.Double(acceleration.x + g.point.x, acceleration.y + g.point.y), dt);
+        nextVelocity = new Point.Double(velocity.x + g.point.x * dt, velocity.y + g.point.y * dt);
         System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.x + ":" + nextVelocity.y + "}");
 
         for (Shape shape : shapes) {

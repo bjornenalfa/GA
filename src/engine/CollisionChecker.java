@@ -68,7 +68,7 @@ public class CollisionChecker {
         //System.out.println("angle differance: "+Math.abs(firstAngle - secondAngle));
         return (Math.abs(firstAngle - secondAngle)) <= angleLimit && Math.abs(new Vector2D(new Point.Double(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y)).rotate(-line1.vector.getAngle()).getPoint().y) <= distance;
     }
-    
+
     public static boolean areLineAndPointAlmostTouching(Line line, Point.Double point, double distance) {
         return new Vector2D(line.origin.x - point.x, line.origin.y - point.y).rotate(line.vector.getAngle()).getPoint().y <= distance;
     }
@@ -86,13 +86,13 @@ public class CollisionChecker {
         }
         return false;
     }
-    
+
     private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rectangle, Plane plane) {
         rectangle.calcLines();
         Point.Double point = null;
         int line1 = -1;
         int line2 = -1;
-        for (int i = 0;i<4;i++) {
+        for (int i = 0; i < 4; i++) {
             if (intersect(rectangle.lines[i], plane.surface)) {
                 if (line1 == -1) {
                     line1 = i;
@@ -102,11 +102,15 @@ public class CollisionChecker {
                 }
             }
         }
-        switch (line1*10+line2) {
-            case 1: point = rectangle.lines[0].origin;
-            case 3: point = rectangle.lines[0].end;
-            case 12: point = rectangle.lines[1].end;
-            case 23: point = rectangle.lines[2].end;
+        switch (line1 * 10 + line2) {
+            case 1:
+                point = rectangle.lines[0].origin;
+            case 3:
+                point = rectangle.lines[0].end;
+            case 12:
+                point = rectangle.lines[1].end;
+            case 23:
+                point = rectangle.lines[2].end;
         }
         return point;
     }
@@ -126,7 +130,7 @@ public class CollisionChecker {
 
         return collision;
     }
-    
+
     private static boolean planeAndRectangleTouch(RectangleShape rectangle, Plane plane) {
         for (Line line : rectangle.lines) {
             if (areLinesAlmostTouching(line, plane.surface, 0.1, 0.1)) {
@@ -139,7 +143,7 @@ public class CollisionChecker {
     private static boolean planeAndCircleTouch(CircleShape circleShape, Plane plane) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public static boolean planeAndShapeTouch(Shape shape, Plane plane) {
         boolean collision = false;
         if (shape instanceof RectangleShape) {
@@ -151,7 +155,7 @@ public class CollisionChecker {
         return collision;
     }
 
-    public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes, double dt, double g) {
+    public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes, double dt, Vector2D g) {
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
@@ -169,29 +173,30 @@ public class CollisionChecker {
                     }
                     object.preUpdate(dt * (k - change * 2), g);
                     object.nextVelocity = new Point.Double(0, 0);
-                    
-                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape)object.shapes.get(0), plane);
-                    Vector2D momentAxis = new Vector2D(balancePoint,object.massCenter.getPoint());
+
+                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+                    Vector2D momentAxis = new Vector2D(balancePoint, object.massCenter.getPoint());
+
                 }
             }
         }
-        
+
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeTouch(object.shapes.get(0), plane)) {
                     System.out.println("touching :>");
                     /*double k = 0.5;
-                    double change = 0.25;
-                    for (int i = 0; i < 8; i++) {
-                        object.preUpdate(dt * k, g);
-                        if (planeAndShapeTouch(object.shapes.get(0), plane)) {
-                            k -= change;
-                        } else {
-                            k += change;
-                        }
-                        change /= 2;
-                    }
-                    object.preUpdate(dt * (k - change * 2), g);*/
+                     double change = 0.25;
+                     for (int i = 0; i < 8; i++) {
+                     object.preUpdate(dt * k, g);
+                     if (planeAndShapeTouch(object.shapes.get(0), plane)) {
+                     k -= change;
+                     } else {
+                     k += change;
+                     }
+                     change /= 2;
+                     }
+                     object.preUpdate(dt * (k - change * 2), g);*/
                     //object.velocity = new Point.Double(0, 0);
                 }
             }
