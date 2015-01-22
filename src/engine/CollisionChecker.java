@@ -173,7 +173,9 @@ public class CollisionChecker {
 
                     Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
                     Vector2D momentAxis = new Vector2D(balancePoint, object.massCenter.getPoint());
-
+                    Vector2D normalComponent = Vector2D.getNormalComponent(g,momentAxis);
+                    object.rotate(normalComponent.getLength());
+                    
                 }
             }
         }
