@@ -45,6 +45,7 @@ public class Shape {
      */
     public void rotate(double rad) {
         rotation += rad;
+        vector.rotate(rad);
     }
 
     /**

@@ -77,4 +77,10 @@ public class Object {
         shape.setParent(this);
     }
 
+    public void rotate(double angle) {
+        rotation += angle;
+        for (Shape shape : shapes) {
+            shape.rotate(angle);
+        }
+    }
 }
