@@ -12,19 +12,19 @@ public class World {
 
     ArrayList<Object> objects = new ArrayList();
     double time = 0;
-    double g;
+    Vector2D gravity;
     ArrayList<Plane> planes = new ArrayList();
 
-    public World(double gravity) {
-        g = gravity;
+    public World(Vector2D gravity) {
+        this.gravity = gravity;
     }
 
     public void update(double dt) {
         time += dt;
         for (Object object : objects) {
-            object.preUpdate(dt, g);
+            object.preUpdate(dt, gravity);
         }
-        CollisionChecker.findNewCollisions(objects, planes, dt, g);
+        CollisionChecker.findNewCollisions(objects, planes, dt, gravity);
         for (Object object : objects) {
             object.endUpdate();
         }
