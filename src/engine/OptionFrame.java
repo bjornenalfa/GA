@@ -10,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -143,7 +140,7 @@ public class OptionFrame extends JFrame {
         }
 
         private void makeBackup() {
-            backupWorld = new World(mainPanel.world.g);
+            backupWorld = new World(mainPanel.world.gravity);
             for (Object o : mainPanel.world.objects) {
                 Object newO = new Object();
                 newO.position = new Point.Double(o.position.x, o.position.y);
