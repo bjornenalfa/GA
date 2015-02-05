@@ -20,8 +20,9 @@ public class Object {
     double angularAcceleration;
     double nextRotation;
     double nextAngularVelocity;
+    double restitution;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
-    Double Mass;
+    Double mass;
     int ID;
     ArrayList<Object> collisions = new ArrayList();
     ArrayList<Plane> touching = new ArrayList();
@@ -105,4 +106,12 @@ public class Object {
     public double getI() {
         return shapes.get(0).I;
     }
+    public void setRestitution(double res){
+        restitution=res;
+    }
+    
+    public double getRestitution(){
+        return restitution;
+    }
+    
 }

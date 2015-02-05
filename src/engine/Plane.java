@@ -10,6 +10,8 @@ public class Plane {
 
     Line surface;
     double friction;
+    double restitution;
+    double mass=Double.POSITIVE_INFINITY;
     int ID;
 
     public Plane(Line line) {
@@ -26,5 +28,17 @@ public class Plane {
 
     public Vector2D getNormal() {
         return (surface.vector.getNormal());
+    }
+    
+    public Vector2D getNormalizedNormal() {
+        return (surface.vector.getNormal().normalize());
+    }
+
+    public void setRestitution(double res) {
+        restitution = res;
+    }
+
+    public double getRestitution() {
+        return restitution;
     }
 }

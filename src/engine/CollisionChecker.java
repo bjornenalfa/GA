@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -158,34 +159,42 @@ public class CollisionChecker {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
                     System.out.println("COLLISIONS");
                     
-                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
-                    if (balancePoint != null) {
-                    Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
-                    Vector2D normalComponent = Vector2D.getNormalComponent(Vector2D.multiply(new Vector2D(g),object.getMass()),momentAxis);
-                    object.nextAngularVelocity = normalComponent.getLength()*object.getI()*object.velocity.distance(0, 0);
-                    System.out.println("AV:"+(normalComponent.getLength()*object.getI()));
-                    }
-                    //System.out.println("NCL: "+ normalComponent.getLength());
-                    
-                    //System.out.println("it is happening");
-                    /*double k = 0.5;
-                    double change = 0.25;
-                    for (int i = 0; i < 8; i++) {
-                        object.preUpdate(dt * k, g);
-                        if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
-                            k -= change;
-                        } else {
-                            k += change;
-                        }
-                        change /= 2;
-                    }
-                    object.preUpdate(dt * (k + change * 2), g);*/
-                    Vector2D parVel = Vector2D.OrthogonalProjection(new Vector2D(object.velocity), plane.surface.vector);
-                    parVel.readyPoint();
-                    object.nextVelocity = new Point.Double(parVel.point.x, parVel.point.y);
-                    Vector2D accVec = Vector2D.multiply(plane.getNormal().normalize(),g.getLength()*Math.cos(plane.surface.vector.getAngle()));
-                    accVec.readyPoint();
-                    object.acceleration = new Point.Double(accVec.point.x,accVec.point.y);
+                    double imp = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
+                    Vector2D vec = new Vector2D(plane.getNormalizedNormal().multiply(imp));
+                    object.velocity -= 1/object.getMass()*vec;
+
+//                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+//                    if (balancePoint != null) {
+//                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
+//                        Vector2D normalComponent = Vector2D.getNormalComponent(Vector2D.multiply(new Vector2D(g), object.getMass()), momentAxis);
+//                        object.nextAngularVelocity = normalComponent.getLength() * object.getI() * object.velocity.distance(0, 0);
+//                        System.out.println("AV:" + (normalComponent.getLength() * object.getI()));
+//                        
+//                    }
+//                    
+//                    
+//                    
+//                    //System.out.println("NCL: "+ normalComponent.getLength());
+//
+//                    //System.out.println("it is happening");
+//                    /*double k = 0.5;
+//                     double change = 0.25;
+//                     for (int i = 0; i < 8; i++) {
+//                     object.preUpdate(dt * k, g);
+//                     if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
+//                     k -= change;
+//                     } else {
+//                     k += change;
+//                     }
+//                     change /= 2;
+//                     }
+//                     object.preUpdate(dt * (k + change * 2), g);*/
+//                    Vector2D parVel = Vector2D.OrthogonalProjection(new Vector2D(object.velocity), plane.surface.vector);
+//                    parVel.readyPoint();
+//                    object.nextVelocity = new Point.Double(parVel.point.x, parVel.point.y);
+//                    Vector2D accVec = Vector2D.multiply(plane.getNormal().normalize(), g.getLength() * Math.cos(plane.surface.vector.getAngle()));
+//                    accVec.readyPoint();
+//                    object.acceleration = new Point.Double(accVec.point.x, accVec.point.y);
                 }
             }
         }
@@ -209,6 +218,22 @@ public class CollisionChecker {
                     //object.velocity = new Point.Double(0, 0);
                 }
             }
+        }
+    }
+
+    public static void ObjectsCollisionImpulseLengthCalculator(Object obj1, Object obj2) {
+        Vector2D rv = new Vector2D(obj2.velocity).subtract(new Vector2D(obj1.velocity));
+        double e = Math.floor(obj1.restitution - obj2.restitution);
+//        double Impulse = -(1+e)*(Vector2D.scalarProductCoordinates(rv, plane.)
+
+    }
+
+    public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object obj1, Plane obj2) {
+        double velNormal = Vector2D.scalarProductCoordinates(new Vector2D(obj1.velocity), obj2.getNormal().normalize());
+        if (velNormal < 0) {
+            return (-(1.0 + Math.min(obj1.restitution, obj2.restitution)) * velNormal) / (1.0 / obj1.mass);
+        } else {
+            return 0;
         }
     }
 }

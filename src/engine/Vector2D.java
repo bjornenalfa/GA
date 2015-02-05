@@ -88,13 +88,14 @@ public class Vector2D {
         point.y += secondVector.getPoint().y;
     }
 
-    public void subtract(Vector2D secondVector) {
+    public Vector2D subtract(Vector2D secondVector) {
         readyPoint();
         point.x -= secondVector.getPoint().x;
         point.y -= secondVector.getPoint().y;
+        return this;
     }
 
-    public void multiply(double num) {
+    public Vector2D multiply(double num) {
         if (length != null) {
             length *= num;
         }
@@ -102,6 +103,7 @@ public class Vector2D {
             point.x *= num;
             point.y *= num;
         }
+        return this;
     }
 
     public void calculateLength() {

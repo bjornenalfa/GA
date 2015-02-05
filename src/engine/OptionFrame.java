@@ -155,7 +155,7 @@ public class OptionFrame extends JFrame {
                 }
                 newO.velocity = o.velocity;
                 newO.acceleration = o.acceleration;
-                newO.Mass = o.Mass;
+                newO.mass = o.mass;
                 newO.angularVelocity = o.angularVelocity;
                 newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
