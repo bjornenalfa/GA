@@ -12,9 +12,9 @@ public class Object {
     Point.Double position = new Point.Double(0, 0);
     Point.Double nextPosition;
     Vector2D massCenter; //relative to position
-    Point.Double velocity = new Point.Double(0, 0);
-    Point.Double nextVelocity;
-    Point.Double acceleration = new Point.Double(0, 0);
+    Vector2D velocity = new Vector2D(new Point.Double(0, 0));
+    Vector2D nextVelocity;
+    Vector2D acceleration = new Vector2D(new Point.Double(0, 0));
     double rotation;
     double angularVelocity;
     double angularAcceleration;
@@ -48,11 +48,11 @@ public class Object {
     }
 
     public void preUpdate(double dt, Vector2D g) {
-        nextPosition = move(position, velocity, new Point.Double(acceleration.x + g.point.x, acceleration.y + g.point.y), dt);
-        nextVelocity = new Point.Double(velocity.x + g.point.x * dt, velocity.y + g.point.y * dt);
+        nextPosition = move(position, velocity, new Vector2D(new Point.Double(acceleration.point.x + g.point.x, acceleration.point.y + g.point.y)), dt);
+        nextVelocity = new Vector2D(new Point.Double(velocity.point.x + g.point.x * dt, velocity.point.y + g.point.y * dt));
         nextRotation = rotation + angularVelocity * dt;
         nextAngularVelocity = angularVelocity + angularAcceleration * dt * dt / 2;
-        System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.x + ":" + nextVelocity.y + "}");
+        System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.point.x + ":" + nextVelocity.point.y + "}");
         System.out.println("av:"+angularVelocity+";r:"+rotation+";aa:"+angularAcceleration);
 
         for (Shape shape : shapes) {
@@ -70,11 +70,11 @@ public class Object {
 
     public Point.Double interpolate(double k, double dt) {
         //return new Point.Double(position.x + (nextPosition.x - position.x) * k, position.y + (nextPosition.y - position.y) * k);
-        return new Point.Double(position.x + velocity.x * dt + (acceleration.x * dt * dt) / 2, position.y + velocity.y * dt + (acceleration.y * dt * dt) / 2);
+        return new Point.Double(position.x + velocity.point.x * dt + (acceleration.point.x * dt * dt) / 2, position.y + velocity.point.y * dt + (acceleration.point.y * dt * dt) / 2);
     }
 
-    static public Point.Double move(Point.Double pos, Point.Double vel, Point.Double acc, double dt) {
-        return new Point.Double(pos.x + vel.x * dt + (acc.x * dt * dt) / 2, pos.y + vel.y * dt + (acc.y * dt * dt) / 2);
+    static public Point.Double move(Point.Double pos, Vector2D vel, Vector2D acc, double dt) {
+        return new Point.Double(pos.x + vel.point.x * dt + (acc.point.x * dt * dt) / 2, pos.y + vel.point.y * dt + (acc.point.y * dt * dt) / 2);
         //return new Point.Double(pos.x + vel.x * dt, pos.y + vel.y * dt);
     }
 

@@ -222,14 +222,14 @@ public class CollisionChecker {
     }
 
     public static void ObjectsCollisionImpulseLengthCalculator(Object obj1, Object obj2) {
-        Vector2D rv = new Vector2D(obj2.velocity).subtract(new Vector2D(obj1.velocity));
+        Vector2D rv = obj2.velocity.subtract(obj1.velocity);
         double e = Math.floor(obj1.restitution - obj2.restitution);
 //        double Impulse = -(1+e)*(Vector2D.scalarProductCoordinates(rv, plane.)
 
     }
 
     public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object obj1, Plane obj2) {
-        double velNormal = Vector2D.scalarProductCoordinates(new Vector2D(obj1.velocity), obj2.getNormal().normalize());
+        double velNormal = Vector2D.scalarProductCoordinates(obj1.velocity, obj2.getNormal().normalize());
         if (velNormal < 0) {
             return (-(1.0 + Math.min(obj1.restitution, obj2.restitution)) * velNormal) / (1.0 / obj1.mass);
         } else {
