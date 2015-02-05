@@ -132,7 +132,7 @@ public class Vector2D {
         return firstVector;
     }
 
-    public static Vector2D multiply(double num, Vector2D vector) {
+    public static Vector2D multiply(Vector2D vector, double num) {
         if (vector.length != null) {
             vector.length *= num;
         }
@@ -166,10 +166,24 @@ public class Vector2D {
     }
 
     public static Vector2D OrthogonalProjection(Vector2D vector, Vector2D base) {
-        return multiply((scalarProductCoordinates(vector, base) / (Math.pow(base.getLength(), 2))), new Vector2D(base));
+        return multiply(new Vector2D(base), scalarProductCoordinates(vector, base) / (Math.pow(base.getLength(), 2)));
     }
 
     public static Vector2D getNormalComponent(Vector2D vector, Vector2D base) {
         return subtract(new Vector2D(vector), OrthogonalProjection(vector, base));
+    }
+
+    public Vector2D getNormal() {
+        return new Vector2D(point.y, point.x);
+    }
+
+    public Vector2D normalize() {
+        if (point == null) {
+            length = 1.0;
+        } else {
+            calculateLength();
+            point = new Point.Double(point.x / length, point.y / length);
+        }
+        return this;
     }
 }

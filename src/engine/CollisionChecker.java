@@ -156,12 +156,15 @@ public class CollisionChecker {
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
+                    System.out.println("COLLISIONS");
                     
                     Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
-                    Vector2D momentAxis = new Vector2D(balancePoint, object.massCenter.getPoint());
-                    Vector2D normalComponent = Vector2D.getNormalComponent(g,momentAxis);
-                    object.angularAcceleration = normalComponent.getLength()*object.getMass()*object.getI();
-                    System.out.println("AA:"+(normalComponent.getLength()*object.getMass()*object.getI()));
+                    if (balancePoint != null) {
+                    Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
+                    Vector2D normalComponent = Vector2D.getNormalComponent(Vector2D.multiply(new Vector2D(g),object.getMass()),momentAxis);
+                    object.nextAngularVelocity = normalComponent.getLength()*object.getI()*object.velocity.distance(0, 0);
+                    System.out.println("AV:"+(normalComponent.getLength()*object.getI()));
+                    }
                     //System.out.println("NCL: "+ normalComponent.getLength());
                     
                     //System.out.println("it is happening");
@@ -177,7 +180,12 @@ public class CollisionChecker {
                         change /= 2;
                     }
                     object.preUpdate(dt * (k + change * 2), g);*/
-                    object.nextVelocity = new Point.Double(0, 0);
+                    Vector2D parVel = Vector2D.OrthogonalProjection(new Vector2D(object.velocity), plane.surface.vector);
+                    parVel.readyPoint();
+                    object.nextVelocity = new Point.Double(parVel.point.x, parVel.point.y);
+                    Vector2D accVec = Vector2D.multiply(plane.getNormal().normalize(),g.getLength()*Math.cos(plane.surface.vector.getAngle()));
+                    accVec.readyPoint();
+                    object.acceleration = new Point.Double(accVec.point.x,accVec.point.y);
                 }
             }
         }

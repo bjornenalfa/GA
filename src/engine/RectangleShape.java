@@ -62,6 +62,7 @@ public class RectangleShape extends Shape {
         vector.readyPoint();
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
+        calcLines();
     }
 
     @Override

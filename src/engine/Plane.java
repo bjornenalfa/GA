@@ -23,4 +23,8 @@ public class Plane {
     public void paint(Graphics g) {
         g.drawLine((int) surface.origin.x, (int) surface.origin.y, (int) surface.getEnd().x, (int) surface.getEnd().y);
     }
+
+    public Vector2D getNormal() {
+        return (surface.vector.getNormal());
+    }
 }
