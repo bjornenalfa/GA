@@ -176,11 +176,11 @@ public class Vector2D {
     }
 
     public Vector2D getCounterClockwiseNormal() {
-        return new Vector2D(new Point.Double(-point.y, point.x));
+        return new Vector2D(new Point.Double(point.y, -point.x));
     }
     
     public Vector2D getClockwiseNormal() {
-        return new Vector2D(new Point.Double(point.y, -point.x));
+        return new Vector2D(new Point.Double(-point.y, point.x));
     }
 
     public Vector2D normalize() {
