@@ -14,8 +14,8 @@ public class Plane {
     double mass = Double.POSITIVE_INFINITY;
     int ID;
     Vector2D normal;
-    double staticFriction = 0;
-    double dynamicFriction = 0;
+    double staticFriction = 0.7;
+    double dynamicFriction = 0.5;
 
     public Plane(Line line) {
         surface = line;
