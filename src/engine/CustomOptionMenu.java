@@ -36,6 +36,10 @@ public class CustomOptionMenu extends JMenuBar {
     MyOptionPanel optionPanel;
     MyJPanel panel;
 
+    JMenuItem setupOne = makeSetupOne();
+    JMenuItem setupTwo = makeSetupTwo();
+    JMenuItem setupThree = makeSetupThree();
+
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
         this.panel = panel.mainPanel;
@@ -51,13 +55,13 @@ public class CustomOptionMenu extends JMenuBar {
         remove.add(makeResetObjects());
 
         JMenu setup = new JMenu("Setup");
-        setup.add(makeSetupOne());
-        setup.add(makeSetupTwo());
-        setup.add(makeSetupThree());
+        setup.add(setupOne);
+        setup.add(setupTwo);
+        setup.add(setupThree);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
-        
+
         add(add);
         add(remove);
         add(setup);
@@ -313,7 +317,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         bg.add(hhs);
         menu.add(hhs);
-        
+
         JRadioButton hs = new JRadioButton("1/2 speed");
         hs.addActionListener(new ActionListener() {
             @Override
@@ -323,7 +327,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         bg.add(hs);
         menu.add(hs);
-        
+
         JRadioButton ns = new JRadioButton("1 speed");
         ns.addActionListener(new ActionListener() {
             @Override
@@ -334,7 +338,7 @@ public class CustomOptionMenu extends JMenuBar {
         ns.setSelected(true);
         bg.add(ns);
         menu.add(ns);
-        
+
         JRadioButton ds = new JRadioButton("2 speed");
         ds.addActionListener(new ActionListener() {
             @Override
@@ -344,7 +348,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         bg.add(ds);
         menu.add(ds);
-        
+
         JRadioButton dds = new JRadioButton("4 speed");
         dds.addActionListener(new ActionListener() {
             @Override
@@ -363,7 +367,7 @@ public class CustomOptionMenu extends JMenuBar {
         setupOne.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0,982));
+                panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.repaint();
@@ -377,7 +381,7 @@ public class CustomOptionMenu extends JMenuBar {
         setupTwo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0,10));
+                panel.world = new World(new Vector2D(0, 10));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 800, 600));
                 panel.repaint();
@@ -391,7 +395,7 @@ public class CustomOptionMenu extends JMenuBar {
         setupThree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0,982));
+                panel.world = new World(new Vector2D(0, 982));
                 panel.world.addPlane(new Plane(0, 0, 800, 600));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.repaint();
