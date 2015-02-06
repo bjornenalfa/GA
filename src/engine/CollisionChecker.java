@@ -234,7 +234,7 @@ public class CollisionChecker {
     public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object object, Plane plane) {
         //object.velocity.readyPoint();
         //plane.surface.vector.readyPoint();
-        double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.velocity, plane.getNormalizedNormal());
+        double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.nextVelocity, plane.getNormalizedNormal());
         //relativeVelocityAlongNormal /= 100; // DET ÄR I CM INTE I METER FFS!
         System.out.println("relVelNorm " + relativeVelocityAlongNormal);
         //if (relativeVelocityAlongNormal > 0) {
@@ -251,11 +251,12 @@ public class CollisionChecker {
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)); // HÖGER  UPP
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)); // VÄNSTER  NER
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)); // HÖGER NER*/
+        System.out.println("PENETRATION DEPTH: "+Math.max(Math.max(Math.max(Math.max(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)));
         return Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal));
     }
 
     public static void RectanglePlanePositionCorrection(Object object, Plane plane) {
-        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
+        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
         correction.multiply(1.0/object.mass);
         object.nextPosition.x -= correction.point.x;
         object.nextPosition.y -= correction.point.y;      
