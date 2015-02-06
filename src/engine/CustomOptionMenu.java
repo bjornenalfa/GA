@@ -370,6 +370,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }
         });
@@ -384,6 +385,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }
         });
@@ -398,6 +400,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.addPlane(new Plane(0, 0, 800, 600));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100)));
+                panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }
         });

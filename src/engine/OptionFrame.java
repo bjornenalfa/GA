@@ -91,23 +91,16 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(play);
-            
+
             play60 = new JButton("Play at 60FPS");
             play60.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    dt = 1.0/60.0;
-                    try {
-                        save.doClick();
-                        thread.start();
-                        System.out.println("started");
-                    } catch (Exception ex) {
-                    }
-                    paused = false;
+                    dt = 1.0 / 60.0;
+                    play.doClick();
                 }
             });
             add(play60);
-            
 
             pause = new JButton("Pause");
             pause.addActionListener(new ActionListener() {
@@ -131,7 +124,7 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(update);
-            
+
             save = new JButton("Save");
             save.addActionListener(new ActionListener() {
                 @Override
@@ -140,32 +133,34 @@ public class OptionFrame extends JFrame {
                     saved = true;
                 }
             });
-            
+
             add(save);
             reset = new JButton("Reset");
             reset.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (saved) {
-                        mainPanel.world = backupWorld;
-                        save.doClick();
-//                        dtLabel.setText("");
-//                        mainPanel.repaint();
+                        mainPanel.world = copyWorld(backupWorld);
                     }
                 }
             });
             add(reset);
-        }
+        };
 
         private void makeBackup() {
-            backupWorld = new World(mainPanel.world.gravity);
-            for (Object o : mainPanel.world.objects) {
+            backupWorld = copyWorld(mainPanel.world);
+        }
+        
+        private World copyWorld(World world){
+            World newWorld = new World(world.gravity);
+            for (Object o : world.objects) {
                 Object newO = new Object();
                 newO.position = new Point.Double(o.position.x, o.position.y);
                 for (Shape s : o.shapes) {
+                    s.vector.readyPoint();
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x + 50, s.vector.point.y + 50)), s.rotation, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x + rs.width / 2, s.vector.point.y + rs.height / 2)), s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x + 50, s.vector.point.y + 50)), s.rotation, s.mass, s.myC));
@@ -177,11 +172,12 @@ public class OptionFrame extends JFrame {
                 newO.angularVelocity = o.angularVelocity;
                 newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
-                backupWorld.objects.add(newO);
+                newWorld.objects.add(newO);
             }
-            for (Plane p : mainPanel.world.planes) {
-                backupWorld.planes.add(new Plane(p.surface));
+            for (Plane p : world.planes) {
+                newWorld.planes.add(new Plane(p.surface));
             }
+            return newWorld;
         }
 
         private void addKeyBindings() {
