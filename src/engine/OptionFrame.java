@@ -58,7 +58,7 @@ public class OptionFrame extends JFrame {
         double playbackSpeed = 1;
 
         public MyOptionPanel(MyJPanel mainPanel) {
-            setLayout(new GridLayout(2, 3, 5, 5));
+            setLayout(new GridLayout(3, 3, 5, 5));
             addKeyBindings();
             this.mainPanel = mainPanel;
             addButtons();
@@ -67,26 +67,13 @@ public class OptionFrame extends JFrame {
 
         JButton update;
         JButton play;
+        JButton play60;
         JButton pause;
         JButton reset;
         JButton save;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
 
         private void addButtons() {
-            update = new JButton("Update");
-            update.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (dt == 0) {
-                        dt = CustomOptionMenu.doubleInput("Enter dt.");
-                    }
-                    mainPanel.world.update(dt);
-                    updateLabels();
-                    mainPanel.repaint();
-                }
-            });
-            add(update);
-
             play = new JButton("Play");
             play.addActionListener(new ActionListener() {
                 @Override
@@ -104,6 +91,23 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(play);
+            
+            play60 = new JButton("Play at 60FPS");
+            play60.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dt = 1.0/60.0;
+                    try {
+                        save.doClick();
+                        thread.start();
+                        System.out.println("started");
+                    } catch (Exception ex) {
+                    }
+                    paused = false;
+                }
+            });
+            add(play60);
+            
 
             pause = new JButton("Pause");
             pause.addActionListener(new ActionListener() {
@@ -114,6 +118,30 @@ public class OptionFrame extends JFrame {
             });
             add(pause);
 
+            update = new JButton("Update");
+            update.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (dt == 0) {
+                        dt = CustomOptionMenu.doubleInput("Enter dt.");
+                    }
+                    mainPanel.world.update(dt);
+                    updateLabels();
+                    mainPanel.repaint();
+                }
+            });
+            add(update);
+            
+            save = new JButton("Save");
+            save.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    makeBackup();
+                    saved = true;
+                }
+            });
+            
+            add(save);
             reset = new JButton("Reset");
             reset.addActionListener(new ActionListener() {
                 @Override
@@ -127,16 +155,6 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(reset);
-
-            save = new JButton("Save");
-            save.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    makeBackup();
-                    saved = true;
-                }
-            });
-            add(save);
         }
 
         private void makeBackup() {
@@ -230,7 +248,8 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            dtLabel.setText(("<html><font color=white> " + "dt : " + dt + " </font></html>"));
+            String dtString = Double.toString(dt).substring(0, 11);
+            dtLabel.setText(("<html><font color=white> " + "dt : " + dtString + " </font></html>"));
         }
 
         @Override
