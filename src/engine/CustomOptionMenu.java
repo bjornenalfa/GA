@@ -381,7 +381,7 @@ public class CustomOptionMenu extends JMenuBar {
         setupTwo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
+                panel.world = new World(new Vector2D(0, 9.82));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000));
                 panel.repaint();
