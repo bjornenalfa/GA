@@ -21,6 +21,8 @@ public class Object {
     double nextRotation;
     double nextAngularVelocity;
     double restitution=0.5;
+    double staticFriction=0;
+    double dynamicFriction=0;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;

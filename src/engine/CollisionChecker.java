@@ -116,11 +116,10 @@ public class CollisionChecker {
     }
 
     private static boolean planeAndCircleIntersect(CircleShape shape, Plane plane) {
-        System.out.println("NOT IMPLEMENTED - CircleShape collision!");
-        return false;
+        return DistanceBetweenPointAndPlane(new Point.Double(shape.x, shape.y), plane) < shape.radius;
     }
 
-    public static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
+    private static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
         boolean collision = false;
         if (shape instanceof RectangleShape) {
             collision = planeAndRectangleIntersect((RectangleShape) shape, plane);
@@ -141,7 +140,7 @@ public class CollisionChecker {
     }
 
     private static boolean planeAndCircleTouch(CircleShape circleShape, Plane plane) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return planeAndCircleIntersect(circleShape, plane);
     }
 
     public static boolean planeAndShapeTouch(Shape shape, Plane plane) {
@@ -165,39 +164,47 @@ public class CollisionChecker {
                     Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
                     object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
                     System.out.println("Impulse big thingy stuff " + ImpLength);
-                    RectanglePlanePositionCorrection(object, plane);
-//                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
-//                    if (balancePoint != null) {
-//                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
-//                        Vector2D normalComponent = Vector2D.getNormalComponent(Vector2D.multiply(new Vector2D(g), object.getMass()), momentAxis);
-//                        object.nextAngularVelocity = normalComponent.getLength() * object.getI() * object.velocity.distance(0, 0);
-//                        System.out.println("AV:" + (normalComponent.getLength() * object.getI()));
-//                        
-//                    }
-//                    
-//                    
-//                    
-//                    //System.out.println("NCL: "+ normalComponent.getLength());
-//
-//                    //System.out.println("it is happening");
-//                    /*double k = 0.5;
-//                     double change = 0.25;
-//                     for (int i = 0; i < 8; i++) {
-//                     object.preUpdate(dt * k, g);
-//                     if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
-//                     k -= change;
-//                     } else {
-//                     k += change;
-//                     }
-//                     change /= 2;
-//                     }
-//                     object.preUpdate(dt * (k + change * 2), g);*/
-//                    Vector2D parVel = Vector2D.OrthogonalProjection(new Vector2D(object.velocity), plane.surface.vector);
-//                    parVel.readyPoint();
-//                    object.nextVelocity = new Point.Double(parVel.point.x, parVel.point.y);
-//                    Vector2D accVec = Vector2D.multiply(plane.getNormal().normalize(), g.getLength() * Math.cos(plane.surface.vector.getAngle()));
-//                    accVec.readyPoint();
-//                    object.acceleration = new Point.Double(accVec.point.x, accVec.point.y);
+
+                    if (object.shapes.get(0) instanceof RectangleShape) {
+                        RectanglePlanePositionCorrection(object, plane);
+                    } else if (object.shapes.get(0) instanceof CircleShape) {
+                        CirclePlanePositionCorrection(object, plane);
+                    }
+                    //                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+                    //                    if (balancePoint != null) {
+                    //                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
+                    //                        Vector2D normalComponent = Vector2D.getNormalComponent(Vector2D.multiply(new Vector2D(g), object.getMass()), momentAxis);
+                    //                        object.nextAngularVelocity = normalComponent.getLength() * object.getI() * object.velocity.distance(0, 0);
+                    //                        System.out.println("AV:" + (normalComponent.getLength() * object.getI()));
+                    //                        
+                    //                    }
+                    //                    
+                    //                    
+                    //                    
+                    //                    //System.out.println("NCL: "+ normalComponent.getLength());
+                    //
+                    //                    //System.out.println("it is happening");
+                    //                    /*double k = 0.5;
+                    //                     double change = 0.25;
+                    //                     for (int i = 0; i < 8; i++) {
+                    //                     object.preUpdate(dt * k, g);
+                    //                     if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
+                    //                     k -= change;
+                    //                     } else {
+                    //                     k += change;
+                    //                     }
+                    //                     change /= 2;
+                    //                     }
+                    //                     object.preUpdate(dt * (k + change * 2), g);*/
+                    //                    Vector2D parVel = Vector2D.OrthogonalProjection(new Vector2D(object.velocity), plane.surface.vector);
+                    //                    parVel.readyPoint();
+                    //                    object.nextVelocity = new Point.Double(parVel.point.x, parVel.point.y);
+                    //                    Vector2D accVec = Vector2D.multiply(plane.getNormal().normalize(), g.getLength() * Math.cos(plane.surface.vector.getAngle()));
+                    //                    accVec.readyPoint();
+                    //                    object.acceleration = new Point.Double(accVec.point.x, accVec.point.y);
+                    {
+
+                    }
                 }
             }
         }
@@ -213,7 +220,7 @@ public class CollisionChecker {
                      if (planeAndShapeTouch(object.shapes.get(0), plane)) {
                      k -= change;
                      } else {
-                     k += change;
+                     k += change; 
                      }
                      change /= 2;
                      }
@@ -225,7 +232,7 @@ public class CollisionChecker {
     }
 
     public static void ObjectsCollisionImpulseLengthCalculator(Object obj1, Object obj2) {
-        Vector2D rv = obj2.velocity.subtract(obj1.velocity);
+//        Vector2D relativeVelocityAlongNormal = new Vector2D(obj2.velocity).subtract(obj1.velocity).multiply(obj2.normal);
         double e = Math.floor(obj1.restitution - obj2.restitution);
 //        double Impulse = -(1+e)*(Vector2D.scalarProductCoordinates(rv, plane.)
 
@@ -255,12 +262,29 @@ public class CollisionChecker {
         return Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal));
     }
 
+    public static double CirclePlanePenetrationDepth(Object object, Plane plane) {
+        CircleShape circle = (CircleShape) object.shapes.get(0);
+        
+        return circle.radius-DistanceBetweenPointAndPlane(new Point.Double(circle.x, circle.y), plane);
+    }
+
+    public static void CirclePlanePositionCorrection(Object object, Plane plane) {
+        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-CirclePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
+        correction.multiply(1.0 / object.mass);
+        object.nextPosition.x -= correction.point.x;
+        object.nextPosition.y -= correction.point.y;
+    }
+
     public static void RectanglePlanePositionCorrection(Object object, Plane plane) {
         Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
         correction.multiply(1.0/object.mass);
         object.nextPosition.x -= correction.point.x;
-        object.nextPosition.y -= correction.point.y;      
-        
+        object.nextPosition.y -= correction.point.y;
+
+    }
+
+    public static double DistanceBetweenPointAndPlane(Point.Double point, Plane plane) {
+        return Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, point), plane.normal);
     }
 
 }
