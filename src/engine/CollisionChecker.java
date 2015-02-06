@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class CollisionChecker {
 
+    public static final double CorrectionPercentage = 0.2, Slop = 0.01;
+
     public static boolean intersect(double px, double py, double qx, double qy, double ex, double ey, double fx, double fy) { // CALCULATE INTERSECTIONS
 	/*double cp = (fx-ex)*(py-fy)-(fy-ey)*(px-fx);
          double cq = (fx-ex)*(qy-fy)-(fy-ey)*(qx-fx);
@@ -160,9 +162,10 @@ public class CollisionChecker {
                     System.out.println("COLLISIONS");
 
                     double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
-                    Vector2D impulse = new Vector2D(plane.getNormalizedNormal().multiply(ImpLength));
+                    Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
                     object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
                     System.out.println("Impulse big thingy stuff " + ImpLength);
+                    RectanglePlanePositionCorrection(object, plane);
 //                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
 //                    if (balancePoint != null) {
 //                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
@@ -244,10 +247,19 @@ public class CollisionChecker {
     public static double RectanglePlanePenetrationDepth(Object object, Plane plane) {
         RectangleShape rectangle = (RectangleShape) object.shapes.get(0);
         /*double PenetrationDepth = 0.0;
-        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)); // VÄNSTER  UPP
-        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)); // HÖGER  UPP
-        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)); // VÄNSTER  NER
-        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)); // HÖGER NER*/
+         PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)); // VÄNSTER  UPP
+         PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)); // HÖGER  UPP
+         PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)); // VÄNSTER  NER
+         PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)); // HÖGER NER*/
         return Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal));
     }
+
+    public static void RectanglePlanePositionCorrection(Object object, Plane plane) {
+        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
+        correction.multiply(1.0/object.mass);
+        object.nextPosition.x -= correction.point.x;
+        object.nextPosition.y -= correction.point.y;      
+        
+    }
+
 }
