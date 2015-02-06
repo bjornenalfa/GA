@@ -10,7 +10,7 @@ public class Plane {
 
     Line surface;
     double friction;
-    double restitution;
+    double restitution=0.5;
     double mass=Double.POSITIVE_INFINITY;
     int ID;
 

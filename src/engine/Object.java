@@ -20,9 +20,9 @@ public class Object {
     double angularAcceleration;
     double nextRotation;
     double nextAngularVelocity;
-    double restitution;
+    double restitution=0.5;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
-    Double mass;
+    Double mass = 0.5;
     int ID;
     ArrayList<Object> collisions = new ArrayList();
     ArrayList<Plane> touching = new ArrayList();

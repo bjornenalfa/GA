@@ -83,7 +83,7 @@ public class Main extends JFrame {
 
         public MyJPanel() {
             addKeyBindings();
-            world = new World(new Vector2D(0, 10));
+            world = new World(new Vector2D(0, 982));
 
             optionFrame = new OptionFrame(this);
             MouseAdapter ma = getMouseAdapter();

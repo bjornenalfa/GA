@@ -159,10 +159,10 @@ public class CollisionChecker {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
                     System.out.println("COLLISIONS");
                     
-                    double imp = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
-                    Vector2D vec = new Vector2D(plane.getNormalizedNormal().multiply(imp));
-                    object.velocity -= 1/object.getMass()*vec;
-
+                    double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
+                    Vector2D impulse = new Vector2D(plane.getNormalizedNormal().multiply(ImpLength));
+                    object.nextVelocity = object.velocity.subtract(impulse.multiply(1/object.getMass()));
+                    System.out.println("Impulse big thingy stuff "+ImpLength);
 //                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
 //                    if (balancePoint != null) {
 //                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
@@ -228,12 +228,16 @@ public class CollisionChecker {
 
     }
 
-    public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object obj1, Plane obj2) {
-        double velNormal = Vector2D.scalarProductCoordinates(obj1.velocity, obj2.getNormal().normalize());
-        if (velNormal < 0) {
-            return (-(1.0 + Math.min(obj1.restitution, obj2.restitution)) * velNormal) / (1.0 / obj1.mass);
-        } else {
-            return 0;
-        }
+    public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object object, Plane plane) {
+        //object.velocity.readyPoint();
+        //plane.surface.vector.readyPoint();
+        double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.velocity, plane.getNormalizedNormal());
+        //relativeVelocityAlongNormal /= 100; // DET ÄR I CM INTE I METER FFS!
+        System.out.println("relVelNorm "+relativeVelocityAlongNormal);
+        //if (relativeVelocityAlongNormal > 0) {
+        //    return 0;
+        //} else {
+            return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
+        //}
     }
 }
