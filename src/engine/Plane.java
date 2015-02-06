@@ -17,12 +17,12 @@ public class Plane {
 
     public Plane(Line line) {
         surface = line;
-        normal = surface.vector.getNormal().normalize();
+        normal = surface.vector.getCounterClockwiseNormal().normalize();
     }
 
     public Plane(double x1, double y1, double x2, double y2) {
         surface = new Line(x1, y1, x2, y2);
-        normal = surface.vector.getNormal().normalize();
+        normal = surface.vector.getCounterClockwiseNormal().normalize();
     }
 
     public void paint(Graphics g) {
@@ -30,7 +30,7 @@ public class Plane {
     }
 
     public Vector2D getNormal() {
-        return (surface.vector.getNormal());
+        return (surface.vector.getCounterClockwiseNormal());
     }
 
     public Vector2D getNormalizedNormal() {
