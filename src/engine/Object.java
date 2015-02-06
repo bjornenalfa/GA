@@ -12,9 +12,9 @@ public class Object {
     Point.Double position = new Point.Double(0, 0);
     Point.Double nextPosition;
     Vector2D massCenter; //relative to position
-    Vector2D velocity = new Vector2D(new Point.Double(0, 0));
+    Vector2D velocity = new Vector2D(0, 0);
     Vector2D nextVelocity;
-    Vector2D acceleration = new Vector2D(new Point.Double(0, 0));
+    Vector2D acceleration = new Vector2D(0, 0);
     double rotation;
     double angularVelocity;
     double angularAcceleration;
