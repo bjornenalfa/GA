@@ -102,13 +102,13 @@ public class CollisionChecker {
         }
         switch ((line1 * 10 + line2)) {
             case 1:
-                point = rectangle.lines[0].origin;
+                point = rectangle.lines[0].origin; // VÄNSTER  UPP
             case 3:
-                point = rectangle.lines[0].end;
+                point = rectangle.lines[0].end; // HÖGER UPP
             case 12:
-                point = rectangle.lines[1].end;
+                point = rectangle.lines[1].end; // VÄNSTER NER
             case 23:
-                point = rectangle.lines[2].end;
+                point = rectangle.lines[2].end; // HÖGER NER
         }
         return point;
     }
@@ -158,11 +158,11 @@ public class CollisionChecker {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
                     System.out.println("COLLISIONS");
-                    
+
                     double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
                     Vector2D impulse = new Vector2D(plane.getNormalizedNormal().multiply(ImpLength));
-                    object.nextVelocity = object.velocity.subtract(impulse.multiply(1/object.getMass()));
-                    System.out.println("Impulse big thingy stuff "+ImpLength);
+                    object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
+                    System.out.println("Impulse big thingy stuff " + ImpLength);
 //                    Point.Double balancePoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
 //                    if (balancePoint != null) {
 //                        Vector2D momentAxis = new Vector2D(object.massCenter.getPoint(), balancePoint);
@@ -233,11 +233,21 @@ public class CollisionChecker {
         //plane.surface.vector.readyPoint();
         double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.velocity, plane.getNormalizedNormal());
         //relativeVelocityAlongNormal /= 100; // DET ÄR I CM INTE I METER FFS!
-        System.out.println("relVelNorm "+relativeVelocityAlongNormal);
+        System.out.println("relVelNorm " + relativeVelocityAlongNormal);
         //if (relativeVelocityAlongNormal > 0) {
         //    return 0;
         //} else {
-            return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
+        return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
         //}
+    }
+
+    public static double RectanglePlanePenetrationDepth(Object object, Plane plane) {
+        RectangleShape rectangle = (RectangleShape) object.shapes.get(0);
+        /*double PenetrationDepth = 0.0;
+        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)); // VÄNSTER  UPP
+        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)); // HÖGER  UPP
+        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)); // VÄNSTER  NER
+        PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)); // HÖGER NER*/
+        return Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal));
     }
 }
