@@ -41,6 +41,7 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupThree = makeSetupThree();
     JMenuItem setupFour = makeSetupFour();
     JMenuItem setupFive = makeSetupFive();
+    JMenuItem setupSix = makeSetupSix();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -62,6 +63,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupThree);
         setup.add(setupFour);
         setup.add(setupFive);
+        setup.add(setupSix);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
