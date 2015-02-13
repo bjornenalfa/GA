@@ -264,14 +264,18 @@ public class CollisionChecker {
         
         double mu = Friction.getStatic(object.material,plane.material);
         
+        System.out.println("JT:"+jt);
+        
         Vector2D frictionImpulse;
-        if (Math.abs(jt) < collisionMagnitude*mu) {
-            frictionImpulse = tangent.multiply(jt);
+        if (Math.abs(jt*object.mass) < Math.abs(collisionMagnitude*mu)) {
+            System.out.println("FIRST");
+            frictionImpulse = tangent.multiply(jt*Friction.getDynamic(object.material,plane.material));
         } else {
-            frictionImpulse = tangent.multiply(Friction.getDynamic(object.material,plane.material)*-collisionMagnitude);
+            System.out.println("SECOND");
+            frictionImpulse = tangent.multiply(Friction.getDynamic(object.material,plane.material)*collisionMagnitude);
         }
         System.out.println("FRICTION IMPULSE "+frictionImpulse.show());
-        object.nextVelocity.subtract(frictionImpulse);
+        object.nextVelocity.add(frictionImpulse);
     }
 
     public static double RectanglePlanePenetrationDepth(Object object, Plane plane) {
