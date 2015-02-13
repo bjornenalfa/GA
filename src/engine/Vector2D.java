@@ -107,16 +107,6 @@ public class Vector2D {
         return this;
     }
 
-    public Vector2D print() {
-        System.out.println("x:" + point.x + " y:" + point.y);
-        return this;
-    }
-
-    public String show() {
-        return "x:" + point.x + " y:" + point.y;
-
-    }
-
     public void calculateLength() {
         length = calculateLength(point);
     }
@@ -189,7 +179,7 @@ public class Vector2D {
     public Vector2D getCounterClockwiseNormal() {
         return new Vector2D(new Point.Double(point.y, -point.x));
     }
-
+    
     public Vector2D getClockwiseNormal() {
         return new Vector2D(new Point.Double(-point.y, point.x));
     }
@@ -199,9 +189,6 @@ public class Vector2D {
             length = 1.0;
         } else {
             calculateLength();
-            if (length == 0) {
-                return this;
-            }
             point = new Point.Double(point.x / length, point.y / length);
         }
         return this;
