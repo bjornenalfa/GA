@@ -178,6 +178,18 @@ public class Vector2D {
         return (vector1.point.x * vector2.point.x + vector1.point.y * vector2.point.y);
     }
 
+    public static double crossProduct(Vector2D vector1, Vector2D vector2) {
+        return vector1.point.x * vector2.point.y - vector1.point.y * vector2.point.x;
+    }
+
+    public static Vector2D crossProduct(Vector2D vector1, double k) {
+        return new Vector2D(k * vector1.point.y, -k * vector1.point.x);
+    }
+    
+    public static Vector2D crossProduct( double k, Vector2D vector1) {
+        return new Vector2D(-k * vector1.point.y, k * vector1.point.x);
+    }
+
     public static Vector2D OrthogonalProjection(Vector2D vector, Vector2D base) {
         return multiply(new Vector2D(base), scalarProductCoordinates(vector, base) / (Math.pow(base.getLength(), 2)));
     }
