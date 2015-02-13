@@ -82,10 +82,11 @@ public class Vector2D {
         }
     }
 
-    public void add(Vector2D secondVector) {
+    public Vector2D add(Vector2D secondVector) {
         readyPoint();
         point.x += secondVector.getPoint().x;
         point.y += secondVector.getPoint().y;
+        return this;
     }
 
     public Vector2D subtract(Vector2D secondVector) {

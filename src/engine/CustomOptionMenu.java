@@ -39,6 +39,8 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupOne = makeSetupOne();
     JMenuItem setupTwo = makeSetupTwo();
     JMenuItem setupThree = makeSetupThree();
+    JMenuItem setupFour = makeSetupFour();
+    JMenuItem setupFive = makeSetupFive();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -58,6 +60,8 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupOne);
         setup.add(setupTwo);
         setup.add(setupThree);
+        setup.add(setupFour);
+        setup.add(setupFive);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -157,7 +161,12 @@ public class CustomOptionMenu extends JMenuBar {
     }
 
     public void chooseShape(Point.Double p) {
-        int chooseShape = JOptionPane.showConfirmDialog(null, shapeRadioPanel(), "Choose shape.", JOptionPane.OK_CANCEL_OPTION);
+        JRadioButton rectangle = new JRadioButton();
+        JRadioButton circle = new JRadioButton();
+        JPanel radiopanel = shapeRadioPanel(rectangle, circle);
+        rectangle.setSelected(true);
+        circle.setSelected(false);
+        int chooseShape = JOptionPane.showConfirmDialog(null, radiopanel, "Choose shape.", JOptionPane.OK_CANCEL_OPTION);
         if (chooseShape == JOptionPane.CANCEL_OPTION || chooseShape == JOptionPane.CLOSED_OPTION) {
             return;
         } else if (chooseShape == JOptionPane.OK_OPTION) {
@@ -267,12 +276,12 @@ public class CustomOptionMenu extends JMenuBar {
         return 0.0;
     }
 
-    private JPanel shapeRadioPanel() {
+    private JPanel shapeRadioPanel(JRadioButton rectangle, JRadioButton circle) {
         final JPanel radioPanel = new JPanel(new GridLayout(2, 1));
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        JRadioButton rectangle = rectangleChoice();
-        JRadioButton circle = circleChoice();
+        rectangle = rectangleChoice();
+        circle = circleChoice();
 
         buttonGroup.add(rectangle);
         radioPanel.add(rectangle);
@@ -407,4 +416,34 @@ public class CustomOptionMenu extends JMenuBar {
         return setupThree;
     }
 
+    private JMenuItem makeSetupFour() {
+        JMenuItem setupFour = new JMenuItem("Setup Four");
+        setupFour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.objects.add(new Object(new CircleShape(100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.optionFrame.panel.save.doClick();
+                panel.repaint();
+            }
+        });
+        return setupFour;
+    }
+    
+    private JMenuItem makeSetupFive() {
+        JMenuItem setupFive = new JMenuItem("Setup Five");
+        setupFive.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300)));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
+                panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.optionFrame.panel.save.doClick();
+                panel.repaint();
+            }
+        });
+        return setupFive;
+    }
 }
