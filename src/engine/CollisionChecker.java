@@ -260,6 +260,8 @@ public class CollisionChecker {
         tangent.normalize();
         double jt = - Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
         
+        System.out.println("TANGENT "+tangent.show());
+        
         double mu = Friction.getStatic(object.material,plane.material);
         
         Vector2D frictionImpulse;
@@ -268,7 +270,7 @@ public class CollisionChecker {
         } else {
             frictionImpulse = tangent.multiply(Friction.getDynamic(object.material,plane.material)*-collisionMagnitude);
         }
-
+        System.out.println("FRICTION IMPULSE "+frictionImpulse.show());
         object.nextVelocity.subtract(frictionImpulse);
     }
 
