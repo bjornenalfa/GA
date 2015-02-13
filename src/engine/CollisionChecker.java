@@ -266,7 +266,7 @@ public class CollisionChecker {
         if (Math.abs(jt) < collisionMagnitude*mu) {
             frictionImpulse = tangent.multiply(jt);
         } else {
-            frictionImpulse = tangent.multiply(getDynamic(object.material,plane.material)*-collisionMagnitude);
+            frictionImpulse = tangent.multiply(Friction.getDynamic(object.material,plane.material)*-collisionMagnitude);
         }
 
         object.nextVelocity.subtract(frictionImpulse);

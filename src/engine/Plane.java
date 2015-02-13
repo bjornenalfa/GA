@@ -9,13 +9,11 @@ import java.awt.Graphics;
 public class Plane {
 
     Line surface;
-    double friction;
     double restitution = 0.5;
     double mass = Double.POSITIVE_INFINITY;
     int ID;
     Vector2D normal;
-    double staticFriction = 0.7;
-    double dynamicFriction = 0.5;
+    int material = Material.Wood;
 
     public Plane(Line line) {
         surface = line;
