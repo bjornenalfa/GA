@@ -160,10 +160,14 @@ public class CollisionChecker {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
                     System.out.println("COLLISIONS");
 
+                    //NORMALS
                     double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
                     Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
                     object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
                     System.out.println("Impulse big thingy stuff " + ImpLength);
+                    
+                    //FRICTION
+                    ObjectAndPlaneCollisionFrictionCalculator(object,plane,ImpLength);
 
                     if (object.shapes.get(0) instanceof RectangleShape) {
                         RectanglePlanePositionCorrection(object, plane);
@@ -249,6 +253,23 @@ public class CollisionChecker {
         //} else {
         return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
         //}
+    }
+    
+    public static void ObjectAndPlaneCollisionFrictionCalculator(Object object, Plane plane, double collisionMagnitude) {
+        Vector2D tangent = new Vector2D(object.nextVelocity).subtract(new Vector2D(plane.normal).multiply(Vector2D.scalarProductCoordinates(object.nextVelocity, plane.normal)));
+        tangent.normalize();
+        double jt = - Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
+        
+        double mu = Friction.getStatic(object.material,plane.material);
+        
+        Vector2D frictionImpulse;
+        if (Math.abs(jt) < collisionMagnitude*mu) {
+            frictionImpulse = tangent.multiply(jt);
+        } else {
+            frictionImpulse = tangent.multiply(getDynamic(object.material,plane.material)*-collisionMagnitude);
+        }
+
+        object.nextVelocity.subtract(frictionImpulse);
     }
 
     public static double RectanglePlanePenetrationDepth(Object object, Plane plane) {
