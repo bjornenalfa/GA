@@ -456,7 +456,7 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100)));
-                panel.world.objects.get(0).nextVelocity = new Vector2D(1,0);
+                panel.world.objects.get(0).velocity = new Vector2D(1,0);
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
