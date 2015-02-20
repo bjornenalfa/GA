@@ -64,10 +64,7 @@ public class Main extends JFrame {
     }
 
     private void resizeWorld(World w, double res) {
-        scale -= (res / 10);
-        if (scale < 0.1) {
-            scale = 0.1;
-        }
+        scale -= res*(scale*0.1);
         repaint();
     }
 
