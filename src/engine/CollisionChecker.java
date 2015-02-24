@@ -87,6 +87,23 @@ public class CollisionChecker {
         return false;
     }
 
+    private static boolean rectangleAndRectangleIntersect(RectangleShape rec1, RectangleShape rec2) {
+        rec1.calcLines();
+        rec2.calcLines();
+        for (Line line1 : rec1.lines) {
+            for (Line line2 : rec2.lines) {
+                if (intersect(line1, line2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean circleAndCirleIntersect(CircleShape cir1, CircleShape cir2){
+        return (cir2.x-cir1.x)*(cir2.x-cir1.x)+(cir2.y-cir1.y)*(cir2.y-cir1.y) < (cir1.radius+cir2.radius)*(cir1.radius+cir2.radius);
+    }
+    
     private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rectangle, Plane plane) {
         rectangle.calcLines();
         Point.Double point = null;
@@ -165,9 +182,9 @@ public class CollisionChecker {
                     Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
                     object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
                     System.out.println("Impulse big thingy stuff " + ImpLength);
-                    
+
                     //FRICTION
-                    ObjectAndPlaneCollisionFrictionCalculator(object,plane,ImpLength);
+                    ObjectAndPlaneCollisionFrictionCalculator(object, plane, ImpLength);
 
                     if (object.shapes.get(0) instanceof RectangleShape) {
                         RectanglePlanePositionCorrection(object, plane);
@@ -254,27 +271,27 @@ public class CollisionChecker {
         return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
         //}
     }
-    
+
     public static void ObjectAndPlaneCollisionFrictionCalculator(Object object, Plane plane, double collisionMagnitude) {
         Vector2D tangent = new Vector2D(object.nextVelocity).subtract(new Vector2D(plane.normal).multiply(Vector2D.scalarProductCoordinates(object.nextVelocity, plane.normal)));
         tangent.normalize();
-        double jt = - Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
-        
-        System.out.println("TANGENT "+tangent.show());
-        
-        double mu = Friction.getStatic(object.material,plane.material);
-        
-        System.out.println("JT:"+jt);
-        
+        double jt = -Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
+
+        System.out.println("TANGENT " + tangent.show());
+
+        double mu = Friction.getStatic(object.material, plane.material);
+
+        System.out.println("JT:" + jt);
+
         Vector2D frictionImpulse;
-        if (Math.abs(jt*object.mass) < Math.abs(collisionMagnitude*mu)) {
+        if (Math.abs(jt * object.mass) < Math.abs(collisionMagnitude * mu)) {
             System.out.println("FIRST");
-            frictionImpulse = tangent.multiply(jt*Friction.getDynamic(object.material,plane.material));
+            frictionImpulse = tangent.multiply(jt * Friction.getDynamic(object.material, plane.material));
         } else {
             System.out.println("SECOND");
-            frictionImpulse = tangent.multiply(Friction.getDynamic(object.material,plane.material)*collisionMagnitude);
+            frictionImpulse = tangent.multiply(Friction.getDynamic(object.material, plane.material) * collisionMagnitude);
         }
-        System.out.println("FRICTION IMPULSE "+frictionImpulse.show());
+        System.out.println("FRICTION IMPULSE " + frictionImpulse.show());
         object.nextVelocity.add(frictionImpulse);
     }
 
@@ -285,14 +302,14 @@ public class CollisionChecker {
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)); // HÖGER  UPP
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)); // VÄNSTER  NER
          PenetrationDepth = Math.min(PenetrationDepth, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)); // HÖGER NER*/
-        System.out.println("PENETRATION DEPTH: "+Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)));
+        System.out.println("PENETRATION DEPTH: " + Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal)));
         return Math.min(Math.min(Math.min(Math.min(0.0, Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[2].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[1].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].end), plane.normal)), Vector2D.scalarProductCoordinates(new Vector2D(plane.surface.origin, rectangle.lines[0].origin), plane.normal));
     }
 
     public static double CirclePlanePenetrationDepth(Object object, Plane plane) {
         CircleShape circle = (CircleShape) object.shapes.get(0);
-        
-        return circle.radius-DistanceBetweenPointAndPlane(new Point.Double(circle.x, circle.y), plane);
+
+        return circle.radius - DistanceBetweenPointAndPlane(new Point.Double(circle.x, circle.y), plane);
     }
 
     public static void CirclePlanePositionCorrection(Object object, Plane plane) {
@@ -304,7 +321,7 @@ public class CollisionChecker {
 
     public static void RectanglePlanePositionCorrection(Object object, Plane plane) {
         Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
-        correction.multiply(1.0/object.mass);
+        correction.multiply(1.0 / object.mass);
         object.nextPosition.x += correction.point.x;
         object.nextPosition.y += correction.point.y;
 

@@ -42,7 +42,8 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupFour = makeSetupFour();
     JMenuItem setupFive = makeSetupFive();
     JMenuItem setupSix = makeSetupSix();
-
+    JMenuItem setupSeven = makeSetupSeven();
+    
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
         this.panel = panel.mainPanel;
@@ -64,6 +65,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupFour);
         setup.add(setupFive);
         setup.add(setupSix);
+        setup.add(setupSeven);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -374,8 +376,8 @@ public class CustomOptionMenu extends JMenuBar {
     }
 
     private JMenuItem makeSetupOne() {
-        JMenuItem setupOne = new JMenuItem("Setup One");
-        setupOne.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup One");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -385,12 +387,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupOne;
+        return setup;
     }
 
     private JMenuItem makeSetupTwo() {
-        JMenuItem setupTwo = new JMenuItem("Setup Two");
-        setupTwo.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup Two");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -400,12 +402,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupTwo;
+        return setup;
     }
 
     private JMenuItem makeSetupThree() {
-        JMenuItem setupThree = new JMenuItem("Setup Three");
-        setupThree.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup Three");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -415,12 +417,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupThree;
+        return setup;
     }
 
     private JMenuItem makeSetupFour() {
-        JMenuItem setupFour = new JMenuItem("Setup Four");
-        setupFour.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup Four");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -430,12 +432,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupFour;
+        return setup;
     }
     
     private JMenuItem makeSetupFive() {
-        JMenuItem setupFive = new JMenuItem("Setup Five");
-        setupFive.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup Five");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -446,12 +448,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupFive;
+        return setup;
     }
     
     private JMenuItem makeSetupSix() {
-        JMenuItem setupSix = new JMenuItem("Setup Six");
-        setupSix.addActionListener(new ActionListener() {
+        JMenuItem setup = new JMenuItem("Setup Six");
+        setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
@@ -462,6 +464,22 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.repaint();
             }
         });
-        return setupSix;
+        return setup;
+    }
+    
+    private JMenuItem makeSetupSeven() {
+        JMenuItem setup = new JMenuItem("Setup Seven");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.world.addPlane(new Plane(0, 500, 8000, 500));
+                panel.optionFrame.panel.save.doClick();
+                panel.repaint();
+            }
+        });
+        return setup;
     }
 }
