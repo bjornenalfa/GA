@@ -269,6 +269,7 @@ public class OptionFrame extends JFrame {
             public void run() {
                 while (true) {
                     while (!paused) {
+                        Main.playing = true;
                         mainPanel.world.update(dt);
                         updateLabels();
                         mainPanel.repaint();
@@ -277,6 +278,7 @@ public class OptionFrame extends JFrame {
                         } catch (InterruptedException ex) {
                         }
                     }
+                    Main.playing = false;
                     try {
                         sleep(100); //MUST HAVE OR NO LOOP D:
                     } catch (InterruptedException ex) {

@@ -269,11 +269,11 @@ public class CollisionChecker {
         double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.nextVelocity, plane.getNormalizedNormal());
         //relativeVelocityAlongNormal /= 100; // DET ÄR I CM INTE I METER FFS!
         System.out.println("relVelNorm " + relativeVelocityAlongNormal);
-        //if (relativeVelocityAlongNormal > 0) {
-        //    return 0;
-        //} else {
-        return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
-        //}
+        if (relativeVelocityAlongNormal > 0) {
+            return 0;
+        } else {
+            return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / (1.0 / object.mass);
+        }
     }
 
     public static void ObjectAndPlaneCollisionFrictionCalculator(Object object, Plane plane, double collisionMagnitude) {

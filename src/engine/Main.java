@@ -26,6 +26,7 @@ public class Main extends JFrame {
     MyJPanel panel;
     boolean keyDownControl = false;
     static double scale = 1, translateX, translateY;
+    static boolean playing = false;
 
     public Main() {
         setTitle("TITLE");
@@ -49,7 +50,7 @@ public class Main extends JFrame {
 //        setShape(shape);
     }
 
-    private void moveWorld(World w, double x, double y) {
+    /*private void moveWorld(World w, double x, double y) {
         for (Object o : w.objects) {
             o.position.x -= x;
             o.position.y -= y;
@@ -60,10 +61,10 @@ public class Main extends JFrame {
             o.surface.origin.y -= y;
             o.surface.end.y -= y;
         }
-        repaint();
-    }
+        if (!playing) repaint();
+    }*/
 
-    private void resizeWorld(World w, double res) {
+    private void changeScale(World w, double res) {
         double x = -res*((panel.getWidth()/2)/scale - translateX);
         double y = -res*((panel.getHeight()/2)/scale - translateY);
         scale -= res * (scale * 0.1);
@@ -71,21 +72,23 @@ public class Main extends JFrame {
         translateY -= y * 0.1;
         translateX *= 1/(1-res*0.1);
         translateY *= 1/(1-res*0.1);
-        repaint();
+        if (!playing) repaint();
     }
 
     public class MyJPanel extends JPanel {
 
-        World world;
+        
         double dt = 0;
         boolean removing = false;
         boolean adding = false;
         OptionFrame optionFrame;
+        World world;
+        
 
         public MyJPanel() {
             addKeyBindings();
             world = new World(new Vector2D(0, 982));
-
+            
             optionFrame = new OptionFrame(this);
             MouseAdapter ma = getMouseAdapter();
             addMouseListener(ma);
@@ -137,7 +140,7 @@ public class Main extends JFrame {
                     scale = 1;
                     //translateX = 0;
                     //translateY = 0;
-                    repaint();
+                    if (!playing) repaint();
                 }
             };
         }
@@ -148,7 +151,7 @@ public class Main extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     translateX = 0;
                     translateY = 0;
-                    repaint();
+                    if (!playing) repaint();
                 }
             };
         }
@@ -168,7 +171,7 @@ public class Main extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     translateX = -world.objects.get(world.followID).position.x + (panel.getWidth() / 2) / scale;
                     translateY = -world.objects.get(world.followID).position.y + (panel.getHeight() / 2) / scale;
-                    repaint();
+                    if (!playing) repaint();
                 }
             };
         }
@@ -202,14 +205,14 @@ public class Main extends JFrame {
                         }
                         if (stiff != null) {
                             world.objects.remove(stiff);
-                            repaint();
+                            if (!playing) repaint();
                             removing = false;
                         }
                     }
                     if (adding) {
                         CustomOptionMenu test = (CustomOptionMenu) optionFrame.getJMenuBar();
                         test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
-                        repaint();
+                        if (!playing) repaint();
                         adding = false;
                     }
                 }
@@ -237,7 +240,7 @@ public class Main extends JFrame {
                         double nowY = e.getY();
                         translateX -= (prevX - nowX) / scale;
                         translateY -= (prevY - nowY) / scale;
-                        repaint();
+                        if (!playing) repaint();
                         prevX = nowX;
                         prevY = nowY;
                     }
@@ -245,7 +248,7 @@ public class Main extends JFrame {
 
                 @Override
                 public void mouseWheelMoved(MouseWheelEvent e) {
-                    resizeWorld(world, e.getWheelRotation());
+                    changeScale(world, e.getWheelRotation());
                 }
             };
         }

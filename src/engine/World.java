@@ -58,6 +58,7 @@ public class World {
             plane.paint(g);
         }
         
+        g.setColor(new Color(0.3f,0.3f,1f,0.7f));
         for (Line l : impulses) {
             l.paint(g);
         }
