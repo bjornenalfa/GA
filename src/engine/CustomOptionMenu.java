@@ -491,8 +491,6 @@ public class CustomOptionMenu extends JMenuBar {
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
                 }
-                //panel.world.addPlane(new Plane(0, 0, 8000, 6000));
-                //panel.world.addPlane(new Plane(0, 500, 8000, 500));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }
@@ -506,9 +504,9 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
-                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
-                panel.world.addPlane(new Plane(0, 500, 8000, 500));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100)));
+                panel.world.addPlane(new Plane(0, 150, 400, 550));
+                panel.world.addPlane(new Plane(400, 550, 8000, 550));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }
@@ -524,7 +522,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100)));
                 panel.world.objects.get(0).velocity = new Vector2D(700, -100);
-                panel.world.addPlane(new Plane(0, 500, 700, 500));
+                panel.world.addPlane(new Plane(-1000, 500, 700, 500));
                 panel.world.addPlane(new Plane(700, 500, 700, 0));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
