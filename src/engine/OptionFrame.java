@@ -268,8 +268,8 @@ public class OptionFrame extends JFrame {
             @Override
             public void run() {
                 while (true) {
+                    Main.playing = true;
                     while (!paused) {
-                        Main.playing = true;
                         mainPanel.world.update(dt);
                         updateLabels();
                         mainPanel.repaint();

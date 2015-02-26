@@ -106,7 +106,7 @@ public class CustomOptionMenu extends JMenuBar {
                 double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
                 double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
                 panel.world.addPlane(new Plane(x1, y1, x2, y2));
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return addPlane;
@@ -133,7 +133,7 @@ public class CustomOptionMenu extends JMenuBar {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
                     panel.world.objects = new ArrayList();
-                    panel.repaint();
+                    if (!Main.playing) panel.repaint();
                 }
             }
         });
@@ -149,7 +149,7 @@ public class CustomOptionMenu extends JMenuBar {
                 int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
                 if (confirmReset == JOptionPane.YES_OPTION) {
                     panel.world.planes = new ArrayList();
-                    panel.repaint();
+                    if (!Main.playing) panel.repaint();
                 }
             }
         });
@@ -211,7 +211,7 @@ public class CustomOptionMenu extends JMenuBar {
         double m = doubleInput("Enter mass.");
         Color c = stringToColorInput("Enter color.");
         panel.world.addObject(new Object(new RectangleShape(w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
-        panel.repaint();
+        if (!Main.playing) panel.repaint();
     }
 
     private void circleOptions() {
@@ -226,7 +226,7 @@ public class CustomOptionMenu extends JMenuBar {
         double m = doubleInput("Enter mass.");
         Color c = stringToColorInput("Enter color");
         panel.world.addObject(new Object(new CircleShape(rad, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
-        panel.repaint();
+        if (!Main.playing) panel.repaint();
     }
 
     public static int intInput(String text) {
@@ -389,7 +389,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -404,7 +404,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -419,7 +419,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100)));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -434,7 +434,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -450,7 +450,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -466,7 +466,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.get(0).velocity = new Vector2D(100, 0);
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -483,16 +483,16 @@ public class CustomOptionMenu extends JMenuBar {
                 int x = 100, y = 100;
                 double angle = Math.toRadians(90);
                 double length = 102;
-                int segments = 120;
+                int segments = 360;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5)));
+                    panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5),Material.Boost));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
                 }
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -508,7 +508,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 150, 400, 550));
                 panel.world.addPlane(new Plane(400, 550, 8000, 550));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
@@ -525,7 +525,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(-1000, 500, 700, 500));
                 panel.world.addPlane(new Plane(700, 500, 700, 0));
                 panel.optionFrame.panel.save.doClick();
-                panel.repaint();
+                if (!Main.playing) panel.repaint();
             }
         });
         return setup;
