@@ -473,9 +473,21 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
-                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
-                panel.world.addPlane(new Plane(0, 500, 8000, 500));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
+                panel.world.objects.get(0).velocity = new Vector2D(0,5000);
+                int x = 100,y = 100;
+                double angle = Math.toRadians(90);
+                double length = 102;
+                int segments = 360;
+                double dAngle = Math.toRadians(-1);
+                for (int i = 0;i<=segments;i++) {
+                    panel.world.addPlane(new Plane((int)(x-Math.cos(angle)*10+.5),(int)(y-Math.sin(angle)*10+.5),(int)(x+Math.cos(angle)*(length+10)+.5),(int)(y+Math.sin(angle)*(length+10)+.5)));
+                    x=(int)(x+Math.cos(angle)*length+.5);
+                    y=(int)(y+Math.sin(angle)*length+.5);
+                    angle+=dAngle;
+                }
+                //panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                //panel.world.addPlane(new Plane(0, 500, 8000, 500));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }

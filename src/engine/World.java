@@ -19,14 +19,26 @@ public class World {
         this.gravity = gravity;
     }
 
+    int followID = 0;
+    double followX = 0, followY = 0;
+    boolean follow = false;
+
     public void update(double dt) {
         time += dt;
+        if (follow) {
+            followX = objects.get(followID).position.x;
+            followY = objects.get(followID).position.y;
+        }
         for (Object object : objects) {
             object.preUpdate(dt, gravity);
         }
         CollisionChecker.findNewCollisions(objects, planes, dt, gravity);
         for (Object object : objects) {
             object.endUpdate();
+        }
+        if (follow) {
+            Main.translateX -= (objects.get(followID).position.x - followX);
+            Main.translateY -= (objects.get(followID).position.y - followY);
         }
         System.out.println("update done - delta time:" + dt + " - time: " + time);
     }

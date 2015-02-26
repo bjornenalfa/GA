@@ -25,7 +25,7 @@ public class Main extends JFrame {
     //1 force unit = 1g*cm/s/s
     MyJPanel panel;
     boolean keyDownControl = false;
-    double scale = 1, translateX, translateY;
+    static double scale = 1, translateX, translateY;
 
     public Main() {
         setTitle("TITLE");
@@ -35,8 +35,8 @@ public class Main extends JFrame {
         //setUndecorated(true);
         //setOpacity((float) 0.9);
         panel.setPreferredSize(new Dimension(800, 600));
-        CustomOptionMenu menu = (CustomOptionMenu)panel.optionFrame.getJMenuBar();
-        menu.setupTwo.doClick();
+        CustomOptionMenu menu = (CustomOptionMenu) panel.optionFrame.getJMenuBar();
+        menu.setupSeven.doClick();
         setContentPane(panel);
         pack();
 
@@ -64,7 +64,13 @@ public class Main extends JFrame {
     }
 
     private void resizeWorld(World w, double res) {
-        scale -= res*(scale*0.1);
+        double x = -res*((panel.getWidth()/2)/scale - translateX);
+        double y = -res*((panel.getHeight()/2)/scale - translateY);
+        scale -= res * (scale * 0.1);
+        translateX -= x * 0.1;
+        translateY -= y * 0.1;
+        translateX *= 1/(1-res*0.1);
+        translateY *= 1/(1-res*0.1);
         repaint();
     }
 
@@ -99,6 +105,10 @@ public class Main extends JFrame {
             getActionMap().put("ctrl+0", ctrl0());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "pos_r");
             getActionMap().put("pos_r", pos_r());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_F)), "pos_f");
+            getActionMap().put("pos_f", pos_f());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_C)), "pos_c");
+            getActionMap().put("pos_c", pos_c());
         }
 
         private Action ctrl_down() {
@@ -125,6 +135,8 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     scale = 1;
+                    //translateX = 0;
+                    //translateY = 0;
                     repaint();
                 }
             };
@@ -136,6 +148,26 @@ public class Main extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     translateX = 0;
                     translateY = 0;
+                    repaint();
+                }
+            };
+        }
+
+        private Action pos_f() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    world.follow = !world.follow;
+                }
+            };
+        }
+
+        private Action pos_c() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    translateX = -world.objects.get(world.followID).position.x + (panel.getWidth() / 2) / scale;
+                    translateY = -world.objects.get(world.followID).position.y + (panel.getHeight() / 2) / scale;
                     repaint();
                 }
             };
@@ -223,6 +255,7 @@ public class Main extends JFrame {
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
             g2.scale(scale, scale);
             g2.translate(translateX, translateY);
+            //System.out.println("tx:" + translateX + " ty:" + translateY + " s:" + scale);
             world.paint(g2);
             g2.translate(-translateX, -translateY);
         }

@@ -244,7 +244,7 @@ public class OptionFrame extends JFrame {
         }
 
         private void updateLabels() {
-            String dtString = Double.toString(dt).substring(0, 11);
+            String dtString = Double.toString(dt);//.substring(0, 11);
             dtLabel.setText(("<html><font color=white> " + "dt : " + dtString + " </font></html>"));
         }
 
