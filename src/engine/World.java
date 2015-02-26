@@ -23,7 +23,7 @@ public class World {
 
     int followID = 0;
     double followX = 0, followY = 0;
-    boolean follow = false;
+    boolean follow = true;
 
     public void update(double dt) {
         time += dt;

@@ -12,5 +12,8 @@ public class Material {
     public static int Concrete = 3;
     public static int Ice = 4;
     public static int Glass = 5;
+    
+    public static int Boost = 6;
+    public static int Slow = 7;
 
 }

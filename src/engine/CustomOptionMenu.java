@@ -483,7 +483,7 @@ public class CustomOptionMenu extends JMenuBar {
                 int x = 100, y = 100;
                 double angle = Math.toRadians(90);
                 double length = 102;
-                int segments = 360;
+                int segments = 120;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
                     panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5)));
