@@ -62,6 +62,10 @@ public class World {
         for (Line l : impulses) {
             l.paint(g);
         }
+        
+        while (impulses.size()>=200){
+            impulses.remove(0);
+        }
     }
 
     public void addObject(Object object) {
