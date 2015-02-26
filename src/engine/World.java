@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,7 @@ public class World {
     double time = 0;
     Vector2D gravity;
     ArrayList<Plane> planes = new ArrayList();
+    ArrayList<Line> impulses = new ArrayList();
 
     public World(Vector2D gravity) {
         this.gravity = gravity;
@@ -32,7 +34,7 @@ public class World {
         for (Object object : objects) {
             object.preUpdate(dt, gravity);
         }
-        CollisionChecker.findNewCollisions(objects, planes, dt, gravity);
+        CollisionChecker.findNewCollisions(objects, planes, dt, gravity, this);
         for (Object object : objects) {
             object.endUpdate();
         }
@@ -43,18 +45,21 @@ public class World {
         System.out.println("update done - delta time:" + dt + " - time: " + time);
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics2D g) {
 //        g.clearRect(0, 0, 1920, 1080);
         g.setColor(Color.BLACK);
         for (Object object : objects) {
-            for (Shape shape : object.shapes) {
-                shape.paint(g);
-            }
+            object.paint(g);
+            
         }
 
         g.setColor(Color.BLACK);
         for (Plane plane : planes) {
             plane.paint(g);
+        }
+        
+        for (Line l : impulses) {
+            l.paint(g);
         }
     }
 

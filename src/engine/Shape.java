@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 
@@ -54,7 +55,7 @@ public class Shape {
      *
      * @param g - Graphics
      */
-    public void paint(Graphics g) {
+    public void paint(Graphics2D g) {
         g.setColor(myC);
     }
 

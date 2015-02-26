@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class Object {
     double angularAcceleration;
     double nextRotation;
     double nextAngularVelocity;
-    double restitution=0.5;
+    double restitution = 0.5;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;
@@ -54,7 +56,7 @@ public class Object {
         nextRotation = rotation + angularVelocity * dt;
         nextAngularVelocity = angularVelocity + angularAcceleration * dt * dt / 2;
         System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.point.x + ":" + nextVelocity.point.y + "}");
-        System.out.println("av:"+angularVelocity+";r:"+rotation+";aa:"+angularAcceleration);
+        System.out.println("av:" + angularVelocity + ";r:" + rotation + ";aa:" + angularAcceleration);
 
         for (Shape shape : shapes) {
             shape.calcNextPosition();
@@ -64,7 +66,7 @@ public class Object {
     public void endUpdate() {
         position = nextPosition;
         velocity = nextVelocity;
-        rotate(nextRotation-rotation);
+        rotate(nextRotation - rotation);
         //rotation = nextRotation;
         angularVelocity = nextAngularVelocity;
     }
@@ -107,12 +109,20 @@ public class Object {
     public double getI() {
         return shapes.get(0).I;
     }
-    public void setRestitution(double res){
-        restitution=res;
+
+    public void setRestitution(double res) {
+        restitution = res;
     }
-    
-    public double getRestitution(){
+
+    public double getRestitution() {
         return restitution;
     }
-    
+
+    public void paint(Graphics2D g) {
+        for (Shape shape : shapes) {
+            shape.paint(g);
+        }
+        velocity.paint(g, position.x, position.y, 1, Color.red);
+    }
+
 }

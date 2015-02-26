@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public class CollisionChecker {
         return collision;
     }
 
-    public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes, double dt, Vector2D g) {
+    public static void findNewCollisions(ArrayList<Object> objects, ArrayList<Plane> planes, double dt, Vector2D g, World world) {
         for (Object object : objects) {
             for (Plane plane : planes) {
                 if (planeAndShapeIntersect(object.shapes.get(0), plane)) {
@@ -180,7 +181,10 @@ public class CollisionChecker {
                     //NORMALS
                     double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane);
                     Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
-                    object.nextVelocity = object.velocity.subtract(impulse.multiply(1 / object.getMass()));
+                    object.nextVelocity = object.velocity.add(impulse.multiply(-1 / object.getMass()));
+                    Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
+                    Point.Double p = new Point.Double(plane.surface.origin.x+impOrt.point.x, plane.surface.origin.y+impOrt.point.y);
+                    world.impulses.add(new Line(p, impulse));
                     System.out.println("Impulse big thingy stuff " + ImpLength);
 
                     //FRICTION

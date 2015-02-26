@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -217,5 +219,11 @@ public class Vector2D {
             point = new Point.Double(point.x / length, point.y / length);
         }
         return this;
+    }
+    
+    
+    public void paint(Graphics2D g, double x, double y, double scale, Color c){
+        g.setColor(c);
+        g.drawLine((int)x, (int)y, (int)(x+getPoint().x*scale), (int)(y+getPoint().y*scale));
     }
 }

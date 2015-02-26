@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
@@ -18,7 +19,7 @@ public class CircleShape extends Shape {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics2D g) {
         super.paint(g);
         vector.readyPoint();
         g.fillOval((int) (parent.position.x + vector.point.x-this.radius), (int) (parent.position.y + vector.point.y-this.radius), (int) radius*2, (int) radius*2);
