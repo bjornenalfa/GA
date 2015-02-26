@@ -185,9 +185,11 @@ public class Main extends JFrame {
         private MouseAdapter getMouseAdapter() {
             return new MouseAdapter() {
                 double prevX = 0, prevY = 0;
+                boolean pressed = false;
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
+                    pressed = false;
                     if (removing) {
                         Object stiff = null;
                         for (Object object : world.objects) {
@@ -210,16 +212,15 @@ public class Main extends JFrame {
                         repaint();
                         adding = false;
                     }
-                    prevX = 0;
-                    prevY = 0;
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
                     if (keyDownControl) {
-                        if (prevX == 0 || prevY == 0) {
+                        if (!pressed) {
                             prevX = e.getX();
                             prevY = e.getY();
+                            pressed = true;
                         }
                     }
                 }
@@ -227,6 +228,11 @@ public class Main extends JFrame {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (keyDownControl) {
+                        if (!pressed) {
+                            prevX = e.getX();
+                            prevY = e.getY();
+                            pressed = true;
+                        }
                         double nowX = e.getX();
                         double nowY = e.getY();
                         translateX -= (prevX - nowX) / scale;
