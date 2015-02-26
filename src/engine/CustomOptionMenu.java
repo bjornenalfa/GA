@@ -43,7 +43,9 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupFive = makeSetupFive();
     JMenuItem setupSix = makeSetupSix();
     JMenuItem setupSeven = makeSetupSeven();
-    
+    JMenuItem setupEight = makeSetupEight();
+    JMenuItem setupNine = makeSetupNine();
+
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
         this.panel = panel.mainPanel;
@@ -66,6 +68,8 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupFive);
         setup.add(setupSix);
         setup.add(setupSeven);
+        setup.add(setupEight);
+        setup.add(setupNine);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -268,14 +272,15 @@ public class CustomOptionMenu extends JMenuBar {
 
     public static Double stringParser(String text) {
         String s = inputOptionPane(text);
-        if (!s.contains("/") && !s.contains(".")) {
-            s += ".0";
-        }
         try {
+            if (!s.contains("/") && !s.contains(".")) {
+                s += ".0";
+            }
             java.lang.Object result = engine.eval((s));
             return (double) result;
         } catch (ScriptException ex) {
             Logger.getLogger(OptionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex){
         }
         return 0.0;
     }
@@ -434,7 +439,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         return setup;
     }
-    
+
     private JMenuItem makeSetupFive() {
         JMenuItem setup = new JMenuItem("Setup Five");
         setup.addActionListener(new ActionListener() {
@@ -450,7 +455,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         return setup;
     }
-    
+
     private JMenuItem makeSetupSix() {
         JMenuItem setup = new JMenuItem("Setup Six");
         setup.addActionListener(new ActionListener() {
@@ -458,7 +463,7 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100)));
-                panel.world.objects.get(0).velocity = new Vector2D(100,0);
+                panel.world.objects.get(0).velocity = new Vector2D(100, 0);
                 panel.world.addPlane(new Plane(0, 500, 800, 500));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
@@ -466,7 +471,7 @@ public class CustomOptionMenu extends JMenuBar {
         });
         return setup;
     }
-    
+
     private JMenuItem makeSetupSeven() {
         JMenuItem setup = new JMenuItem("Setup Seven");
         setup.addActionListener(new ActionListener() {
@@ -474,20 +479,53 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
-                panel.world.objects.get(0).velocity = new Vector2D(0,5000);
-                int x = 100,y = 100;
+                panel.world.objects.get(0).velocity = new Vector2D(0, 5000);
+                int x = 100, y = 100;
                 double angle = Math.toRadians(90);
                 double length = 102;
                 int segments = 360;
                 double dAngle = Math.toRadians(-1);
-                for (int i = 0;i<=segments;i++) {
-                    panel.world.addPlane(new Plane((int)(x-Math.cos(angle)*10+.5),(int)(y-Math.sin(angle)*10+.5),(int)(x+Math.cos(angle)*(length+10)+.5),(int)(y+Math.sin(angle)*(length+10)+.5)));
-                    x=(int)(x+Math.cos(angle)*length+.5);
-                    y=(int)(y+Math.sin(angle)*length+.5);
-                    angle+=dAngle;
+                for (int i = 0; i <= segments; i++) {
+                    panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5)));
+                    x = (int) (x + Math.cos(angle) * length + .5);
+                    y = (int) (y + Math.sin(angle) * length + .5);
+                    angle += dAngle;
                 }
                 //panel.world.addPlane(new Plane(0, 0, 8000, 6000));
                 //panel.world.addPlane(new Plane(0, 500, 8000, 500));
+                panel.optionFrame.panel.save.doClick();
+                panel.repaint();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupEight() {
+        JMenuItem setup = new JMenuItem("Setup Eight");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.world.addPlane(new Plane(0, 500, 8000, 500));
+                panel.optionFrame.panel.save.doClick();
+                panel.repaint();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupNine() {
+        JMenuItem setup = new JMenuItem("Setup Nine");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.objects.get(0).velocity = new Vector2D(700, -100);
+                panel.world.addPlane(new Plane(0, 500, 700, 500));
+                panel.world.addPlane(new Plane(700, 500, 700, 0));
                 panel.optionFrame.panel.save.doClick();
                 panel.repaint();
             }

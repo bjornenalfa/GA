@@ -81,13 +81,15 @@ public class OptionFrame extends JFrame {
                     if (dt == 0) {
                         dt = CustomOptionMenu.doubleInput("Enter dt.");
                     }
-                    try {
-                        save.doClick();
-                        thread.start();
-                        System.out.println("started");
-                    } catch (Exception ex) {
+                    if (dt != 0) {
+                        try {
+                            save.doClick();
+                            thread.start();
+                            System.out.println("started");
+                        } catch (Exception ex) {
+                        }
+                        paused = false;
                     }
-                    paused = false;
                 }
             });
             add(play);
@@ -145,13 +147,15 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(reset);
-        };
+        }
+
+        ;
 
         private void makeBackup() {
             backupWorld = copyWorld(mainPanel.world);
         }
-        
-        private World copyWorld(World world){
+
+        private World copyWorld(World world) {
             World newWorld = new World(world.gravity);
             for (Object o : world.objects) {
                 Object newO = new Object();
