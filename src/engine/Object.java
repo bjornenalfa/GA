@@ -41,6 +41,14 @@ public class Object {
         calcMassCenter();
         shape.setParent(this);
     }
+    
+    public Object(Shape shape, Point.Double pos, int mat) {
+        shapes.add(shape);
+        position = pos;
+        calcMassCenter();
+        shape.setParent(this);
+        material = mat;
+    }
 
     public void calcMassCenter() {
         massCenter = new Vector2D(0, 0);
