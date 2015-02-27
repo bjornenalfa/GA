@@ -176,7 +176,7 @@ public class OptionFrame extends JFrame {
                         newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x + rs.width / 2, s.vector.point.y + rs.height / 2)), s.rotation, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x + 50, s.vector.point.y + 50)), s.rotation, s.mass, s.myC));
+                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.rotation, s.mass, s.myC));
                     }
                 }
                 newO.velocity = o.velocity;
