@@ -388,8 +388,9 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
-                panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.world.follow = false;
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -403,8 +404,8 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100)));
-                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -418,8 +419,8 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100)));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -433,8 +434,8 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
-                panel.world.addPlane(new Plane(0, 0, 8000, 6000));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -448,9 +449,10 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300)));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100)));
-                panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.world.follow = false;
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -464,9 +466,9 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100)));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(100, 0);
-                panel.world.addPlane(new Plane(0, 500, 800, 500));
+                panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -480,7 +482,7 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(0, 5000);
                 int x = 100, y = 100;
                 double angle = Math.toRadians(90);
@@ -506,9 +508,9 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100)));
-                panel.world.addPlane(new Plane(0, 150, 400, 550));
-                panel.world.addPlane(new Plane(400, 550, 8000, 550));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100),Material.Wood));
+                panel.world.addPlane(new Plane(0, 150, 400, 550, Material.Concrete));
+                panel.world.addPlane(new Plane(400, 550, 8000, 550, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -522,10 +524,11 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
+                panel.world.follow = false;
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100),Material.Boost));
                 panel.world.objects.get(0).velocity = new Vector2D(700, -100);
-                panel.world.addPlane(new Plane(-5000, 100, 700, 500));
-                panel.world.addPlane(new Plane(700, 500, 700, 0));
+                panel.world.addPlane(new Plane(-5000, 100, 700, 500, Material.Concrete));
+                panel.world.addPlane(new Plane(700, 500, 700, 0, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }
@@ -539,7 +542,7 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140)));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(0, 5000);
                 int x = 100, y = 100;
                 double angle = Math.toRadians(90);
