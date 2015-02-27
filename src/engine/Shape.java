@@ -1,10 +1,8 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Line2D;
 
 /**
  *
@@ -87,7 +85,7 @@ public class Shape {
         parent = object;
         calcPosition();
     }
-    
+
     public void calculateI() {
         I = 1;
     }

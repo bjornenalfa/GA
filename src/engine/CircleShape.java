@@ -1,7 +1,6 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -22,10 +21,10 @@ public class CircleShape extends Shape {
     public void paint(Graphics2D g) {
         super.paint(g);
         vector.readyPoint();
-        g.fillOval((int) (x-radius), (int) (y-radius), (int) radius*2, (int) radius*2);
-        g.drawOval((int) (x-radius), (int) (y-radius), (int) radius*2, (int) radius*2);
-        g.setColor(new Color(0,0,0));
-        g.drawLine((int)(x),(int)(y),(int)(x+Math.cos(rotation)*radius),(int)(y+Math.sin(rotation)*radius));
+        g.fillOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
+        g.drawOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
+        g.setColor(new Color(0, 0, 0));
+        g.drawLine((int) (x), (int) (y), (int) (x + Math.cos(rotation) * radius), (int) (y + Math.sin(rotation) * radius));
     }
 
     @Override

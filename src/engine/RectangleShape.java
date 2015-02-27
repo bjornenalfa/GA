@@ -13,7 +13,7 @@ import java.awt.Point;
 public class RectangleShape extends Shape {
 
     int width, height; // Width and Height
-    
+
     double middleToOrigindr;
 
     Vector2D middleToOrigin;
@@ -43,9 +43,9 @@ public class RectangleShape extends Shape {
 
     public void calcLines() { //Calculated from the top left corner :>
         middleToOrigin.readyPoint();
-        Line top = new Line(new Point.Double(middleToOrigin.point.x+x, middleToOrigin.point.y+y), new Vector2D(width, rotation));
+        Line top = new Line(new Point.Double(middleToOrigin.point.x + x, middleToOrigin.point.y + y), new Vector2D(width, rotation));
         lines[0] = top;
-        Line left = new Line(new Point.Double(middleToOrigin.point.x+x, middleToOrigin.point.y+y), new Vector2D(height, rotation + Math.PI / 2));
+        Line left = new Line(new Point.Double(middleToOrigin.point.x + x, middleToOrigin.point.y + y), new Vector2D(height, rotation + Math.PI / 2));
         lines[1] = left;
         lines[2] = new Line(left.end, top.vector);
         lines[3] = new Line(top.end, left.vector);
@@ -64,7 +64,7 @@ public class RectangleShape extends Shape {
     public void calcNextPosition() {
         vector.readyPoint();
         rotation = parent.nextRotation + dRotate;
-        middleToOrigin.rotate(rotation-(middleToOrigin.angle-middleToOrigindr));
+        middleToOrigin.rotate(rotation - (middleToOrigin.angle - middleToOrigindr));
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
         calcLines();

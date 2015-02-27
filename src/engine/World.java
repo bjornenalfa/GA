@@ -1,7 +1,6 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -52,19 +51,19 @@ public class World {
         g.setColor(Color.BLACK);
         for (Object object : objects) {
             object.paint(g);
-            
+
         }
 
         g.setColor(Color.BLACK);
         for (Plane plane : planes) {
             plane.paint(g);
         }
-        
-        while (impulses.size()>=200){
+
+        while (impulses.size() >= 200) {
             impulses.remove(0);
         }
-        
-        g.setColor(new Color(0.3f,0.3f,1f,0.7f));
+
+        g.setColor(new Color(0.3f, 0.3f, 1f, 0.7f));
         //impulse.paint(g);
         pImpulses = (ArrayList<Line>) impulses.clone();
         for (Line l : pImpulses) {

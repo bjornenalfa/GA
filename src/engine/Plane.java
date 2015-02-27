@@ -24,7 +24,7 @@ public class Plane {
         surface = new Line(x1, y1, x2, y2);
         normal = surface.vector.getCounterClockwiseNormal().normalize();
     }
-    
+
     public Plane(Line line, int mat) {
         surface = line;
         normal = surface.vector.getCounterClockwiseNormal().normalize();

@@ -51,7 +51,7 @@ public class CollisionChecker {
     }
 
     public static boolean pointInRectangleShape(RectangleShape shape, Point.Double point) {
-        Vector2D vector = new Vector2D(new Point.Double(point.x - shape.x + shape.width/2, point.y - shape.y + shape.height/2));
+        Vector2D vector = new Vector2D(new Point.Double(point.x - shape.x + shape.width / 2, point.y - shape.y + shape.height / 2));
         System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
         vector.rotate(-shape.dRotate);
         vector.readyPoint();
@@ -138,13 +138,13 @@ public class CollisionChecker {
         if (distanceNormal < shape.radius) {
             if (distanceTangent > plane.surface.vector.getLength()) {
                 if (distanceTangent > plane.surface.vector.getLength() + shape.radius) {
-                    return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius*shape.radius;
+                    return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius * shape.radius;
                 } else {
                     return false;
                 }
             } else if (distanceTangent < 0) {
                 if (distanceTangent > -shape.radius) {
-                    return Point.Double.distanceSq(plane.surface.origin.x, plane.surface.origin.y, shape.x, shape.y) < shape.radius*shape.radius;
+                    return Point.Double.distanceSq(plane.surface.origin.x, plane.surface.origin.y, shape.x, shape.y) < shape.radius * shape.radius;
                 } else {
                     return false;
                 }
@@ -190,13 +190,11 @@ public class CollisionChecker {
 
         return collision;
     }
-    
-    
-    
+
     public static Point.Double planeCornerInRectangle(RectangleShape shape, Plane plane) {
         if (pointInRectangleShape(shape, plane.surface.origin)) {
             return plane.surface.origin;
-        } else if (pointInRectangleShape(shape, plane.surface.end)){
+        } else if (pointInRectangleShape(shape, plane.surface.end)) {
             return plane.surface.end;
         } else {
             return null;
@@ -229,12 +227,12 @@ public class CollisionChecker {
                         ObjectAndPlaneCollisionFrictionCalculator(object, plane, ImpLength, world);
                     } else {
                         System.out.println("YES CORNER");
-                        Vector2D CoMtoCollisionPoint = new Vector2D(object.position,collisionPoint);
+                        Vector2D CoMtoCollisionPoint = new Vector2D(object.position, collisionPoint);
                         Vector2D normal = new Vector2D(CoMtoCollisionPoint);
                         //Vector2D normal = new Vector2D(1,-1);
                         normal.normalize();
                         normal.multiply(-1);
-                                
+
                         double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane, normal, CoMtoCollisionPoint);
                         Vector2D impulse = new Vector2D(new Vector2D(normal).multiply(ImpLength));
                         object.nextVelocity = object.velocity.add(impulse.multiply(-1 / object.getMass()));
@@ -246,9 +244,9 @@ public class CollisionChecker {
 
                         //FRICTION
                         Vector2D impulse2 = ObjectAndPlaneCollisionFrictionCalculator2(object, plane, ImpLength, world, CoMtoCollisionPoint);
-                        
+
                         object.nextAngularVelocity = object.nextAngularVelocity + Vector2D.crossProduct(CoMtoCollisionPoint, impulse2.add(impulse)) / object.inertia;
-                        System.out.println("NEXT ANGULAR VELOCITY IS "+object.nextAngularVelocity);
+                        System.out.println("NEXT ANGULAR VELOCITY IS " + object.nextAngularVelocity);
                     }
 
                     if (object.shapes.get(0) instanceof RectangleShape) {
@@ -323,13 +321,13 @@ public class CollisionChecker {
 //        double Impulse = -(1+e)*(Vector2D.scalarProductCoordinates(rv, plane.)
 
     }
-    
-    public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object object, Plane plane,Vector2D normal, Vector2D CoMtoCP) {
+
+    public static double ObjectAndPlaneCollisionImpulseLengthCalculator(Object object, Plane plane, Vector2D normal, Vector2D CoMtoCP) {
         double relativeVelocityAlongNormal = Vector2D.scalarProductCoordinates(object.nextVelocity, normal);
         if (relativeVelocityAlongNormal > 0) {
             return 0;
         } else {
-            return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / ((1.0 / object.mass) + (Vector2D.crossProduct(CoMtoCP,normal)*Vector2D.crossProduct(CoMtoCP,normal))/object.inertia);
+            return ((1.0 + Math.min(object.restitution, plane.restitution)) * relativeVelocityAlongNormal) / ((1.0 / object.mass) + (Vector2D.crossProduct(CoMtoCP, normal) * Vector2D.crossProduct(CoMtoCP, normal)) / object.inertia);
         }
     }
 
@@ -372,13 +370,13 @@ public class CollisionChecker {
         world.impulses.add(new Line(p, frictionImpulse));
         object.nextVelocity.add(frictionImpulse);
     }
-    
+
     public static Vector2D ObjectAndPlaneCollisionFrictionCalculator2(Object object, Plane plane, double collisionMagnitude, World world, Vector2D CoMtoCP) {
         Vector2D tangent = new Vector2D(object.nextVelocity).subtract(new Vector2D(plane.normal).multiply(Vector2D.scalarProductCoordinates(object.nextVelocity, plane.normal)));
         tangent.normalize();
         double jt = -Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
-        
-        jt /= ((1.0 / object.mass) + (Vector2D.crossProduct(CoMtoCP,tangent)*Vector2D.crossProduct(CoMtoCP,tangent))/object.inertia);
+
+        jt /= ((1.0 / object.mass) + (Vector2D.crossProduct(CoMtoCP, tangent) * Vector2D.crossProduct(CoMtoCP, tangent)) / object.inertia);
 
         double mu = Friction.getStatic(object.material, plane.material);
 
@@ -388,7 +386,7 @@ public class CollisionChecker {
         } else {
             frictionImpulse = tangent.multiply(Friction.getDynamic(object.material, plane.material) * collisionMagnitude);
         }
-        frictionImpulse.multiply(1.0/object.mass);
+        frictionImpulse.multiply(1.0 / object.mass);
         //VISUAL IMPULSE
         Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
         Point.Double p = new Point.Double(plane.surface.origin.x + impOrt.point.x, plane.surface.origin.y + impOrt.point.y);

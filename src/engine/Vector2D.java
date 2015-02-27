@@ -187,8 +187,8 @@ public class Vector2D {
     public static Vector2D crossProduct(Vector2D vector, double k) {
         return new Vector2D(k * vector.point.y, -k * vector.point.x);
     }
-    
-    public static Vector2D crossProduct( double k, Vector2D vector) {
+
+    public static Vector2D crossProduct(double k, Vector2D vector) {
         return new Vector2D(-k * vector.point.y, k * vector.point.x);
     }
 
@@ -220,10 +220,9 @@ public class Vector2D {
         }
         return this;
     }
-    
-    
-    public void paint(Graphics2D g, double x, double y, double scale, Color c){
+
+    public void paint(Graphics2D g, double x, double y, double scale, Color c) {
         g.setColor(c);
-        g.drawLine((int)x, (int)y, (int)(x+getPoint().x*scale), (int)(y+getPoint().y*scale));
+        g.drawLine((int) x, (int) y, (int) (x + getPoint().x * scale), (int) (y + getPoint().y * scale));
     }
 }

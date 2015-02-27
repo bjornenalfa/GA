@@ -1,6 +1,5 @@
 package engine;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -37,10 +36,9 @@ public class Line {
     public static double getAngleBetween(double dx, double dy) {
         return Math.atan2(dy, dx);
     }
-    
-    public void paint(Graphics2D g){
-        g.drawLine((int)origin.x, (int)origin.y, (int)end.x, (int)end.y);
+
+    public void paint(Graphics2D g) {
+        g.drawLine((int) origin.x, (int) origin.y, (int) end.x, (int) end.y);
     }
-    
-    
+
 }

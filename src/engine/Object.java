@@ -43,7 +43,7 @@ public class Object {
         calcMassCenter();
         shape.setParent(this);
     }
-    
+
     public Object(Shape shape, Point.Double pos, int mat) {
         shapes.add(shape);
         position = pos;
