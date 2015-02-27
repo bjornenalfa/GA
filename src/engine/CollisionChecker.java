@@ -184,8 +184,8 @@ public class CollisionChecker {
                     object.nextVelocity = object.velocity.add(impulse.multiply(-1 / object.getMass()));
                     Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
                     Point.Double p = new Point.Double(plane.surface.origin.x+impOrt.point.x, plane.surface.origin.y+impOrt.point.y);
-                    //world.impulse.add(new Line(p, impulse));
-                    world.impulse = new Line(p, impulse);
+                    world.impulses.add(new Line(p, impulse));
+                    //world.impulse = new Line(p, impulse);
                     System.out.println("Impulse big thingy stuff " + ImpLength);
 
                     //FRICTION
