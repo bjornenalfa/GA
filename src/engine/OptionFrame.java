@@ -72,9 +72,6 @@ public class OptionFrame extends JFrame {
         JButton reset;
         JButton save;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
-
-        double savedTransX;
-        double savedTransY;
         
         private void addButtons() {
             play = new JButton("Play");
@@ -86,13 +83,13 @@ public class OptionFrame extends JFrame {
                     }
                     if (dt != 0) {
                         try {
-                            save.doClick();
                             thread.start();
                             System.out.println("started");
                         } catch (Exception ex) {
                         }
                         paused = false;
                     }
+                    mainPanel.requestFocus();
                 }
             });
             add(play);
@@ -112,6 +109,7 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     paused = true;
+                    mainPanel.requestFocus();
                 }
             });
             add(pause);
@@ -126,6 +124,7 @@ public class OptionFrame extends JFrame {
                     mainPanel.world.update(dt);
                     updateLabels();
                     mainPanel.repaint();
+                    mainPanel.requestFocus();
                 }
             });
             add(update);
@@ -136,6 +135,7 @@ public class OptionFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     makeBackup();
                     saved = true;
+                    mainPanel.requestFocus();
                 }
             });
 
@@ -148,8 +148,6 @@ public class OptionFrame extends JFrame {
                         boolean temp1 = mainPanel.world.follow;
                         mainPanel.world = copyWorld(backupWorld);
                         mainPanel.world.follow = temp1;
-                        Main.translateX = savedTransX;
-                        Main.translateY = savedTransY;
                         mainPanel.requestFocus();
                     }
                 }
@@ -158,8 +156,6 @@ public class OptionFrame extends JFrame {
         }
         
         private void makeBackup() {
-            savedTransX = Main.translateX;
-            savedTransY = Main.translateY;
             backupWorld = copyWorld(mainPanel.world);
         }
 
@@ -279,6 +275,7 @@ public class OptionFrame extends JFrame {
 
             @Override
             public void run() {
+                save.doClick();
                 while (true) {
                     Main.playing = true;
                     while (!paused) {

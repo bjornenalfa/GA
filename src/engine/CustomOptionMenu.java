@@ -592,7 +592,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.follow = false;
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 550, 800, 550, Material.Concrete));
-                panel.world.addPlane(new Plane(0, 350, 400, 350, Material.Concrete));
+                panel.world.addPlane(new Plane(0, 350, 390, 350, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }

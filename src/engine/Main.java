@@ -111,6 +111,9 @@ public class Main extends JFrame {
             getActionMap().put("pos_f", pos_f());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_C)), "pos_c");
             getActionMap().put("pos_c", pos_c());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_SPACE)), "pos_space");
+            getActionMap().put("pos_space", pos_space());
+            
         }
 
         private Action ctrl_down() {
@@ -171,6 +174,15 @@ public class Main extends JFrame {
                     translateX = -world.objects.get(world.followID).position.x + (panel.getWidth() / 2) / scale;
                     translateY = -world.objects.get(world.followID).position.y + (panel.getHeight() / 2) / scale;
                     if (!playing) repaint();
+                }
+            };
+        }
+        
+        private Action pos_space() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    optionFrame.panel.pause.doClick();
                 }
             };
         }
