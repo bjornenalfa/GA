@@ -1,7 +1,6 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -37,13 +36,13 @@ public class RectangleShape extends Shape {
      */
     @Override
     public void calculateI() {
-        I = (1.0/12.0) * mass * 0.001 * (width*width*0.0001 + height*height*0.0001);
+        I = (1.0/12.0) * mass * (width*width*0.0001 + height*height*0.0001);
     }
 
     public void calcLines() { //Calculated from the top left corner :>
-        Line top = new Line(new Point.Double(x, y), new Vector2D(width, rotation));
+        Line top = new Line(new Point.Double(x, y), new Vector2D(width, dRotate));
         lines[0] = top;
-        Line left = new Line(new Point.Double(x, y), new Vector2D(height, rotation + Math.PI / 2));
+        Line left = new Line(new Point.Double(x, y), new Vector2D(height, dRotate+ Math.PI / 2));
         lines[1] = left;
         lines[2] = new Line(left.end, top.vector);
         lines[3] = new Line(top.end, left.vector);
@@ -61,6 +60,7 @@ public class RectangleShape extends Shape {
     @Override
     public void calcNextPosition() {
         vector.readyPoint();
+        rotation = parent.nextRotation + dRotate;
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
         calcLines();
@@ -69,7 +69,7 @@ public class RectangleShape extends Shape {
     @Override
     public void rotate(double angle) {
         middleToOrigin.rotate(angle);
-        rotation += angle;
+        rotation = rotation + angle;
         vector.rotate(angle);
     }
 

@@ -17,13 +17,14 @@ public class Object {
     Vector2D velocity = new Vector2D(0, 0);
     Vector2D nextVelocity;
     Vector2D acceleration = new Vector2D(0, 0);
-    double rotation;
-    double angularVelocity;
-    double torque;
-    double nextRotation;
-    double nextAngularVelocity;
-    double nextTorque;
+    double rotation = 0;
+    double angularVelocity = 0;
+    double torque = 0;
+    double nextRotation = 0;
+    double nextAngularVelocity = 0;
+    double nextTorque = 0;
     double restitution = 0.5;
+    double inertia = 1;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;
@@ -62,8 +63,8 @@ public class Object {
     public void preUpdate(double dt, Vector2D g) {
         nextPosition = move(position, velocity, new Vector2D(new Point.Double(acceleration.point.x + g.point.x, acceleration.point.y + g.point.y)), dt);
         nextVelocity = new Vector2D(new Point.Double(velocity.point.x + g.point.x * dt, velocity.point.y + g.point.y * dt));
-        nextRotation = rotation + angularVelocity + torque * dt * dt / 2;
-        nextAngularVelocity = angularVelocity + torque * dt;
+        nextAngularVelocity = angularVelocity + (torque / inertia) * dt;
+        nextRotation = rotation + angularVelocity * dt;
         System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.point.x + ":" + nextVelocity.point.y + "}");
         System.out.println("av:" + angularVelocity + ";r:" + rotation + ";tq:" + torque);
 
@@ -75,8 +76,8 @@ public class Object {
     public void endUpdate() {
         position = nextPosition;
         velocity = nextVelocity;
-        rotate(nextRotation - rotation);
-        //rotation = nextRotation;
+        //rotate(nextRotation - rotation);
+        rotation = nextRotation;
         angularVelocity = nextAngularVelocity;
     }
 

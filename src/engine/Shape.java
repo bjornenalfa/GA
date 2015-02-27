@@ -1,10 +1,8 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Line2D;
 
 /**
  *
@@ -13,7 +11,8 @@ import java.awt.geom.Line2D;
 public class Shape {
 
     Vector2D vector; //Anchor in object's position
-    double rotation; //relative to object's rotation
+    double dRotate; //relative to object's rotation
+    double rotation; //actual rotation
     double mass;//mass in g
     double x, y; // X, Y coordinates; Width and Height
     double I; //Tröghetsmomentet
@@ -33,6 +32,7 @@ public class Shape {
     public Shape(Vector2D v, double r, double m, Color c) {
         vector = v;
         //vector.readyPoint();
+        dRotate = r;
         rotation = r;
         mass = m;
         myC = c;
@@ -61,12 +61,14 @@ public class Shape {
 
     public void calcPosition() {
         vector.readyPoint();
+        rotation = parent.rotation + dRotate;
         x = parent.position.x + vector.point.x;
         y = parent.position.y + vector.point.y;
     }
 
     public void calcNextPosition() {
         vector.readyPoint();
+        rotation = parent.nextRotation + dRotate;
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
     }

@@ -53,7 +53,7 @@ public class CollisionChecker {
     public static boolean pointInRectangleShape(RectangleShape rs, Point.Double p) {
         Vector2D vector = new Vector2D(new Point.Double(p.x - rs.x, p.y - rs.y));
         System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
-        vector.rotate(-rs.rotation);
+        vector.rotate(-rs.dRotate);
         vector.readyPoint();
         System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + rs.width + ":" + rs.height);
         System.out.println(!(vector.point.x < 0 || vector.point.x > rs.width || vector.point.y < 0 || vector.point.y > rs.height));
