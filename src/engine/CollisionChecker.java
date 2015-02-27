@@ -189,7 +189,7 @@ public class CollisionChecker {
                     System.out.println("Impulse big thingy stuff " + ImpLength);
 
                     //FRICTION
-                    ObjectAndPlaneCollisionFrictionCalculator(object, plane, ImpLength);
+                    ObjectAndPlaneCollisionFrictionCalculator(object, plane, ImpLength, world);
 
                     if (object.shapes.get(0) instanceof RectangleShape) {
                         RectanglePlanePositionCorrection(object, plane);
@@ -277,7 +277,7 @@ public class CollisionChecker {
         }
     }
 
-    public static void ObjectAndPlaneCollisionFrictionCalculator(Object object, Plane plane, double collisionMagnitude) {
+    public static void ObjectAndPlaneCollisionFrictionCalculator(Object object, Plane plane, double collisionMagnitude, World world) {
         Vector2D tangent = new Vector2D(object.nextVelocity).subtract(new Vector2D(plane.normal).multiply(Vector2D.scalarProductCoordinates(object.nextVelocity, plane.normal)));
         tangent.normalize();
         double jt = -Vector2D.scalarProductCoordinates(object.nextVelocity, tangent);
@@ -297,6 +297,10 @@ public class CollisionChecker {
             frictionImpulse = tangent.multiply(Friction.getDynamic(object.material, plane.material) * collisionMagnitude);
         }
         System.out.println("FRICTION IMPULSE " + frictionImpulse.show());
+        //VISUAL IMPULSE
+        Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
+        Point.Double p = new Point.Double(plane.surface.origin.x+impOrt.point.x, plane.surface.origin.y+impOrt.point.y);
+        world.impulses.add(new Line(p, frictionImpulse));
         object.nextVelocity.add(frictionImpulse);
     }
 
