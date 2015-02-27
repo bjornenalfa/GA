@@ -73,6 +73,9 @@ public class OptionFrame extends JFrame {
         JButton save;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
 
+        double savedTransX;
+        double savedTransY;
+        
         private void addButtons() {
             play = new JButton("Play");
             play.addActionListener(new ActionListener() {
@@ -142,21 +145,27 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (saved) {
+                        boolean temp1 = mainPanel.world.follow;
                         mainPanel.world = copyWorld(backupWorld);
+                        mainPanel.world.follow = temp1;
+                        Main.translateX = savedTransX;
+                        Main.translateY = savedTransY;
+                        mainPanel.requestFocus();
                     }
                 }
             });
             add(reset);
         }
-
-        ;
-
+        
         private void makeBackup() {
+            savedTransX = Main.translateX;
+            savedTransY = Main.translateY;
             backupWorld = copyWorld(mainPanel.world);
         }
 
         private World copyWorld(World world) {
             World newWorld = new World(world.gravity);
+            newWorld.time = world.time;
             for (Object o : world.objects) {
                 Object newO = new Object();
                 newO.position = new Point.Double(o.position.x, o.position.y);
@@ -176,10 +185,13 @@ public class OptionFrame extends JFrame {
                 newO.angularVelocity = o.angularVelocity;
                 newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
+                newO.material = o.material;
                 newWorld.objects.add(newO);
             }
             for (Plane p : world.planes) {
-                newWorld.planes.add(new Plane(p.surface));
+                Plane newP = new Plane(p.surface);
+                newP.material = p.material;
+                newWorld.planes.add(newP);
             }
             return newWorld;
         }

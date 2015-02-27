@@ -83,7 +83,6 @@ public class Main extends JFrame {
         boolean adding = false;
         OptionFrame optionFrame;
         World world;
-        
 
         public MyJPanel() {
             addKeyBindings();
