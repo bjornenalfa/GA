@@ -37,7 +37,7 @@ public class Main extends JFrame {
         //setOpacity((float) 0.9);
         panel.setPreferredSize(new Dimension(800, 600));
         CustomOptionMenu menu = (CustomOptionMenu) panel.optionFrame.getJMenuBar();
-        menu.setupSeven.doClick();
+        menu.setupTwelve.doClick();
         setContentPane(panel);
         pack();
 
