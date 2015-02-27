@@ -216,7 +216,7 @@ public class CustomOptionMenu extends JMenuBar {
         double r = doubleInput("Enter rotation.");
         double m = doubleInput("Enter mass.");
         Color c = stringToColorInput("Enter color.");
-        panel.world.addObject(new Object(new RectangleShape(w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x - w / 2, p.y - h / 2)));
+        panel.world.addObject(new Object(new RectangleShape(w, h, new Vector2D(0, 0), r, m, c), new Point.Double(p.x, p.y)));
         if (!Main.playing) panel.repaint();
     }
 

@@ -1,6 +1,7 @@
 package engine;
 
 import engine.Main.MyJPanel;
+import static engine.Main.playing;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -59,7 +60,6 @@ public class OptionFrame extends JFrame {
 
         public MyOptionPanel(MyJPanel mainPanel) {
             setLayout(new GridLayout(3, 3, 5, 5));
-            addKeyBindings();
             this.mainPanel = mainPanel;
             addButtons();
             add(dtLabel);
@@ -72,7 +72,7 @@ public class OptionFrame extends JFrame {
         JButton reset;
         JButton save;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
-        
+
         private void addButtons() {
             play = new JButton("Play");
             play.addActionListener(new ActionListener() {
@@ -123,7 +123,9 @@ public class OptionFrame extends JFrame {
                     }
                     mainPanel.world.update(dt);
                     updateLabels();
-                    mainPanel.repaint();
+                    if (!playing) {
+                        mainPanel.repaint();
+                    }
                     mainPanel.requestFocus();
                 }
             });
@@ -148,13 +150,16 @@ public class OptionFrame extends JFrame {
                         boolean temp1 = mainPanel.world.follow;
                         mainPanel.world = copyWorld(backupWorld);
                         mainPanel.world.follow = temp1;
+                        if (!playing) {
+                            mainPanel.repaint();
+                        }
                         mainPanel.requestFocus();
                     }
                 }
             });
             add(reset);
         }
-        
+
         private void makeBackup() {
             backupWorld = copyWorld(mainPanel.world);
         }
@@ -190,69 +195,6 @@ public class OptionFrame extends JFrame {
                 newWorld.planes.add(newP);
             }
             return newWorld;
-        }
-
-        private void addKeyBindings() {
-            char exit = KeyEvent.VK_ESCAPE;
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
-            getActionMap().put("exit", exit());
-            char updateChar = KeyEvent.VK_U;
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(updateChar), "update");
-            getActionMap().put("update", updat());
-            char playChar = KeyEvent.VK_P;
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(playChar), "play");
-            getActionMap().put("play", play());
-            char pauseChar = KeyEvent.VK_SPACE;
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(pauseChar), "pause");
-            getActionMap().put("pause", pause());
-            char resetChar = KeyEvent.VK_R;
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(resetChar), "reset");
-            getActionMap().put("reset", reset());
-        }
-
-        private Action exit() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
-                }
-            };
-        }
-
-        private Action updat() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    update.doClick();
-                }
-            };
-        }
-
-        private Action play() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    play.doClick();
-                }
-            };
-        }
-
-        private Action pause() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    pause.doClick();
-                }
-            };
-        }
-
-        private Action reset() {
-            return new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    reset.doClick();
-                }
-            };
         }
 
         private void updateLabels() {

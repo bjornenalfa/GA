@@ -111,8 +111,12 @@ public class Main extends JFrame {
             getActionMap().put("pos_f", pos_f());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_C)), "pos_c");
             getActionMap().put("pos_c", pos_c());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_P)), "pos_p");
-            getActionMap().put("pos_p", pos_p());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_P)), "pauseplay");
+            getActionMap().put("pauseplay", pauseplay());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_U)), "update");
+            getActionMap().put("update", updat());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_I)), "reset");
+            getActionMap().put("reset", reset());
 
         }
 
@@ -184,11 +188,10 @@ public class Main extends JFrame {
             };
         }
 
-        private Action pos_p() {
+        private Action pauseplay() {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("LEAPEOSPOEKEPLASKEPOKA");
                     if (optionFrame.panel.paused) {
                         optionFrame.panel.play60.doClick();
                     } else {
@@ -198,6 +201,24 @@ public class Main extends JFrame {
             };
         }
 
+        private Action updat() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    optionFrame.panel.update.doClick();
+                }
+            };
+        }
+        
+        private Action reset() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    optionFrame.panel.reset.doClick();
+                }
+            };
+        }
+        
         private Action exit() {
             return new AbstractAction() {
                 @Override
