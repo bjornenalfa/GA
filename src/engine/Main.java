@@ -51,33 +51,33 @@ public class Main extends JFrame {
     }
 
     /*private void moveWorld(World w, double x, double y) {
-        for (Object o : w.objects) {
-            o.position.x -= x;
-            o.position.y -= y;
-        }
-        for (Plane o : w.planes) {
-            o.surface.origin.x -= x;
-            o.surface.end.x -= x;
-            o.surface.origin.y -= y;
-            o.surface.end.y -= y;
-        }
-        if (!playing) repaint();
-    }*/
-
+     for (Object o : w.objects) {
+     o.position.x -= x;
+     o.position.y -= y;
+     }
+     for (Plane o : w.planes) {
+     o.surface.origin.x -= x;
+     o.surface.end.x -= x;
+     o.surface.origin.y -= y;
+     o.surface.end.y -= y;
+     }
+     if (!playing) repaint();
+     }*/
     private void changeScale(World w, double res) {
-        double x = -res*((panel.getWidth()/2)/scale - translateX);
-        double y = -res*((panel.getHeight()/2)/scale - translateY);
+        double x = -res * ((panel.getWidth() / 2) / scale - translateX);
+        double y = -res * ((panel.getHeight() / 2) / scale - translateY);
         scale -= res * (scale * 0.1);
         translateX -= x * 0.1;
         translateY -= y * 0.1;
-        translateX *= 1/(1-res*0.1);
-        translateY *= 1/(1-res*0.1);
-        if (!playing) repaint();
+        translateX *= 1 / (1 - res * 0.1);
+        translateY *= 1 / (1 - res * 0.1);
+        if (!playing) {
+            repaint();
+        }
     }
 
     public class MyJPanel extends JPanel {
 
-        
         double dt = 0;
         boolean removing = false;
         boolean adding = false;
@@ -87,7 +87,7 @@ public class Main extends JFrame {
         public MyJPanel() {
             addKeyBindings();
             world = new World(new Vector2D(0, 982));
-            
+
             optionFrame = new OptionFrame(this);
             MouseAdapter ma = getMouseAdapter();
             addMouseListener(ma);
@@ -111,9 +111,9 @@ public class Main extends JFrame {
             getActionMap().put("pos_f", pos_f());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_C)), "pos_c");
             getActionMap().put("pos_c", pos_c());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_SPACE)), "pos_space");
-            getActionMap().put("pos_space", pos_space());
-            
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_P)), "pos_p");
+            getActionMap().put("pos_p", pos_p());
+
         }
 
         private Action ctrl_down() {
@@ -142,7 +142,9 @@ public class Main extends JFrame {
                     scale = 1;
                     //translateX = 0;
                     //translateY = 0;
-                    if (!playing) repaint();
+                    if (!playing) {
+                        repaint();
+                    }
                 }
             };
         }
@@ -153,7 +155,9 @@ public class Main extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     translateX = 0;
                     translateY = 0;
-                    if (!playing) repaint();
+                    if (!playing) {
+                        repaint();
+                    }
                 }
             };
         }
@@ -173,16 +177,23 @@ public class Main extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     translateX = -world.objects.get(world.followID).position.x + (panel.getWidth() / 2) / scale;
                     translateY = -world.objects.get(world.followID).position.y + (panel.getHeight() / 2) / scale;
-                    if (!playing) repaint();
+                    if (!playing) {
+                        repaint();
+                    }
                 }
             };
         }
-        
-        private Action pos_space() {
+
+        private Action pos_p() {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    optionFrame.panel.pause.doClick();
+                    System.out.println("LEAPEOSPOEKEPLASKEPOKA");
+                    if (optionFrame.panel.paused) {
+                        optionFrame.panel.play60.doClick();
+                    } else {
+                        optionFrame.panel.pause.doClick();
+                    }
                 }
             };
         }
@@ -216,14 +227,18 @@ public class Main extends JFrame {
                         }
                         if (stiff != null) {
                             world.objects.remove(stiff);
-                            if (!playing) repaint();
+                            if (!playing) {
+                                repaint();
+                            }
                             removing = false;
                         }
                     }
                     if (adding) {
                         CustomOptionMenu test = (CustomOptionMenu) optionFrame.getJMenuBar();
                         test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
-                        if (!playing) repaint();
+                        if (!playing) {
+                            repaint();
+                        }
                         adding = false;
                     }
                 }
@@ -251,7 +266,9 @@ public class Main extends JFrame {
                         double nowY = e.getY();
                         translateX -= (prevX - nowX) / scale;
                         translateY -= (prevY - nowY) / scale;
-                        if (!playing) repaint();
+                        if (!playing) {
+                            repaint();
+                        }
                         prevX = nowX;
                         prevY = nowY;
                     }
