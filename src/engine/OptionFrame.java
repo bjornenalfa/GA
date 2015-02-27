@@ -173,7 +173,7 @@ public class OptionFrame extends JFrame {
                     s.vector.readyPoint();
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x + rs.width / 2, s.vector.point.y + rs.height / 2)), s.dRotate, s.mass, s.myC));
+                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC));
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC));
