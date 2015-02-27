@@ -184,12 +184,12 @@ public class Vector2D {
         return vector1.point.x * vector2.point.y - vector1.point.y * vector2.point.x;
     }
 
-    public static Vector2D crossProduct(Vector2D vector1, double k) {
-        return new Vector2D(k * vector1.point.y, -k * vector1.point.x);
+    public static Vector2D crossProduct(Vector2D vector, double k) {
+        return new Vector2D(k * vector.point.y, -k * vector.point.x);
     }
     
-    public static Vector2D crossProduct( double k, Vector2D vector1) {
-        return new Vector2D(-k * vector1.point.y, k * vector1.point.x);
+    public static Vector2D crossProduct( double k, Vector2D vector) {
+        return new Vector2D(-k * vector.point.y, k * vector.point.x);
     }
 
     public static Vector2D OrthogonalProjection(Vector2D vector, Vector2D base) {

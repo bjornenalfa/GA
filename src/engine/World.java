@@ -60,14 +60,15 @@ public class World {
             plane.paint(g);
         }
         
+        while (impulses.size()>=200){
+            impulses.remove(0);
+        }
+        
         g.setColor(new Color(0.3f,0.3f,1f,0.7f));
         //impulse.paint(g);
         pImpulses = (ArrayList<Line>) impulses.clone();
         for (Line l : pImpulses) {
             l.paint(g);
-        }
-        while (impulses.size()>=200){
-            impulses.remove(0);
         }
     }
 

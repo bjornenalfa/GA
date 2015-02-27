@@ -1,8 +1,6 @@
 package engine;
 
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -134,7 +132,10 @@ public class CollisionChecker {
     }
 
     private static boolean planeAndCircleIntersect(CircleShape shape, Plane plane) {
-        return DistanceBetweenPointAndPlane(new Point.Double(shape.x, shape.y), plane) < shape.radius;
+        Vector2D planeToCenter = new Vector2D(plane.surface.origin, new Point.Double(shape.x,shape.y));
+        double distanceNormal = Math.abs(Vector2D.scalarProductCoordinates(planeToCenter , plane.normal));
+        double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter , new Vector2D(plane.surface.vector).normalize());
+        return !((distanceNormal > shape.radius) || (distanceTangent < 0) || (distanceTangent > plane.surface.vector.getLength()));
     }
 
     private static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
