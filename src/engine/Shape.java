@@ -66,6 +66,7 @@ public class Shape {
     }
 
     public void calcNextPosition() {
+        vector.readyPoint();
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
     }

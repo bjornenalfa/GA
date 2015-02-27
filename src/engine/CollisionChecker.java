@@ -99,10 +99,10 @@ public class CollisionChecker {
         return false;
     }
 
-    private static boolean circleAndCirleIntersect(CircleShape cir1, CircleShape cir2){
-        return (cir2.x-cir1.x)*(cir2.x-cir1.x)+(cir2.y-cir1.y)*(cir2.y-cir1.y) < (cir1.radius+cir2.radius)*(cir1.radius+cir2.radius);
+    private static boolean circleAndCirleIntersect(CircleShape cir1, CircleShape cir2) {
+        return (cir2.x - cir1.x) * (cir2.x - cir1.x) + (cir2.y - cir1.y) * (cir2.y - cir1.y) < (cir1.radius + cir2.radius) * (cir1.radius + cir2.radius);
     }
-    
+
     private static Point.Double planeAndRectangleIntersectCorner(RectangleShape rectangle, Plane plane) {
         rectangle.calcLines();
         Point.Double point = null;
@@ -132,10 +132,38 @@ public class CollisionChecker {
     }
 
     private static boolean planeAndCircleIntersect(CircleShape shape, Plane plane) {
-        Vector2D planeToCenter = new Vector2D(plane.surface.origin, new Point.Double(shape.x,shape.y));
-        double distanceNormal = Math.abs(Vector2D.scalarProductCoordinates(planeToCenter , plane.normal));
-        double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter , new Vector2D(plane.surface.vector).normalize());
-        return !((distanceNormal > shape.radius) || (distanceTangent < 0) || (distanceTangent > plane.surface.vector.getLength()));
+        Vector2D planeToCenter = new Vector2D(plane.surface.origin, new Point.Double(shape.x, shape.y));
+        double distanceNormal = Math.abs(Vector2D.scalarProductCoordinates(planeToCenter, plane.normal));
+        double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter, new Vector2D(plane.surface.vector).normalize());
+        //System.out.println("distanceNormal");
+        //System.out.println("distanceTangent");
+        if (distanceNormal < shape.radius) {
+            //System.out.println("PotentialNormal");
+            if (distanceTangent > plane.surface.vector.getLength()) {
+                //System.out.println("Too far +");
+                if (distanceTangent > plane.surface.vector.getLength() + shape.radius) {
+                    //System.out.println("Maybe:"+(Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius*shape.radius));
+                    return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius*shape.radius;
+                } else {
+                    //System.out.println("No");
+                    return false;
+                }
+            } else if (distanceTangent < 0) {
+                //System.out.println("Too far -");
+                if (distanceTangent > -shape.radius) {
+                    //System.out.println("Maybe:"+(Point.Double.distanceSq(plane.surface.origin.x, plane.surface.origin.y, shape.x, shape.y) < shape.radius*shape.radius));
+                    return Point.Double.distanceSq(plane.surface.origin.x, plane.surface.origin.y, shape.x, shape.y) < shape.radius*shape.radius;
+                } else {
+                    //System.out.println("No");
+                    return false;
+                }
+            } else {
+                //System.out.println("On line");
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     private static boolean planeAndShapeIntersect(Shape shape, Plane plane) {
@@ -184,7 +212,7 @@ public class CollisionChecker {
                     Vector2D impulse = new Vector2D(new Vector2D(plane.getNormalizedNormal()).multiply(ImpLength));
                     object.nextVelocity = object.velocity.add(impulse.multiply(-1 / object.getMass()));
                     Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
-                    Point.Double p = new Point.Double(plane.surface.origin.x+impOrt.point.x, plane.surface.origin.y+impOrt.point.y);
+                    Point.Double p = new Point.Double(plane.surface.origin.x + impOrt.point.x, plane.surface.origin.y + impOrt.point.y);
                     world.impulses.add(new Line(p, impulse));
                     //world.impulse = new Line(p, impulse);
                     System.out.println("Impulse big thingy stuff " + ImpLength);
@@ -300,7 +328,7 @@ public class CollisionChecker {
         System.out.println("FRICTION IMPULSE " + frictionImpulse.show());
         //VISUAL IMPULSE
         Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.position), plane.surface.vector);
-        Point.Double p = new Point.Double(plane.surface.origin.x+impOrt.point.x, plane.surface.origin.y+impOrt.point.y);
+        Point.Double p = new Point.Double(plane.surface.origin.x + impOrt.point.x, plane.surface.origin.y + impOrt.point.y);
         world.impulses.add(new Line(p, frictionImpulse));
         object.nextVelocity.add(frictionImpulse);
     }
