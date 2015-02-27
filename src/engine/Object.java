@@ -19,16 +19,17 @@ public class Object {
     Vector2D acceleration = new Vector2D(0, 0);
     double rotation;
     double angularVelocity;
-    double angularAcceleration;
+    double torque;
     double nextRotation;
     double nextAngularVelocity;
+    double nextTorque;
     double restitution = 0.5;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;
-    ArrayList<Object> collisions = new ArrayList();
-    ArrayList<Plane> touching = new ArrayList();
-    ArrayList<Force> forces = new ArrayList();
+    //ArrayList<Object> collisions = new ArrayList();
+    //ArrayList<Plane> touching = new ArrayList();
+    //ArrayList<Force> forces = new ArrayList();
     int material = Material.Wood;
 
     public Object() {
@@ -61,10 +62,10 @@ public class Object {
     public void preUpdate(double dt, Vector2D g) {
         nextPosition = move(position, velocity, new Vector2D(new Point.Double(acceleration.point.x + g.point.x, acceleration.point.y + g.point.y)), dt);
         nextVelocity = new Vector2D(new Point.Double(velocity.point.x + g.point.x * dt, velocity.point.y + g.point.y * dt));
-        nextRotation = rotation + angularVelocity * dt;
-        nextAngularVelocity = angularVelocity + angularAcceleration * dt * dt / 2;
+        nextRotation = rotation + angularVelocity + torque * dt * dt / 2;
+        nextAngularVelocity = angularVelocity + torque * dt;
         System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.point.x + ":" + nextVelocity.point.y + "}");
-        System.out.println("av:" + angularVelocity + ";r:" + rotation + ";aa:" + angularAcceleration);
+        System.out.println("av:" + angularVelocity + ";r:" + rotation + ";tq:" + torque);
 
         for (Shape shape : shapes) {
             shape.calcNextPosition();
