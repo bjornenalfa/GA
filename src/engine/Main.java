@@ -1,6 +1,5 @@
 package engine;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -209,7 +208,7 @@ public class Main extends JFrame {
                 }
             };
         }
-        
+
         private Action reset() {
             return new AbstractAction() {
                 @Override
@@ -218,7 +217,7 @@ public class Main extends JFrame {
                 }
             };
         }
-        
+
         private Action exit() {
             return new AbstractAction() {
                 @Override
