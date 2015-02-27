@@ -46,6 +46,7 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupEight = makeSetupEight();
     JMenuItem setupNine = makeSetupNine();
     JMenuItem setupTen = makeSetupTen();
+    JMenuItem setupEleven = makeSetupEleven();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -72,6 +73,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupEight);
         setup.add(setupNine);
         setup.add(setupTen);
+        setup.add(setupEleven);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -555,6 +557,23 @@ public class CustomOptionMenu extends JMenuBar {
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
                 }
+                panel.optionFrame.panel.save.doClick();
+                if (!Main.playing) panel.repaint();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupEleven() {
+        JMenuItem setup = new JMenuItem("Setup Eleven");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 0));
+                panel.world.follow = false;
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                panel.world.objects.get(0).angularVelocity = 1;
+                panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) panel.repaint();
             }

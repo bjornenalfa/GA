@@ -13,6 +13,8 @@ import java.awt.Point;
 public class RectangleShape extends Shape {
 
     int width, height; // Width and Height
+    
+    double middleToOrigindr;
 
     Vector2D middleToOrigin;
 
@@ -24,25 +26,26 @@ public class RectangleShape extends Shape {
     public RectangleShape(int w, int h, Vector2D v, double r, double m, Color c) {
         super(v, r, m, c);
         middleToOrigin = new Vector2D(-w / 2, -h / 2);
+        middleToOrigindr = middleToOrigin.getAngle();
         middleToOrigin.rotate(r);
-        vector.add(middleToOrigin);
         width = w;
         height = h;
         calculateI();
     }
-    
+
     /**
      * Räknar ut tröghetsmomentet
      */
     @Override
     public void calculateI() {
-        I = (1.0/12.0) * mass * (width*width*0.0001 + height*height*0.0001);
+        I = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
     }
 
     public void calcLines() { //Calculated from the top left corner :>
-        Line top = new Line(new Point.Double(x, y), new Vector2D(width, dRotate));
+        middleToOrigin.readyPoint();
+        Line top = new Line(new Point.Double(middleToOrigin.point.x+x, middleToOrigin.point.y+y), new Vector2D(width, rotation));
         lines[0] = top;
-        Line left = new Line(new Point.Double(x, y), new Vector2D(height, dRotate+ Math.PI / 2));
+        Line left = new Line(new Point.Double(middleToOrigin.point.x+x, middleToOrigin.point.y+y), new Vector2D(height, rotation + Math.PI / 2));
         lines[1] = left;
         lines[2] = new Line(left.end, top.vector);
         lines[3] = new Line(top.end, left.vector);
@@ -61,6 +64,7 @@ public class RectangleShape extends Shape {
     public void calcNextPosition() {
         vector.readyPoint();
         rotation = parent.nextRotation + dRotate;
+        middleToOrigin.rotate(rotation-(middleToOrigin.angle-middleToOrigindr));
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
         calcLines();
