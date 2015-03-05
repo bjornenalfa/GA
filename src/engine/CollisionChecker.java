@@ -208,7 +208,28 @@ public class CollisionChecker {
                     System.out.println("COLLISIONS");
 
                     //NORMALS
-                    Point.Double collisionPoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+                    Point.Double collisionPoint = null;
+                    if (object.shapes.get(0) instanceof RectangleShape) {
+                        collisionPoint = planeAndRectangleIntersectCorner((RectangleShape) object.shapes.get(0), plane);
+                    } else if (object.shapes.get(0) instanceof CircleShape) {
+                        CircleShape shape = (CircleShape) object.shapes.get(0);
+                        Vector2D planeToCenter = new Vector2D(plane.surface.origin, new Point.Double(shape.x, shape.y));
+                        double distanceNormal = Math.abs(Vector2D.scalarProductCoordinates(planeToCenter, plane.normal));
+                        double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter, new Vector2D(plane.surface.vector).normalize());
+                        if (distanceNormal < shape.radius) {
+                            if (distanceTangent > plane.surface.vector.getLength()) {
+                                if (distanceTangent > plane.surface.vector.getLength() + shape.radius) {
+                                    collisionPoint = plane.surface.end; //return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius * shape.radius;
+                                }
+                            } else if (distanceTangent < 0) {
+                                if (distanceTangent > -shape.radius) {
+                                    collisionPoint = plane.surface.origin;
+                                }
+                            } else {
+                                collisionPoint = Vector2D.OrthogonalProjection(planeToCenter, plane.surface.vector).getPoint();
+                            }
+                        }
+                    }
                     if (collisionPoint == null) {
                         collisionPoint = planeCornerInRectangle((RectangleShape) object.shapes.get(0), plane);
                     }
