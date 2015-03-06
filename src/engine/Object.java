@@ -24,7 +24,7 @@ public class Object {
     double nextAngularVelocity = 0;
     double nextTorque = 0;
     double restitution = 0.5;
-    double inertia = 1;
+    double inertia = 10000;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;

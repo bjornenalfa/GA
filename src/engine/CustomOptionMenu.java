@@ -514,13 +514,14 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(0, 5000);
-                int x = 100, y = 100;
+                int x = 90, y = 100;
                 double angle = Math.toRadians(90);
-                double length = 102;
+                double length = 200;
                 int segments = 360;
+                double extra = 250;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5), Material.Boost));
+                    panel.world.addPlane(new Plane((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), Material.Concrete));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
