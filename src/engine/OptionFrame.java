@@ -57,7 +57,6 @@ public class OptionFrame extends JFrame {
             setLayout(new GridLayout(3, 3, 5, 5));
             this.mainPanel = mainPanel;
             addButtons();
-            add(dtLabel);
         }
 
         JButton update;
@@ -66,6 +65,7 @@ public class OptionFrame extends JFrame {
         JButton pause;
         JButton reset;
         JButton save;
+        JButton setDt;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
 
         private void addButtons() {
@@ -153,6 +153,18 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(reset);
+
+            add(dtLabel);
+            add(new JLabel(""));
+
+            setDt = new JButton("Set dt");
+            setDt.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dt = CustomOptionMenu.doubleInput("Enter dt.");
+                }
+            });
+            add(setDt);
         }
 
         private void makeBackup() {
