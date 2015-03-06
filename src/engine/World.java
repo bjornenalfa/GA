@@ -58,8 +58,8 @@ public class World {
         for (Plane plane : planes) {
             plane.paint(g);
         }
-
-        while (impulses.size() >= 200) {
+        
+        while (impulses.size() >= 500) {
             impulses.remove(0);
         }
 
