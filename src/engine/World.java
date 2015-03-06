@@ -16,6 +16,8 @@ public class World {
     ArrayList<Plane> planes = new ArrayList();
     ArrayList<Line> impulses = new ArrayList();
     ArrayList<Line> pImpulses = new ArrayList();
+    ArrayList<Line> normals = new ArrayList();
+    ArrayList<Line> pNormals = new ArrayList();
     //Line impulse = new Line(0,0,0,0);
 
     public World(Vector2D gravity) {
@@ -67,6 +69,17 @@ public class World {
         //impulse.paint(g);
         pImpulses = (ArrayList<Line>) impulses.clone();
         for (Line l : pImpulses) {
+            l.paint(g);
+        }
+        
+        while (normals.size() >= 100) {
+            normals.remove(0);
+        }
+
+        g.setColor(new Color(0.3f, 1f, 0.3f, 0.7f));
+        //impulse.paint(g);
+        pNormals = (ArrayList<Line>) normals.clone();
+        for (Line l : pNormals) {
             l.paint(g);
         }
     }

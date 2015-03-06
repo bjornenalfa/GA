@@ -118,15 +118,20 @@ public class CollisionChecker {
                 }
             }
         }
+        System.out.println("LINJER:"+(line1 * 10 + line2));
         switch ((line1 * 10 + line2)) {
             case 1:
                 point = rectangle.lines[0].origin; // VÄNSTER  UPP
+                break;
             case 3:
                 point = rectangle.lines[0].end; // HÖGER UPP
+                break;
             case 12:
                 point = rectangle.lines[1].end; // VÄNSTER NER
+                break;
             case 23:
                 point = rectangle.lines[2].end; // HÖGER NER
+                break;
         }
         return point;
     }
@@ -137,7 +142,7 @@ public class CollisionChecker {
         double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter, new Vector2D(plane.surface.vector).normalize());
         if (distanceNormal < shape.radius) {
             if (distanceTangent > plane.surface.vector.getLength()) {
-                if (distanceTangent > plane.surface.vector.getLength() + shape.radius) {
+                if (distanceTangent < plane.surface.vector.getLength() + shape.radius) {
                     return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius * shape.radius;
                 } else {
                     return false;
@@ -218,7 +223,7 @@ public class CollisionChecker {
                         double distanceTangent = Vector2D.scalarProductCoordinates(planeToCenter, new Vector2D(plane.surface.vector).normalize());
                         if (distanceNormal < shape.radius) {
                             if (distanceTangent > plane.surface.vector.getLength()) {
-                                if (distanceTangent > plane.surface.vector.getLength() + shape.radius) {
+                                if (distanceTangent < plane.surface.vector.getLength() + shape.radius) {
                                     collisionPoint = plane.surface.end; //return Point.Double.distanceSq(plane.surface.end.x, plane.surface.end.y, shape.x, shape.y) < shape.radius * shape.radius;
                                 }
                             } else if (distanceTangent < 0) {
@@ -227,6 +232,8 @@ public class CollisionChecker {
                                 }
                             } else {
                                 collisionPoint = Vector2D.OrthogonalProjection(planeToCenter, plane.surface.vector).getPoint();
+                                collisionPoint.x+=plane.surface.origin.x;
+                                collisionPoint.y+=plane.surface.origin.y;
                             }
                         }
                     }
@@ -249,10 +256,10 @@ public class CollisionChecker {
                     } else {
                         System.out.println("YES CORNER");
                         Vector2D CoMtoCollisionPoint = new Vector2D(object.position, collisionPoint);
-                        Vector2D normal = new Vector2D(CoMtoCollisionPoint);
+                        Vector2D normal = new Vector2D(collisionPoint, object.position);
+                        world.normals.add(new Line(collisionPoint,normal));
                         //Vector2D normal = new Vector2D(1,-1);
                         normal.normalize();
-                        normal.multiply(-1);
 
                         double ImpLength = ObjectAndPlaneCollisionImpulseLengthCalculator(object, plane, normal, CoMtoCollisionPoint);
                         Vector2D impulse = new Vector2D(new Vector2D(normal).multiply(ImpLength));
