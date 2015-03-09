@@ -335,6 +335,44 @@ public class CollisionChecker {
             }
             for (int j = i + 1; j < objects.size(); j++) {
                 if (CollideObjects(objects.get(i), objects.get(j))) {
+                    Object object1 = objects.get(i);
+                    Object object2 = objects.get(j);
+
+                    double restituition = Math.min(object1.restitution, object2.restitution);
+                    double stat_friction = Friction.getStatic(object1.material, object2.material);
+                    double dynamic_friction = Friction.getDynamic(object1.material, object2.material);
+
+                    CircleShape circle;
+                    RectangleShape rectangle;
+                    if (object1.shapes.get(0) instanceof CircleShape) {
+                        Object temp = object1;
+                        object1=object2;
+                        object2=temp;
+                    }
+                    circle = (CircleShape) object2.shapes.get(0);
+                    rectangle = (RectangleShape) object1.shapes.get(0);
+
+                    Vector2D v = new Vector2D(new Point.Double(rectangle.x, rectangle.y), new Point.Double(circle.x, circle.y));
+                    double x = Vector2D.scalarProductCoordinates(v, rectangle.lines[0].vector.normalize());
+                    x = Math.min(rectangle.width / 2.0, Math.max(x, -rectangle.width / 2.0));
+                    double y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
+                    y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
+                    Point.Double collisionPoint = new Point.Double(x, y);
+                    
+                    Vector2D vecObject1R = new Vector2D(object1.position, collisionPoint);
+                    Vector2D vecObject2R = new Vector2D(object2.position, collisionPoint);
+                    Vector2D relVelocity = new Vector2D(object2.velocity).add(Vector2D.crossProduct(object2.angularVelocity, vecObject2R)).subtract(object1.velocity).subtract(Vector2D.crossProduct(object2.angularVelocity, vecObject1R));
+                    
+                    
+                    if (relVelocity.getLength()<(new Vector2D(g).multiply(dt)).getLength()+0.0001){
+                        restituition=0;
+                    }
+                    Vector2D normal = new Vector2D(collisionPoint, object2.position);
+                    normal.normalize();
+                    double contactVelocity = Vector2D.scalarProductCoordinates(relVelocity, normal);
+                    
+                    if (contactVelocity!=0){
+                    }                  
                 }
             }
         }
@@ -356,10 +394,10 @@ public class CollisionChecker {
         Vector2D v = new Vector2D(new Point.Double(rectangle.x, rectangle.y), new Point.Double(circle.x, circle.y));
         double x = Vector2D.scalarProductCoordinates(v, rectangle.lines[0].vector.normalize());
         double cx = x;
-        x = Math.min(rectangle.width/2.0, Math.max(x, -rectangle.width/2.0));
+        x = Math.min(rectangle.width / 2.0, Math.max(x, -rectangle.width / 2.0));
         double y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
         double cy = y;
-        y = Math.min(rectangle.height/2.0, Math.max(y, -rectangle.height/2.0));
+        y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
         if (Point.distanceSq(x, y, cx, cy) <= circle.radius * circle.radius) {
             return true;
         }
