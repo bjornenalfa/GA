@@ -334,60 +334,101 @@ public class CollisionChecker {
                 }
             }
             for (int j = i + 1; j < objects.size(); j++) {
-                if (CollideObjects(objects.get(i), objects.get(j))) {
+                if (CollideObjects(objects.get(i), objects.get(j))!=0) {
                     Object object1 = objects.get(i);
                     Object object2 = objects.get(j);
 
                     double restituition = Math.min(object1.restitution, object2.restitution);
-                    double stat_friction = Friction.getStatic(object1.material, object2.material);
-                    double dynamic_friction = Friction.getDynamic(object1.material, object2.material);
+                    double statFriction = Friction.getStatic(object1.material, object2.material);
+                    double dynamicFriction = Friction.getDynamic(object1.material, object2.material);
 
-                    CircleShape circle;
-                    RectangleShape rectangle;
-                    if (object1.shapes.get(0) instanceof CircleShape) {
-                        Object temp = object1;
-                        object1=object2;
-                        object2=temp;
-                    }
-                    circle = (CircleShape) object2.shapes.get(0);
-                    rectangle = (RectangleShape) object1.shapes.get(0);
+                    CircleShape circle1 = null, circle2 = null;
+                    RectangleShape rectangle1 = null, rectangle2 = null;
 
-                    Vector2D v = new Vector2D(new Point.Double(rectangle.x, rectangle.y), new Point.Double(circle.x, circle.y));
-                    double x = Vector2D.scalarProductCoordinates(v, rectangle.lines[0].vector.normalize());
-                    x = Math.min(rectangle.width / 2.0, Math.max(x, -rectangle.width / 2.0));
-                    double y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
-                    y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
-                    Point.Double collisionPoint = new Point.Double(x, y);
-                    
-                    Vector2D vecObject1R = new Vector2D(object1.position, collisionPoint);
-                    Vector2D vecObject2R = new Vector2D(object2.position, collisionPoint);
-                    Vector2D relVelocity = new Vector2D(object2.velocity).add(Vector2D.crossProduct(object2.angularVelocity, vecObject2R)).subtract(object1.velocity).subtract(Vector2D.crossProduct(object2.angularVelocity, vecObject1R));
-                    
-                    
-                    if (relVelocity.getLength()<(new Vector2D(g).multiply(dt)).getLength()+0.0001){
-                        restituition=0;
+                    switch (CollideObjects(objects.get(i), objects.get(j))) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            Object temp = object1;
+                            object1 = object2;
+                            object2 = temp;
+                        case 4:
+                            circle1 = (CircleShape) object2.shapes.get(0);
+                            rectangle1 = (RectangleShape) object1.shapes.get(0);
+                            Vector2D v = new Vector2D(new Point.Double(rectangle1.x, rectangle1.y), new Point.Double(circle1.x, circle1.y));
+                            double x = Vector2D.scalarProductCoordinates(v, rectangle1.lines[0].vector.normalize());
+                            x = Math.min(rectangle1.width / 2.0, Math.max(x, -rectangle1.width / 2.0));
+                            double y = Vector2D.scalarProductCoordinates(v, rectangle1.lines[1].vector.normalize());
+                            y = Math.min(rectangle1.height / 2.0, Math.max(y, -rectangle1.height / 2.0));
+                            Point.Double collisionPoint = new Point.Double(x, y);
+
+                            Vector2D vecObject1R = new Vector2D(object1.position, collisionPoint);
+                            Vector2D vecObject2R = new Vector2D(object2.position, collisionPoint);
+                            Vector2D relVelocity = new Vector2D(object2.velocity).add(Vector2D.crossProduct(object2.angularVelocity, vecObject2R)).subtract(object1.velocity).subtract(Vector2D.crossProduct(object1.angularVelocity, vecObject1R));
+
+                            if (relVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001) {
+                                restituition = 0;
+                            }
+                            Vector2D normal = new Vector2D(collisionPoint, object2.position);
+                            normal.normalize();
+                            double contactVelocity = Vector2D.scalarProductCoordinates(relVelocity, normal);
+
+                            if (contactVelocity != 0) {
+                                double Object1xN = Vector2D.crossProduct(vecObject1R, normal);
+                                double Object2xN = Vector2D.crossProduct(vecObject1R, normal);
+                                double MassInverseSum = object1.mass + object2.mass + Math.sqrt(Object1xN) * (1 / object1.inertia) + Math.sqrt(Object2xN) * (1 / object2.inertia);
+                                double jj = -(1.0 + restituition) * contactVelocity;
+                                jj /= MassInverseSum;
+                                Vector2D impulse = new Vector2D(normal).multiply(jj);
+                                object1.nextVelocity = object1.velocity.add(new Vector2D(impulse).subtract(impulse).subtract(impulse), vecObject1R);
+                                object2.nextVelocity = object2.velocity.add(impulse, vecObject2R);
+                                
+                                Vector2D tt = new Vector2D(relVelocity).subtract(new Vector2D(normal).multiply(Vector2D.scalarProductCoordinates(relVelocity, normal)));
+                                tt.normalize();
+                                double jjTangent = -Vector2D.scalarProductCoordinates(relVelocity, tt);
+                                jjTangent /= MassInverseSum;
+                                
+                                Vector2D tangentImpulse;
+                                if (Math.abs(jjTangent) < (jj * statFriction)) {
+                                    tangentImpulse = new Vector2D(tt).multiply(jjTangent);
+                                } else {
+                                    tangentImpulse = new Vector2D(tt).multiply(-jj * dynamicFriction);
+                                }
+                                
+                                object1.nextVelocity = object1.velocity.add(new Vector2D(tangentImpulse).subtract(tangentImpulse).subtract(tangentImpulse), vecObject1R);
+                                object2.nextVelocity = object2.velocity.add(tangentImpulse, vecObject2R);
+                            }
+                            break;
+                        case 0:
+                        default:
+                            break;
                     }
-                    Vector2D normal = new Vector2D(collisionPoint, object2.position);
-                    normal.normalize();
-                    double contactVelocity = Vector2D.scalarProductCoordinates(relVelocity, normal);
-                    
-                    if (contactVelocity!=0){
-                    }                  
                 }
             }
         }
     }
 
-    public static boolean CollideObjects(Object object1, Object object2) {
+    public static int CollideObjects(Object object1, Object object2) {
         if (object1.shapes.get(0) instanceof RectangleShape && object2.shapes.get(0) instanceof RectangleShape) {
-            return rectangleAndRectangleIntersect((RectangleShape) object1.shapes.get(0), (RectangleShape) object2.shapes.get(0));
+            if (rectangleAndRectangleIntersect((RectangleShape) object1.shapes.get(0), (RectangleShape) object2.shapes.get(0))) {
+                return 1;
+            }
         } else if (object1.shapes.get(0) instanceof CircleShape && object2.shapes.get(0) instanceof CircleShape) {
-            return circleAndCirleIntersect((CircleShape) object1.shapes.get(0), (CircleShape) object2.shapes.get(0));
+            if (circleAndCirleIntersect((CircleShape) object1.shapes.get(0), (CircleShape) object2.shapes.get(0))) {
+                return 2;
+            }
         } else if (object1.shapes.get(0) instanceof RectangleShape && object2.shapes.get(0) instanceof CircleShape) {
-            return rectangleAndCircleIntersect((RectangleShape) object1.shapes.get(0), (CircleShape) object2.shapes.get(0));
+            if (rectangleAndCircleIntersect((RectangleShape) object1.shapes.get(0), (CircleShape) object2.shapes.get(0))) {
+                return 4;
+            }
         } else {
-            return rectangleAndCircleIntersect((RectangleShape) object2.shapes.get(0), (CircleShape) object1.shapes.get(0));
+            if (rectangleAndCircleIntersect((RectangleShape) object2.shapes.get(0), (CircleShape) object1.shapes.get(0))) {
+                return 3;
+            }
         }
+        return 0;
     }
 
     public static boolean rectangleAndCircleIntersect(RectangleShape rectangle, CircleShape circle) {
