@@ -50,6 +50,7 @@ public class Object {
         calcMassCenter();
         shape.setParent(this);
         material = mat;
+        restitution = Restitution.get(mat);
     }
 
     public void calcMassCenter() {
