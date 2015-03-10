@@ -27,15 +27,12 @@ public class Object {
     double inertia = 1000;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
+    Double inverseMass;
     int ID;
     //ArrayList<Object> collisions = new ArrayList();
     //ArrayList<Plane> touching = new ArrayList();
     //ArrayList<Force> forces = new ArrayList();
     int material = Material.Wood;
-
-    public Object() {
-
-    }
 
     public Object(Shape shape, Point.Double pos) {
         shapes.add(shape);
@@ -55,10 +52,13 @@ public class Object {
 
     public void calcMassCenter() {
         massCenter = new Vector2D(0, 0);
+        mass = 0d;
         for (Shape shape : shapes) {
+            mass += shape.mass;
             //todo, discuss next time
             //massCenter.
         }
+        inverseMass = 1 / mass;
     }
 
     public void preUpdate(double dt, Vector2D g) {
