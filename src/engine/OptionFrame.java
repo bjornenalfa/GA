@@ -180,10 +180,18 @@ public class OptionFrame extends JFrame {
                     s.vector.readyPoint();
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC),new Point.Double(o.position.x, o.position.y),o.material);
+                        if (o instanceof FixedObject) {
+                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                        } else {
+                            newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                        }
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC),new Point.Double(o.position.x, o.position.y),o.material);
+                        if (o instanceof FixedObject) {
+                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                        } else {
+                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                        }
                     }
                 }
                 newO.velocity = o.velocity;
