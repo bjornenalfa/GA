@@ -50,6 +50,7 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupTwelve = makeSetupTwelve();
     JMenuItem setupThirteen = makeSetupThirteen();
     JMenuItem setupFourteen = makeSetupFourteen();
+    JMenuItem setupFifteen = makeSetupFifteen();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -80,6 +81,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupTwelve);
         setup.add(setupThirteen);
         setup.add(setupFourteen);
+        setup.add(setupFifteen);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -666,6 +668,25 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.follow = false;
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(400, 600, 400, 350, Material.Concrete));
+                panel.optionFrame.panel.save.doClick();
+                if (!Main.playing) {
+                    panel.repaint();
+                }
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupFifteen() {
+        JMenuItem setup = new JMenuItem("Setup Fifteen");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.follow = false;
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                panel.world.objects.add(new FixedObject(0, 500, 800, 600, Material.Concrete));
                 panel.optionFrame.panel.save.doClick();
                 if (!Main.playing) {
                     panel.repaint();
