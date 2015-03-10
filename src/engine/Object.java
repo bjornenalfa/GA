@@ -24,7 +24,7 @@ public class Object {
     double nextAngularVelocity = 0;
     double nextTorque = 0;
     double restitution = 0.5;
-    double inertia = 10000;
+    double inertia = 1000;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     int ID;
@@ -134,6 +134,11 @@ public class Object {
             shape.paint(g);
         }
         velocity.paint(g, position.x, position.y, 1, Color.red);
+    }
+
+    public void applyImpulse(Vector2D impulse, Vector2D contactVector) {
+        nextVelocity.add(new Vector2D(impulse).multiply(1 / mass));
+        nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) / inertia;
     }
 
 }

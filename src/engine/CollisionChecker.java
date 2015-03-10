@@ -334,16 +334,16 @@ public class CollisionChecker {
                 }
             }
             for (int j = i + 1; j < objects.size(); j++) {
-                if (CollideObjects(objects.get(i), objects.get(j))!=0) {
-                    Object object1 = objects.get(i);
-                    Object object2 = objects.get(j);
+                if (CollideObjects(objects.get(i), objects.get(j)) != 0) {
+                    Object firstObject = objects.get(i);
+                    Object secondObject = objects.get(j);
 
-                    double restituition = Math.min(object1.restitution, object2.restitution);
-                    double statFriction = Friction.getStatic(object1.material, object2.material);
-                    double dynamicFriction = Friction.getDynamic(object1.material, object2.material);
+                    double restituition = Math.min(firstObject.restitution, secondObject.restitution);
+                    double staticFriction = Friction.getStatic(firstObject.material, secondObject.material);
+                    double dynamicFriction = Friction.getDynamic(firstObject.material, secondObject.material);
 
-                    CircleShape circle1 = null, circle2 = null;
-                    RectangleShape rectangle1 = null, rectangle2 = null;
+                    CircleShape circle = null, circle2 = null;
+                    RectangleShape rectangle = null, rectangle2 = null;
 
                     switch (CollideObjects(objects.get(i), objects.get(j))) {
                         case 1:
@@ -351,54 +351,58 @@ public class CollisionChecker {
                         case 2:
                             break;
                         case 3:
-                            Object temp = object1;
-                            object1 = object2;
-                            object2 = temp;
+                            Object temp = firstObject;
+                            firstObject = secondObject;
+                            secondObject = temp;
                         case 4:
-                            circle1 = (CircleShape) object2.shapes.get(0);
-                            rectangle1 = (RectangleShape) object1.shapes.get(0);
-                            Vector2D v = new Vector2D(new Point.Double(rectangle1.x, rectangle1.y), new Point.Double(circle1.x, circle1.y));
-                            double x = Vector2D.scalarProductCoordinates(v, rectangle1.lines[0].vector.normalize());
-                            x = Math.min(rectangle1.width / 2.0, Math.max(x, -rectangle1.width / 2.0));
-                            double y = Vector2D.scalarProductCoordinates(v, rectangle1.lines[1].vector.normalize());
-                            y = Math.min(rectangle1.height / 2.0, Math.max(y, -rectangle1.height / 2.0));
+                            circle = (CircleShape) secondObject.shapes.get(0);
+                            rectangle = (RectangleShape) firstObject.shapes.get(0);
+                            Vector2D v = new Vector2D(new Point.Double(rectangle.x, rectangle.y), new Point.Double(circle.x, circle.y));
+                            double x = Vector2D.scalarProductCoordinates(v, rectangle.lines[0].vector.normalize());
+                            x = Math.min(rectangle.width / 2.0, Math.max(x, -rectangle.width / 2.0));
+                            double y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
+                            y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
                             Point.Double collisionPoint = new Point.Double(x, y);
+                            collisionPoint.x += firstObject.position.x;
+                            collisionPoint.y += firstObject.position.y;
 
-                            Vector2D vecObject1R = new Vector2D(object1.position, collisionPoint);
-                            Vector2D vecObject2R = new Vector2D(object2.position, collisionPoint);
-                            Vector2D relVelocity = new Vector2D(object2.velocity).add(Vector2D.crossProduct(object2.angularVelocity, vecObject2R)).subtract(object1.velocity).subtract(Vector2D.crossProduct(object1.angularVelocity, vecObject1R));
+                            Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.position, collisionPoint);
+                            Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.position, collisionPoint);
+                            Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.velocity).subtract(Vector2D.crossProduct(firstObject.angularVelocity, firstObjectCenterToCollisionPoint));
 
-                            if (relVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001) {
+                            if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
                                 restituition = 0;
                             }
-                            Vector2D normal = new Vector2D(collisionPoint, object2.position);
+                            Vector2D normal = new Vector2D(collisionPoint, secondObject.position);
+                            world.normals.add(new Line(collisionPoint, normal));
                             normal.normalize();
-                            double contactVelocity = Vector2D.scalarProductCoordinates(relVelocity, normal);
+                            double contactVelocity = Vector2D.scalarProductCoordinates(relativeVelocity, normal);
 
                             if (contactVelocity != 0) {
-                                double Object1xN = Vector2D.crossProduct(vecObject1R, normal);
-                                double Object2xN = Vector2D.crossProduct(vecObject1R, normal);
-                                double MassInverseSum = object1.mass + object2.mass + Math.sqrt(Object1xN) * (1 / object1.inertia) + Math.sqrt(Object2xN) * (1 / object2.inertia);
-                                double jj = -(1.0 + restituition) * contactVelocity;
-                                jj /= MassInverseSum;
-                                Vector2D impulse = new Vector2D(normal).multiply(jj);
-                                object1.nextVelocity = object1.velocity.add(new Vector2D(impulse).subtract(impulse).subtract(impulse), vecObject1R);
-                                object2.nextVelocity = object2.velocity.add(impulse, vecObject2R);
-                                
-                                Vector2D tt = new Vector2D(relVelocity).subtract(new Vector2D(normal).multiply(Vector2D.scalarProductCoordinates(relVelocity, normal)));
-                                tt.normalize();
-                                double jjTangent = -Vector2D.scalarProductCoordinates(relVelocity, tt);
-                                jjTangent /= MassInverseSum;
-                                
+                                double firstObjectCrossNormal = Vector2D.crossProduct(firstObjectCenterToCollisionPoint, normal);
+                                double secondObjectCrossNormal = Vector2D.crossProduct(secondObjectCenterToCollisionPoint, normal);
+                                double massInverseSum = 1 / firstObject.mass + 1 / secondObject.mass + firstObjectCrossNormal * firstObjectCrossNormal / firstObject.inertia + secondObjectCrossNormal * secondObjectCrossNormal / secondObject.inertia;
+                                double impulseLength = -(1.0 + restituition) * contactVelocity;
+                                impulseLength /= massInverseSum;
+                                Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
+                                world.impulses.add(new Line(collisionPoint,impulse));
+                                firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
+                                secondObject.applyImpulse(impulse, secondObjectCenterToCollisionPoint);
+
+                                Vector2D tangent = new Vector2D(relativeVelocity).subtract(new Vector2D(normal).multiply(Vector2D.scalarProductCoordinates(relativeVelocity, normal)));
+                                tangent.normalize();
+                                double jjTangent = -Vector2D.scalarProductCoordinates(relativeVelocity, tangent);
+                                jjTangent /= massInverseSum;
+
                                 Vector2D tangentImpulse;
-                                if (Math.abs(jjTangent) < (jj * statFriction)) {
-                                    tangentImpulse = new Vector2D(tt).multiply(jjTangent);
+                                if (Math.abs(jjTangent) < (impulseLength * staticFriction)) {
+                                    tangentImpulse = new Vector2D(tangent).multiply(jjTangent);
                                 } else {
-                                    tangentImpulse = new Vector2D(tt).multiply(-jj * dynamicFriction);
+                                    tangentImpulse = new Vector2D(tangent).multiply(-impulseLength * dynamicFriction);
                                 }
-                                
-                                object1.nextVelocity = object1.velocity.add(new Vector2D(tangentImpulse).subtract(tangentImpulse).subtract(tangentImpulse), vecObject1R);
-                                object2.nextVelocity = object2.velocity.add(tangentImpulse, vecObject2R);
+
+                                firstObject.applyImpulse(new Vector2D(tangentImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
+                                secondObject.applyImpulse(tangentImpulse, secondObjectCenterToCollisionPoint);
                             }
                             break;
                         case 0:
