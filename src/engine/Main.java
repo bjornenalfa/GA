@@ -14,6 +14,7 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -252,14 +253,23 @@ public class Main extends JFrame {
                             }
                             removing = false;
                         }
-                    }
-                    if (adding) {
+                    } else if (adding) {
                         CustomOptionMenu test = (CustomOptionMenu) optionFrame.getJMenuBar();
                         test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
                         if (!playing) {
                             repaint();
                         }
                         adding = false;
+                    } else {
+                        if (e.getButton() == 3) {
+                            for (Object object : world.objects) {
+                                for (Shape shape : object.shapes) {
+                                    if (shape.contains(e.getPoint())) {
+                                        JFrame clickFrame = new ClickFrame(MyJPanel.this,object);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
