@@ -175,16 +175,15 @@ public class OptionFrame extends JFrame {
             World newWorld = new World(world.gravity);
             newWorld.time = world.time;
             for (Object o : world.objects) {
-                Object newO = new Object();
-                newO.position = new Point.Double(o.position.x, o.position.y);
+                Object newO = null;
                 for (Shape s : o.shapes) {
                     s.vector.readyPoint();
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
-                        newO.addShape(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC));
+                        newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC),new Point.Double(o.position.x, o.position.y),o.material);
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
-                        newO.addShape(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC));
+                        newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC),new Point.Double(o.position.x, o.position.y),o.material);
                     }
                 }
                 newO.velocity = o.velocity;
@@ -193,7 +192,6 @@ public class OptionFrame extends JFrame {
                 newO.angularVelocity = o.angularVelocity;
                 newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
-                newO.material = o.material;
                 newWorld.objects.add(newO);
             }
             for (Plane p : world.planes) {
