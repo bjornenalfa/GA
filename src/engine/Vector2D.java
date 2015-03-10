@@ -11,6 +11,8 @@ import java.awt.geom.Point2D;
  */
 public class Vector2D {
 
+    static final Vector2D zero = new Vector2D(0,0);
+    
     Point.Double point;
     Double length;
     Double angle;
