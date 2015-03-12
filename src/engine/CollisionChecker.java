@@ -363,6 +363,9 @@ public class CollisionChecker {
                             double y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
                             y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
                             Point.Double collisionPoint = new Point.Double(x, y);
+                            Vector2D collisionRotate = new Vector2D(collisionPoint);
+                            collisionRotate.rotate(firstObject.shapes.get(0).rotation);
+                            collisionPoint = collisionRotate.getPoint();
                             collisionPoint.x += firstObject.position.x;
                             collisionPoint.y += firstObject.position.y;
 
