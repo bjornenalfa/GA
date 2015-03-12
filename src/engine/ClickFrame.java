@@ -25,13 +25,14 @@ public class ClickFrame extends JFrame {
     int shapeIndex;
     Main.MyJPanel mainPanel;
 
-    public ClickFrame(Main.MyJPanel mainPanel, Object object, Shape shape) {
+    public ClickFrame(Main.MyJPanel mainPane, Object objec, Shape shape) {
         setTitle("");
 
-        MyPanel panel = new MyPanel();
-        this.object = object;
-        this.mainPanel = mainPanel;
+        object = objec;
+        mainPanel = mainPane;
         shapeIndex = object.shapes.indexOf(shape);
+        
+        MyPanel panel = new MyPanel();
 
         setContentPane(panel);
         getContentPane().setPreferredSize(new Dimension(200, 100));
@@ -98,14 +99,14 @@ public class ClickFrame extends JFrame {
             add(new JLabel(""));
             add(new JLabel(""));
 
-            if (mainPanel.dt != 0) {
+            //if (mainPanel.dt != 0) {
                 label1 = new JLabel("Position : " + object.position, SwingConstants.CENTER);
                 add(label1);
                 label2 = new JLabel("Velocity : " + object.velocity, SwingConstants.CENTER);
                 add(label2);
                 label3 = new JLabel("AngularVelocity : " + object.angularVelocity, SwingConstants.CENTER);
                 add(label3);
-            }
+            //}
         }
 
         private void addKeyBindings() {

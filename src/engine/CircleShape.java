@@ -16,6 +16,11 @@ public class CircleShape extends Shape {
         super(v, r, m, c);
         radius = rad;
     }
+    
+    @Override
+    public void calculateInertia() {
+        inertia = radius * radius * mass;
+    }
 
     @Override
     public void paint(Graphics2D g) {

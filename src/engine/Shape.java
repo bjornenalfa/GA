@@ -15,7 +15,7 @@ public class Shape {
     double rotation; //actual rotation
     double mass;//mass in g
     double x, y; // X, Y coordinates; Width and Height
-    double I; //Tröghetsmomentet
+    double inertia; //Tröghetsmomentet
     Color myC; //Shape color    
     Object parent;
 
@@ -86,8 +86,8 @@ public class Shape {
         calcPosition();
     }
 
-    public void calculateI() {
-        I = 1;
+    public void calculateInertia() {
+        inertia = 1;
     }
 
     //If needed implement different code for each different shape
