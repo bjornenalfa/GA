@@ -187,11 +187,11 @@ public class Vector2D {
     }
 
     public static Vector2D crossProduct(Vector2D vector, double k) {
-        return new Vector2D(k * vector.point.y, -k * vector.point.x);
+        return new Vector2D(new Point.Double(k * vector.point.y, -k * vector.point.x));
     }
 
     public static Vector2D crossProduct(double k, Vector2D vector) {
-        return new Vector2D(-k * vector.point.y, k * vector.point.x);
+        return new Vector2D(new Point.Double(-k * vector.point.y, k * vector.point.x));
     }
 
     public static Vector2D OrthogonalProjection(Vector2D vector, Vector2D base) {

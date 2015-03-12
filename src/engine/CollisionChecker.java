@@ -368,7 +368,8 @@ public class CollisionChecker {
 
                             Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.nextPosition, collisionPoint);
                             Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.nextPosition, collisionPoint);
-                            Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.velocity).subtract(Vector2D.crossProduct(firstObject.angularVelocity, firstObjectCenterToCollisionPoint));
+                            Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.nextVelocity).subtract(Vector2D.crossProduct(firstObject.nextAngularVelocity, firstObjectCenterToCollisionPoint));
+                            System.out.println("RELATIVE VELOCITY A:" + Math.toDegrees(relativeVelocity.getAngle()) + " L:"+relativeVelocity.getLength());
 
                             if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
                                 if (firstObject.inverseMass == 0) {
@@ -381,6 +382,7 @@ public class CollisionChecker {
                             world.normals.add(new Line(collisionPoint, normal));
                             normal.normalize();
                             double contactVelocity = Vector2D.scalarProductCoordinates(relativeVelocity, normal);
+                            System.out.println("CONTACT VELOCITY: " + contactVelocity);
 
                             if (contactVelocity <= 0) {
                                 double firstObjectCrossNormal = Vector2D.crossProduct(firstObjectCenterToCollisionPoint, normal);
