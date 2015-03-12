@@ -31,7 +31,7 @@ public class ClickFrame extends JFrame {
         object = objec;
         mainPanel = mainPane;
         shapeIndex = object.shapes.indexOf(shape);
-        
+
         MyPanel panel = new MyPanel();
 
         setContentPane(panel);
@@ -77,6 +77,7 @@ public class ClickFrame extends JFrame {
         JLabel label1;
         JLabel label2;
         JLabel label3;
+        JLabel label4;
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -97,16 +98,15 @@ public class ClickFrame extends JFrame {
             });
             add(button1);
             add(new JLabel(""));
-            add(new JLabel(""));
 
-            //if (mainPanel.dt != 0) {
-                label1 = new JLabel("Position : " + object.position, SwingConstants.CENTER);
-                add(label1);
-                label2 = new JLabel("Velocity : " + object.velocity, SwingConstants.CENTER);
-                add(label2);
-                label3 = new JLabel("AngularVelocity : " + object.angularVelocity, SwingConstants.CENTER);
-                add(label3);
-            //}
+            label4 = new JLabel("I : " + object.inertia, SwingConstants.CENTER); 
+            add(label4);
+            label1 = new JLabel("P : " + object.position, SwingConstants.CENTER);
+            add(label1);
+            label2 = new JLabel("V : " + object.velocity, SwingConstants.CENTER);
+            add(label2);
+            label3 = new JLabel("AV : " + object.angularVelocity, SwingConstants.CENTER);
+            add(label3);
         }
 
         private void addKeyBindings() {
