@@ -343,7 +343,7 @@ public class CollisionChecker {
                     Object firstObject = objects.get(i);
                     Object secondObject = objects.get(j);
 
-                    double restitution = Math.min(firstObject.restitution, secondObject.restitution);
+                    double restitution = Math.min(Restitution.get(firstObject.material), Restitution.get(secondObject.material));
                     double staticFriction = Friction.getStatic(firstObject.material, secondObject.material);
                     double dynamicFriction = Friction.getDynamic(firstObject.material, secondObject.material);
 
