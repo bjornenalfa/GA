@@ -1,22 +1,16 @@
 package engine;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 public class ClickFrame extends JFrame {
@@ -35,13 +29,13 @@ public class ClickFrame extends JFrame {
         MyPanel panel = new MyPanel();
 
         setContentPane(panel);
-        getContentPane().setPreferredSize(new Dimension(200, 100));
+        getContentPane().setPreferredSize(new Dimension(200, 200));
         pack();
         addWindowListener(windowListener());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x + 70), (int) (mainPanel.getLocationOnScreen().y + object.position.y - 150));
+        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x + 70), (int) (mainPanel.getLocationOnScreen().y + object.position.y - (getHeight()+50)));
         setVisible(true);
 
         if (!Main.playing) {
@@ -64,25 +58,15 @@ public class ClickFrame extends JFrame {
     class MyPanel extends JPanel {
 
         public MyPanel() {
-            setLayout(new GridLayout(2, 3, 5, 5));
+            setLayout(new GridLayout(7, 1, 5, 5));
             addButtonsLabels();
-            addKeyBindings();
-
-            MouseAdapter ma = mouseAdapter();
-            addMouseListener(ma);
-            addMouseMotionListener(ma);
-            addMouseWheelListener(ma);
         }
 
-        JLabel label1;
-        JLabel label2;
-        JLabel label3;
-        JLabel label4;
-
-        @Override
-        protected void paintComponent(Graphics g) {
-
-        }
+        JLabel positionLabel;
+        JLabel velocityLabel;
+        JLabel angularVelocityLabel;
+        JLabel inertiaLabel;
+        JLabel massLabel;
 
         private void addButtonsLabels() {
             JButton button1 = new JButton("Follow this");
@@ -97,37 +81,28 @@ public class ClickFrame extends JFrame {
                 }
             });
             add(button1);
-            add(new JLabel(""));
 
-            label4 = new JLabel("I : " + object.inertia, SwingConstants.CENTER); 
-            add(label4);
-            label1 = new JLabel("P : " + object.position, SwingConstants.CENTER);
-            add(label1);
-            label2 = new JLabel("V : " + object.velocity, SwingConstants.CENTER);
-            add(label2);
-            label3 = new JLabel("AV : " + object.angularVelocity, SwingConstants.CENTER);
-            add(label3);
-        }
-
-        private void addKeyBindings() {
-            getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_0, 0), "keyBinding");
-            getActionMap().put("keyBinding", keyBinding());
-        }
-
-        private Action keyBinding() {
-            return new AbstractAction() {
+            String[] matArray = {"Wood", "Steel", "Rubber", "Concrete", "Ice", "Glass", "Boost", "Slow"};
+            final JComboBox comboBox = new JComboBox(matArray);
+            comboBox.setSelectedIndex(object.material);
+            comboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    object.material = comboBox.getSelectedIndex();
                 }
-            };
-        }
-
-        private MouseAdapter mouseAdapter() {
-            return new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent me) {
-                }
-            };
+            });
+            add(comboBox);
+            
+            massLabel = new JLabel("M : " + object.mass, SwingConstants.CENTER);
+            add(massLabel);
+            inertiaLabel = new JLabel("I : " + object.inertia, SwingConstants.CENTER); 
+            add(inertiaLabel);
+            positionLabel = new JLabel("P : " + object.position, SwingConstants.CENTER);
+            add(positionLabel);
+            velocityLabel = new JLabel("V : " + object.velocity, SwingConstants.CENTER);
+            add(velocityLabel);
+            angularVelocityLabel = new JLabel("AV : " + object.angularVelocity, SwingConstants.CENTER);
+            add(angularVelocityLabel);
         }
     }
 }
