@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class CollisionChecker {
 
-    public static final double CorrectionPercentage = 0.2, Slop = 0.01;
+    public static final double correctionPercentage = 0.2, slop = 0.01;
 
     public static boolean intersect(double px, double py, double qx, double qy, double ex, double ey, double fx, double fy) { // CALCULATE INTERSECTIONS
 	/*double cp = (fx-ex)*(py-fy)-(fy-ey)*(px-fx);
@@ -353,7 +353,7 @@ public class CollisionChecker {
                         case 2:
                             circle = (CircleShape) secondObject.shapes.get(0);
                             circle2 = (CircleShape) firstObject.shapes.get(0);
-                            v = new Vector2D(new Point.Double(circle.x, circle.y), new Point.Double(circle2.x, circle2.y));
+                            v = new Vector2D(new Point.Double(circle2.x, circle2.y), new Point.Double(circle.x, circle.y));
                             double distance = v.getLength();
                             double radius = circle2.radius+circle.radius;
                             if (distance>=radius){
@@ -368,7 +368,9 @@ public class CollisionChecker {
                               collisionVector.add(new Vector2D(firstObject.position));
                               inverseCollisionVector.add(new Vector2D(secondObject.position));
                               collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
-                              solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(circle2.x, circle2.y), new Point.Double(circle.x, circle.y)), dt, g, world);  
+                              double penetrationDepth = new Vector2D(collisionVector.point, collisionPoint).getLength();
+                              
+                              solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(circle2.x, circle2.y), new Point.Double(circle.x, circle.y)), penetrationDepth, dt, g, world);  
                             }
                             
                             break;
@@ -391,7 +393,8 @@ public class CollisionChecker {
                             collisionPoint.x += firstObject.nextPosition.x;
                             collisionPoint.y += firstObject.nextPosition.y;
                             Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
-                            solveCollision(firstObject, secondObject, collisionPoint, normal, dt, g, world);
+                            
+                            solveCollision(firstObject, secondObject, collisionPoint, normal, (circle.radius-normal.getLength()), dt, g, world);
                             break;
                         case 0:
                         default:
@@ -402,7 +405,7 @@ public class CollisionChecker {
         }
     }
 
-    public static void solveCollision(Object firstObject, Object secondObject, Point.Double collisionPoint, Vector2D normal, double dt, Vector2D g, World world) {
+    public static void solveCollision(Object firstObject, Object secondObject, Point.Double collisionPoint, Vector2D normal, double penetrationDepth, double dt, Vector2D g, World world) {
         double restitution = Math.min(Restitution.get(firstObject.material), Restitution.get(secondObject.material));
         double staticFriction = Friction.getStatic(firstObject.material, secondObject.material);
         double dynamicFriction = Friction.getDynamic(firstObject.material, secondObject.material);
@@ -413,7 +416,7 @@ public class CollisionChecker {
 
         if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
             if (firstObject.inverseMass == 0) {
-                restitution = 1;
+                restitution = 0;
             } else {
                 restitution = 0;
             }
@@ -454,6 +457,14 @@ public class CollisionChecker {
 
             firstObject.applyImpulse(new Vector2D(frictionImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(frictionImpulse, secondObjectCenterToCollisionPoint);
+            
+            Vector2D correction = new Vector2D(normal).multiply(correctionPercentage*(Math.max(penetrationDepth-slop, 0d)/(firstObject.inverseMass+secondObject.inverseMass)));
+            Point.Double temporaryPoint = new Vector2D(correction).multiply(firstObject.inverseMass).getPoint();
+            firstObject.nextPosition.x -= temporaryPoint.x;
+            firstObject.nextPosition.y -= temporaryPoint.y;
+            temporaryPoint = new Vector2D(correction).multiply(secondObject.inverseMass).getPoint();
+            secondObject.nextPosition.x += temporaryPoint.x;
+            secondObject.nextPosition.y += temporaryPoint.y;
         }
     }
 
@@ -592,14 +603,14 @@ public class CollisionChecker {
     }
 
     public static void CirclePlanePositionCorrection(Object object, Plane plane) {
-        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-CirclePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
+        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-CirclePlanePenetrationDepth(object, plane) - slop, 0.0f) * object.mass * correctionPercentage);
         correction.multiply(1.0 / object.mass);
         object.nextPosition.x -= correction.point.x;
         object.nextPosition.y -= correction.point.y;
     }
 
     public static void RectanglePlanePositionCorrection(Object object, Plane plane) {
-        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-RectanglePlanePenetrationDepth(object, plane) - Slop, 0.0f) * object.mass * CorrectionPercentage);
+        Vector2D correction = new Vector2D(plane.normal).multiply(Math.max(-RectanglePlanePenetrationDepth(object, plane) - slop, 0.0f) * object.mass * correctionPercentage);
         correction.multiply(1.0 / object.mass);
         object.nextPosition.x += correction.point.x;
         object.nextPosition.y += correction.point.y;
