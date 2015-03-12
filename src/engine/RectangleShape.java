@@ -81,7 +81,7 @@ public class RectangleShape extends Shape {
     @Override
     public void paint(Graphics2D g) {
         super.paint(g);
-        calcLines();
+        //calcLines();
 
         //g.fillRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), width, height);
         //g.drawRect((int) (o.position.x + vector.point.x), (int) (o.position.y + vector.point.y), width, height);
@@ -96,6 +96,12 @@ public class RectangleShape extends Shape {
     @Override
     public boolean contains(Point.Double p) {
         return CollisionChecker.pointInRectangleShape(this, p);
+    }
+    
+    @Override
+    public void setParent(Object object) {
+        super.setParent(object);
+        calcLines();
     }
 
 }

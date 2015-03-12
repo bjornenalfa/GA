@@ -766,12 +766,15 @@ public class CustomOptionMenu extends JMenuBar {
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 98));
+                panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
                 //panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300), Material.Wood));
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(290, 100), Material.Wood));
                 panel.world.objects.get(0).angularVelocity = 10;
+                panel.world.objects.get(1).angularVelocity = -9.94;
                 panel.world.objects.add(new FixedObject(0, 500, 800, 600, 100, Material.Wood));
+                panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
                 panel.optionFrame.panel.save.doClick();
                 for (int i = 0; i < panel.clickFrameList.size(); i++) {
                     ClickFrame clickFrame = panel.clickFrameList.get(i);

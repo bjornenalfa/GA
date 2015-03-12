@@ -381,7 +381,7 @@ public class CollisionChecker {
 
                             if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
                                 if (firstObject.inverseMass == 0) {
-                                    restitution = 0;
+                                    restitution = 1;
                                 } else {
                                     restitution = 0;
                                 }
