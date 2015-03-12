@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -83,6 +85,7 @@ public class Main extends JFrame {
         boolean adding = false;
         OptionFrame optionFrame;
         World world;
+        public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
         public MyJPanel() {
             addKeyBindings();
@@ -265,7 +268,7 @@ public class Main extends JFrame {
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
                                     if (shape.contains(e.getPoint())) {
-                                        JFrame clickFrame = new ClickFrame(MyJPanel.this,object);
+                                        clickFrameList.add(new ClickFrame(MyJPanel.this, object, shape));
                                     }
                                 }
                             }
@@ -324,6 +327,18 @@ public class Main extends JFrame {
             g2.translate(translateX, translateY);
             //System.out.println("tx:" + translateX + " ty:" + translateY + " s:" + scale);
             world.paint(g2);
+            for (ClickFrame clickFrame : clickFrameList) {
+                g2.setColor(Color.MAGENTA);
+                Object object = clickFrame.object;
+                Shape shape = clickFrame.object.shapes.get(clickFrame.shapeIndex);
+                if (shape instanceof RectangleShape) {
+                    RectangleShape rs = (RectangleShape) shape;
+                    g2.drawLine((int) (object.position.x + rs.width / 2), (int) (object.position.y - rs.height / 2), clickFrame.getX() - this.getLocationOnScreen().x, clickFrame.getY() + clickFrame.getHeight() - this.getLocationOnScreen().y);
+                } else if (shape instanceof CircleShape) {
+                    CircleShape cs = (CircleShape) shape;
+                    g2.drawLine((int) (object.position.x + cs.radius), (int) (object.position.y - cs.radius), clickFrame.getX() - this.getLocationOnScreen().x, clickFrame.getY() + clickFrame.getHeight() - this.getLocationOnScreen().y);
+                }
+            }
             g2.translate(-translateX, -translateY);
         }
     }
