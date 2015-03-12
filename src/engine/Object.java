@@ -24,7 +24,8 @@ public class Object {
     double nextAngularVelocity = 0;
     double nextTorque = 0;
     double restitution = 0.5;
-    double inertia = 1000;
+    double inertia = 100;
+    double inverseInertia = 1000;
     ArrayList<Shape> shapes = new ArrayList(1); //relative to position
     Double mass = 0.5;
     Double inverseMass;
@@ -58,7 +59,10 @@ public class Object {
             //todo, discuss next time
             //massCenter.
         }
+        System.out.println("MASS" + mass);
         inverseMass = 1 / mass;
+        System.out.println("INVERSE" + inverseMass);
+        inverseInertia = 1 / inertia;
     }
 
     public void preUpdate(double dt, Vector2D g) {
@@ -137,8 +141,8 @@ public class Object {
     }
 
     public void applyImpulse(Vector2D impulse, Vector2D contactVector) {
-        nextVelocity.add(new Vector2D(impulse).multiply(1 / mass));
-        nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) / inertia;
+        nextVelocity.add(new Vector2D(impulse).multiply(inverseMass));
+        nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) * inverseInertia;
     }
 
 }

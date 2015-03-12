@@ -338,7 +338,7 @@ public class CollisionChecker {
                     Object firstObject = objects.get(i);
                     Object secondObject = objects.get(j);
 
-                    double restituition = Math.min(firstObject.restitution, secondObject.restitution);
+                    double restitution = Math.min(firstObject.restitution, secondObject.restitution);
                     double staticFriction = Friction.getStatic(firstObject.material, secondObject.material);
                     double dynamicFriction = Friction.getDynamic(firstObject.material, secondObject.material);
 
@@ -366,26 +366,34 @@ public class CollisionChecker {
                             collisionPoint.x += firstObject.position.x;
                             collisionPoint.y += firstObject.position.y;
 
-                            Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.position, collisionPoint);
-                            Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.position, collisionPoint);
+                            Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.nextPosition, collisionPoint);
+                            Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.nextPosition, collisionPoint);
                             Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.velocity).subtract(Vector2D.crossProduct(firstObject.angularVelocity, firstObjectCenterToCollisionPoint));
 
                             if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
-                                restituition = 0;
+                                if (firstObject.inverseMass == 0) {
+                                    restitution = 0;
+                                } else {
+                                    restitution = 0;
+                                }
                             }
-                            Vector2D normal = new Vector2D(collisionPoint, secondObject.position);
+                            Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
                             world.normals.add(new Line(collisionPoint, normal));
                             normal.normalize();
                             double contactVelocity = Vector2D.scalarProductCoordinates(relativeVelocity, normal);
 
-                            if (contactVelocity != 0) {
+                            if (contactVelocity <= 0) {
                                 double firstObjectCrossNormal = Vector2D.crossProduct(firstObjectCenterToCollisionPoint, normal);
                                 double secondObjectCrossNormal = Vector2D.crossProduct(secondObjectCenterToCollisionPoint, normal);
-                                double massInverseSum = 1 / firstObject.mass + 1 / secondObject.mass + firstObjectCrossNormal * firstObjectCrossNormal / firstObject.inertia + secondObjectCrossNormal * secondObjectCrossNormal / secondObject.inertia;
-                                double impulseLength = -(1.0 + restituition) * contactVelocity;
+                                double massInverseSum = firstObject.inverseMass + secondObject.inverseMass + firstObjectCrossNormal * firstObjectCrossNormal * firstObject.inverseInertia + secondObjectCrossNormal * secondObjectCrossNormal * secondObject.inverseInertia;
+                                System.out.println("MASSINVERSESUM:" + massInverseSum);
+                                System.out.println("RESTITUTION:" + restitution);
+                                double impulseLength = -(1.0 + restitution) * contactVelocity;
+                                System.out.println("IMPULSELENGTH:" + impulseLength);
                                 impulseLength /= massInverseSum;
+                                System.out.println("IMPULSELENGTH:" + impulseLength);
                                 Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
-                                world.impulses.add(new Line(collisionPoint,impulse));
+                                world.impulses.add(new Line(collisionPoint, impulse));
                                 firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
                                 secondObject.applyImpulse(impulse, secondObjectCenterToCollisionPoint);
 
@@ -394,15 +402,17 @@ public class CollisionChecker {
                                 double jjTangent = -Vector2D.scalarProductCoordinates(relativeVelocity, tangent);
                                 jjTangent /= massInverseSum;
 
-                                Vector2D tangentImpulse;
+                                Vector2D frictionImpulse;
                                 if (Math.abs(jjTangent) < (impulseLength * staticFriction)) {
-                                    tangentImpulse = new Vector2D(tangent).multiply(jjTangent);
+                                    frictionImpulse = new Vector2D(tangent).multiply(jjTangent);
                                 } else {
-                                    tangentImpulse = new Vector2D(tangent).multiply(-impulseLength * dynamicFriction);
+                                    frictionImpulse = new Vector2D(tangent).multiply(-impulseLength * dynamicFriction);
                                 }
 
-                                firstObject.applyImpulse(new Vector2D(tangentImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
-                                secondObject.applyImpulse(tangentImpulse, secondObjectCenterToCollisionPoint);
+                                world.impulses.add(new Line(collisionPoint, frictionImpulse));
+
+                                firstObject.applyImpulse(new Vector2D(frictionImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
+                                secondObject.applyImpulse(frictionImpulse, secondObjectCenterToCollisionPoint);
                             }
                             break;
                         case 0:

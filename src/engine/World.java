@@ -60,7 +60,7 @@ public class World {
         for (Plane plane : planes) {
             plane.paint(g);
         }
-        
+
         while (impulses.size() >= 500) {
             impulses.remove(0);
         }
@@ -71,7 +71,7 @@ public class World {
         for (Line l : pImpulses) {
             l.paint(g);
         }
-        
+
         while (normals.size() >= 100) {
             normals.remove(0);
         }

@@ -38,10 +38,10 @@ public class Line {
     }
 
     public void paint(Graphics2D g) {
-        double angle = Math.atan2(origin.y-end.y, origin.x-end.x);
+        double angle = Math.atan2(origin.y - end.y, origin.x - end.x);
         g.drawLine((int) origin.x, (int) origin.y, (int) end.x, (int) end.y);
-        g.drawLine((int) end.x, (int) end.y, (int) (end.x+Math.cos(angle+0.2)*5+.5), (int) (end.y+Math.sin(angle+0.2)*5+.5));
-        g.drawLine((int) end.x, (int) end.y, (int) (end.x+Math.cos(angle-0.2)*5+.5), (int) (end.y+Math.sin(angle-0.2)*5+.5));
+        g.drawLine((int) end.x, (int) end.y, (int) (end.x + Math.cos(angle + 0.2) * 5 + .5), (int) (end.y + Math.sin(angle + 0.2) * 5 + .5));
+        g.drawLine((int) end.x, (int) end.y, (int) (end.x + Math.cos(angle - 0.2) * 5 + .5), (int) (end.y + Math.sin(angle - 0.2) * 5 + .5));
     }
 
 }
