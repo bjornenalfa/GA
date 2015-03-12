@@ -227,4 +227,9 @@ public class Vector2D {
         g.setColor(c);
         g.drawLine((int) x, (int) y, (int) (x + getPoint().x * scale), (int) (y + getPoint().y * scale));
     }
+    
+    @Override
+    public String toString() {
+        return "A:"+getAngle()+" L:"+getLength()+" "+getPoint();
+    }
 }
