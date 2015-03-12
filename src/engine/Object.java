@@ -56,6 +56,7 @@ public class Object {
         mass = 0d;
         inertia = 0d;
         for (Shape shape : shapes) {
+            shape.calculateInertia();
             mass += shape.mass;
             inertia += shape.inertia;
             //todo, discuss next time
