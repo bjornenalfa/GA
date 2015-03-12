@@ -85,7 +85,6 @@ public class Main extends JFrame {
         boolean adding = false;
         OptionFrame optionFrame;
         World world;
-        public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
         public MyJPanel() {
             addKeyBindings();
@@ -268,7 +267,7 @@ public class Main extends JFrame {
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
                                     if (shape.contains(e.getPoint())) {
-                                        clickFrameList.add(new ClickFrame(MyJPanel.this, object, shape));
+                                        world.clickFrameList.add(new ClickFrame(MyJPanel.this, object, shape));
                                     }
                                 }
                             }
@@ -327,7 +326,7 @@ public class Main extends JFrame {
             g2.translate(translateX, translateY);
             //System.out.println("tx:" + translateX + " ty:" + translateY + " s:" + scale);
             world.paint(g2);
-            for (ClickFrame clickFrame : clickFrameList) {
+            for (ClickFrame clickFrame : world.clickFrameList) {
                 g2.setColor(Color.MAGENTA);
                 Object object = clickFrame.object;
                 Shape shape = clickFrame.object.shapes.get(clickFrame.shapeIndex);

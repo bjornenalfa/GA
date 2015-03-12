@@ -413,9 +413,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -436,9 +436,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -459,9 +459,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -482,9 +482,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -507,9 +507,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -531,9 +531,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -566,9 +566,9 @@ public class CustomOptionMenu extends JMenuBar {
                 }
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -590,9 +590,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(400, 550, 8000, 550, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -616,9 +616,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(700, 500, 700, 0, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -650,9 +650,9 @@ public class CustomOptionMenu extends JMenuBar {
                 }
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -675,9 +675,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -700,9 +700,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 350, 390, 350, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -724,9 +724,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 350, 399.9, 350, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -748,9 +748,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(400, 600, 400, 350, Material.Concrete));
 
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
                 if (!Main.playing) {
@@ -776,12 +776,12 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new FixedObject(0, 500, 800, 600, 100, Material.Wood));
                 panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
                 panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.clickFrameList.get(i);
-                    panel.clickFrameList.remove(clickFrame);
+                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+                    panel.world.clickFrameList.remove(clickFrame);
                     clickFrame.dispose();
                 }
-                for (ClickFrame clickFrame : panel.clickFrameList) {
+                for (ClickFrame clickFrame : panel.world.clickFrameList) {
                 }
                 if (!Main.playing) {
                     panel.repaint();

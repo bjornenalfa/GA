@@ -19,6 +19,12 @@ public class ClickFrame extends JFrame {
     int shapeIndex;
     Main.MyJPanel mainPanel;
 
+    JLabel positionLabel;
+    JLabel velocityLabel;
+    JLabel angularVelocityLabel;
+    JLabel inertiaLabel;
+    JLabel massLabel;
+
     public ClickFrame(Main.MyJPanel mainPane, Object objec, Shape shape) {
         setTitle("");
 
@@ -35,19 +41,20 @@ public class ClickFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x + 70), (int) (mainPanel.getLocationOnScreen().y + object.position.y - (getHeight()+50)));
+        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x + 70), (int) (mainPanel.getLocationOnScreen().y + object.position.y - (getHeight() + 50)));
         setVisible(true);
 
         if (!Main.playing) {
             mainPanel.repaint();
         }
+        mainPanel.requestFocus(true);
     }
 
     private WindowAdapter windowListener() {
         return new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                mainPanel.clickFrameList.remove(ClickFrame.this);
+                mainPanel.world.clickFrameList.remove(ClickFrame.this);
                 if (!Main.playing) {
                     mainPanel.repaint();
                 }
@@ -55,18 +62,20 @@ public class ClickFrame extends JFrame {
         };
     }
 
+    public void setLabelTexts(){
+        massLabel.setText("M : " + object.mass);
+        inertiaLabel.setText("I : " + object.inertia);
+        positionLabel.setText("P : " + object.position);
+        velocityLabel.setText("V : " + object.velocity);
+        angularVelocityLabel.setText("AV : " + object.angularVelocity);
+    }
+    
     class MyPanel extends JPanel {
 
         public MyPanel() {
             setLayout(new GridLayout(7, 1, 5, 5));
             addButtonsLabels();
         }
-
-        JLabel positionLabel;
-        JLabel velocityLabel;
-        JLabel angularVelocityLabel;
-        JLabel inertiaLabel;
-        JLabel massLabel;
 
         private void addButtonsLabels() {
             JButton button1 = new JButton("Follow this");
@@ -92,17 +101,19 @@ public class ClickFrame extends JFrame {
                 }
             });
             add(comboBox);
-            
-            massLabel = new JLabel("M : " + object.mass, SwingConstants.CENTER);
+
+            massLabel = new JLabel("", SwingConstants.CENTER);
             add(massLabel);
-            inertiaLabel = new JLabel("I : " + object.inertia, SwingConstants.CENTER); 
+            inertiaLabel = new JLabel("", SwingConstants.CENTER);
             add(inertiaLabel);
-            positionLabel = new JLabel("P : " + object.position, SwingConstants.CENTER);
+            positionLabel = new JLabel("", SwingConstants.CENTER);
             add(positionLabel);
-            velocityLabel = new JLabel("V : " + object.velocity, SwingConstants.CENTER);
+            velocityLabel = new JLabel("", SwingConstants.CENTER);
             add(velocityLabel);
-            angularVelocityLabel = new JLabel("AV : " + object.angularVelocity, SwingConstants.CENTER);
+            angularVelocityLabel = new JLabel("", SwingConstants.CENTER);
             add(angularVelocityLabel);
+            
+            setLabelTexts();
         }
     }
 }

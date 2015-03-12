@@ -19,6 +19,7 @@ public class World {
     ArrayList<Line> normals = new ArrayList();
     ArrayList<Line> pNormals = new ArrayList();
     //Line impulse = new Line(0,0,0,0);
+    public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
     public World(Vector2D gravity) {
         this.gravity = gravity;
@@ -40,6 +41,9 @@ public class World {
         CollisionChecker.findNewCollisions(objects, planes, dt, gravity, this);
         for (Object object : objects) {
             object.endUpdate();
+        }
+        for (ClickFrame clickFrame : clickFrameList) {
+            clickFrame.setLabelTexts();
         }
         if (follow) {
             Main.translateX -= (objects.get(followID).position.x - followX);

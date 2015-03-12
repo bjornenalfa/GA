@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -142,6 +143,11 @@ public class OptionFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (saved) {
+                        for (int i = 0; i < mainPanel.world.clickFrameList.size(); i++) {
+                            ClickFrame clickFrame = mainPanel.world.clickFrameList.get(i);
+                            mainPanel.world.clickFrameList.remove(clickFrame);
+                            clickFrame.dispose();
+                        }
                         boolean temp1 = mainPanel.world.follow;
                         mainPanel.world = copyWorld(backupWorld);
                         mainPanel.world.follow = temp1;
