@@ -564,6 +564,7 @@ public class CollisionChecker {
             frictionImpulse = tangent.multiply(Friction.getDynamic(object.material, plane.material) * collisionMagnitude);
         }
         System.out.println("FRICTION IMPULSE " + frictionImpulse.show());
+        frictionImpulse.multiply(1.0 / object.mass);
         //VISUAL IMPULSE
         Vector2D impOrt = Vector2D.OrthogonalProjection(new Vector2D(plane.surface.origin, object.nextPosition), plane.surface.vector);
         Point.Double p = new Point.Double(plane.surface.origin.x + impOrt.point.x, plane.surface.origin.y + impOrt.point.y);
