@@ -337,67 +337,82 @@ public class CollisionChecker {
                 }
             }
             for (int j = i + 1; j < objects.size(); j++) {
-                if (CollideObjects(objects.get(i), objects.get(j)) != 0) {
-                    Object firstObject = objects.get(i);
-                    Object secondObject = objects.get(j);
+                objectToObjectSolver(objects,i,j,world,dt,g);
+            }
+        }
+        doObjectObject(objects,world,dt,g);
+        doObjectObject(objects,world,dt,g);
+        doObjectObject(objects,world,dt,g);
+    }
 
-                    CircleShape circle1 = null, circle2 = null;
-                    RectangleShape rectangle1 = null, rectangle2 = null;
-                    Vector2D v;
-                    Point.Double collisionPoint;
-                    double x, y;
-                    
-                    switch (CollideObjects(objects.get(i), objects.get(j))) {
-                        case 1:
-                            break;
-                        case 2:
-                            circle1 = (CircleShape) firstObject.shapes.get(0);
-                            circle2 = (CircleShape) secondObject.shapes.get(0);
-                            v = new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y));
-                            double distance = v.getLength();
-                            double radius = circle2.radius+circle1.radius;
-                            if (distance>=radius){
-                                break;
-                            } else{
+    public static void doObjectObject(ArrayList<Object> objects, World world, double dt, Vector2D g) {
+        for (int i = 0; i < objects.size(); i++) {
+            for (int j = i + 1; j < objects.size(); j++) {
+                objectToObjectSolver(objects,i,j,world,dt,g);
+            }
+        }
+    }
 
-                              collisionPoint = new Point.Double((firstObject.nextPosition.x*circle2.radius+secondObject.nextPosition.x*circle1.radius)/(circle1.radius+circle2.radius),(firstObject.nextPosition.y*circle2.radius+secondObject.nextPosition.y*circle1.radius)/(circle1.radius+circle2.radius));
-                              //collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
-                              Point.Double point1 = v.normalize().multiply(circle1.radius).point;
-                              point1.x += firstObject.nextPosition.x;
-                              point1.y += firstObject.nextPosition.y;
-                              double penetrationDepth = new Vector2D(point1, collisionPoint).getLength();
-                              
-                              solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y)), penetrationDepth, dt, g, world);  
-                            }
-                            
-                            break;
-                        case 3:
-                            Object temp = firstObject;
-                            firstObject = secondObject;
-                            secondObject = temp;
-                        case 4:
-                            circle1 = (CircleShape) secondObject.shapes.get(0);
-                            rectangle1 = (RectangleShape) firstObject.shapes.get(0);
-                            v = new Vector2D(new Point.Double(rectangle1.x, rectangle1.y), new Point.Double(circle1.x, circle1.y));
-                            x = Vector2D.scalarProductCoordinates(v, rectangle1.lines[0].vector.normalize());
-                            x = Math.min(rectangle1.width / 2.0, Math.max(x, -rectangle1.width / 2.0));
-                            y = Vector2D.scalarProductCoordinates(v, rectangle1.lines[1].vector.normalize());
-                            y = Math.min(rectangle1.height / 2.0, Math.max(y, -rectangle1.height / 2.0));
-                            collisionPoint = new Point.Double(x, y);
-                            Vector2D collisionRotate = new Vector2D(collisionPoint);
-                            collisionRotate.rotate(firstObject.shapes.get(0).rotation);
-                            collisionPoint = collisionRotate.getPoint();
-                            collisionPoint.x += firstObject.nextPosition.x;
-                            collisionPoint.y += firstObject.nextPosition.y;
-                            Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
-                            
-                            solveCollision(firstObject, secondObject, collisionPoint, normal, (circle1.radius-normal.getLength()), dt, g, world);
-                            break;
-                        case 0:
-                        default:
-                            break;
+    public static void objectToObjectSolver(ArrayList<Object> objects, int i, int j, World world, double dt, Vector2D g) {
+        if (CollideObjects(objects.get(i), objects.get(j)) != 0) {
+            Object firstObject = objects.get(i);
+            Object secondObject = objects.get(j);
+
+            CircleShape circle1 = null, circle2 = null;
+            RectangleShape rectangle1 = null, rectangle2 = null;
+            Vector2D v;
+            Point.Double collisionPoint;
+            double x, y;
+
+            switch (CollideObjects(objects.get(i), objects.get(j))) {
+                case 1:
+                    break;
+                case 2:
+                    circle1 = (CircleShape) firstObject.shapes.get(0);
+                    circle2 = (CircleShape) secondObject.shapes.get(0);
+                    v = new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y));
+                    double distance = v.getLength();
+                    double radius = circle2.radius + circle1.radius;
+                    if (distance >= radius) {
+                        break;
+                    } else {
+
+                        collisionPoint = new Point.Double((firstObject.nextPosition.x * circle2.radius + secondObject.nextPosition.x * circle1.radius) / (circle1.radius + circle2.radius), (firstObject.nextPosition.y * circle2.radius + secondObject.nextPosition.y * circle1.radius) / (circle1.radius + circle2.radius));
+                        //collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
+                        Point.Double point1 = v.normalize().multiply(circle1.radius).point;
+                        point1.x += firstObject.nextPosition.x;
+                        point1.y += firstObject.nextPosition.y;
+                        double penetrationDepth = new Vector2D(point1, collisionPoint).getLength();
+
+                        solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y)), penetrationDepth, dt, g, world);
                     }
-                }
+
+                    break;
+                case 3:
+                    Object temp = firstObject;
+                    firstObject = secondObject;
+                    secondObject = temp;
+                case 4:
+                    circle1 = (CircleShape) secondObject.shapes.get(0);
+                    rectangle1 = (RectangleShape) firstObject.shapes.get(0);
+                    v = new Vector2D(new Point.Double(rectangle1.x, rectangle1.y), new Point.Double(circle1.x, circle1.y));
+                    x = Vector2D.scalarProductCoordinates(v, rectangle1.lines[0].vector.normalize());
+                    x = Math.min(rectangle1.width / 2.0, Math.max(x, -rectangle1.width / 2.0));
+                    y = Vector2D.scalarProductCoordinates(v, rectangle1.lines[1].vector.normalize());
+                    y = Math.min(rectangle1.height / 2.0, Math.max(y, -rectangle1.height / 2.0));
+                    collisionPoint = new Point.Double(x, y);
+                    Vector2D collisionRotate = new Vector2D(collisionPoint);
+                    collisionRotate.rotate(firstObject.shapes.get(0).rotation);
+                    collisionPoint = collisionRotate.getPoint();
+                    collisionPoint.x += firstObject.nextPosition.x;
+                    collisionPoint.y += firstObject.nextPosition.y;
+                    Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
+
+                    solveCollision(firstObject, secondObject, collisionPoint, normal, (circle1.radius - normal.getLength()), dt, g, world);
+                    break;
+                case 0:
+                default:
+                    break;
             }
         }
     }
@@ -454,8 +469,8 @@ public class CollisionChecker {
 
             firstObject.applyImpulse(new Vector2D(frictionImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(frictionImpulse, secondObjectCenterToCollisionPoint);
-            
-            Vector2D correction = new Vector2D(normal).multiply(correctionPercentage*(Math.max(penetrationDepth-slop, 0d)/(firstObject.inverseMass+secondObject.inverseMass)));
+
+            Vector2D correction = new Vector2D(normal).multiply(correctionPercentage * (Math.max(penetrationDepth - slop, 0d) / (firstObject.inverseMass + secondObject.inverseMass)));
             Point.Double temporaryPoint = new Vector2D(correction).multiply(firstObject.inverseMass).getPoint();
             firstObject.nextPosition.x -= temporaryPoint.x;
             firstObject.nextPosition.y -= temporaryPoint.y;
