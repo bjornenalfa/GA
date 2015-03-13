@@ -402,6 +402,18 @@ public class CustomOptionMenu extends JMenuBar {
         return menu;
     }
 
+    private void afterSetup() {
+        panel.optionFrame.panel.save.doClick();
+        for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
+            ClickFrame clickFrame = panel.world.clickFrameList.get(i);
+            panel.world.clickFrameList.remove(clickFrame);
+            clickFrame.dispose();
+        }
+        if (!Main.playing) {
+            panel.repaint();
+        }
+    }
+
     private JMenuItem makeSetupOne() {
         JMenuItem setup = new JMenuItem("Setup One");
         setup.addActionListener(new ActionListener() {
@@ -412,15 +424,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -435,15 +439,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -458,15 +454,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), panel.world.planes.get(0).surface.vector.getAngle(), 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -481,15 +469,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 0, 8000, 6000, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -506,15 +486,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -530,15 +502,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.get(0).velocity = new Vector2D(100, 0);
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -565,15 +529,7 @@ public class CustomOptionMenu extends JMenuBar {
                     angle += dAngle;
                 }
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -589,15 +545,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 150, 400, 550, Material.Concrete));
                 panel.world.addPlane(new Plane(400, 550, 8000, 550, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -615,15 +563,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(-5000, 100, 700, 500, Material.Concrete));
                 panel.world.addPlane(new Plane(700, 500, 700, 0, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -649,15 +589,7 @@ public class CustomOptionMenu extends JMenuBar {
                     angle += dAngle;
                 }
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -674,15 +606,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.get(0).angularVelocity = 1;
                 panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -699,15 +623,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.addPlane(new Plane(0, 550, 800, 550, Material.Concrete));
                 panel.world.addPlane(new Plane(0, 350, 390, 350, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -723,15 +639,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(0, 350, 399.9, 350, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -747,15 +655,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.addPlane(new Plane(400, 600, 400, 350, Material.Concrete));
 
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
@@ -769,7 +669,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
                 //panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300), Material.Wood));
-                
+
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(290, 100), Material.Wood));
                 panel.world.objects.get(0).angularVelocity = -9.8;
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
@@ -784,17 +684,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.get(5).angularVelocity = -9;
                 panel.world.objects.add(new FixedObject(-800, 400, 800, 600, 100, Material.Wood));
                 panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
-                panel.optionFrame.panel.save.doClick();
-                for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
-                    ClickFrame clickFrame = panel.world.clickFrameList.get(i);
-                    panel.world.clickFrameList.remove(clickFrame);
-                    clickFrame.dispose();
-                }
-                for (ClickFrame clickFrame : panel.world.clickFrameList) {
-                }
-                if (!Main.playing) {
-                    panel.repaint();
-                }
+                afterSetup();
             }
         });
         return setup;
