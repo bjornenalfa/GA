@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -201,22 +200,21 @@ public class OptionFrame extends JFrame {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         } else {
-                            newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         }
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         } else {
-                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.mass, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         }
                     }
                 }
                 newO.velocity = o.velocity;
                 newO.acceleration = o.acceleration;
-                newO.mass = o.mass;
                 newO.angularVelocity = o.angularVelocity;
                 newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
