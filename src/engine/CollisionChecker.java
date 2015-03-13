@@ -449,7 +449,7 @@ public class CollisionChecker {
             impulseLength /= massInverseSum;
             System.out.println("IMPULSELENGTH:" + impulseLength);
             Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
-            world.impulses.add(new Line(collisionPoint, impulse));
+            world.impulses.add(new Line(collisionPoint, new Vector2D(normal).multiply(impulseLength*(secondObject.inverseMass+firstObject.inverseMass))));
             firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(impulse, secondObjectCenterToCollisionPoint);
 
