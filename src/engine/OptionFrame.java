@@ -67,6 +67,7 @@ public class OptionFrame extends JFrame {
         JButton reset;
         JButton save;
         JButton setDt;
+        JButton clearArrows;
         JLabel dtLabel = new JLabel("", SwingConstants.CENTER);
 
         private void addButtons() {
@@ -136,8 +137,8 @@ public class OptionFrame extends JFrame {
                     mainPanel.requestFocus();
                 }
             });
-
             add(save);
+
             reset = new JButton("Reset");
             reset.addActionListener(new ActionListener() {
                 @Override
@@ -161,8 +162,21 @@ public class OptionFrame extends JFrame {
             add(reset);
 
             add(dtLabel);
-            add(new JLabel(""));
 
+            clearArrows = new JButton("Clear arrows");
+            clearArrows.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mainPanel.world.impulses.clear();
+                    mainPanel.world.normals.clear();
+                    if (!Main.playing) {
+                        panel.repaint();
+                    }
+                    mainPanel.requestFocus();
+                }
+            });
+            add(clearArrows);
+            
             setDt = new JButton("Set dt");
             setDt.addActionListener(new ActionListener() {
                 @Override

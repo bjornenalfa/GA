@@ -28,6 +28,8 @@ public class Friction {
             return -0.1;
         } else if (Math.max(mat1,mat2) == 7){
             return 0.9;
+        } else if (Math.max(mat1,mat2) == 8){
+            return 0.4;
         }
         return staticFriction[mat1][mat2];
     }
@@ -37,6 +39,8 @@ public class Friction {
             return -0.1;
         } else if (Math.max(mat1,mat2) == 7){
             return 0.9;
+        } else if (Math.max(mat1,mat2) == 8){
+            return 0.4;
         }
         return dynamicFriction[mat1][mat2];
     }

@@ -15,5 +15,6 @@ public class Material {
     
     public static int Boost = 6;
     public static int Slow = 7;
+    public static int Bounce = 7;
 
 }
