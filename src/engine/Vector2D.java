@@ -230,6 +230,6 @@ public class Vector2D {
     
     @Override
     public String toString() {
-        return "A:"+getAngle()+" L:"+getLength()+" "+getPoint();
+        return "A:"+getAngle()+" L:"+getLength()+" X:"+getPoint().x+" Y:"+point.y;
     }
 }
