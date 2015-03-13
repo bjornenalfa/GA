@@ -107,7 +107,7 @@ public class Main extends JFrame {
             getActionMap().put("ctrl_up", ctrl_up());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.CTRL_DOWN_MASK), "ctrl+0");
             getActionMap().put("ctrl+0", ctrl0());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "pos_r");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK), "pos_r");
             getActionMap().put("pos_r", pos_r());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_F)), "pos_f");
             getActionMap().put("pos_f", pos_f());
@@ -117,7 +117,7 @@ public class Main extends JFrame {
             getActionMap().put("pauseplay", pauseplay());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_U)), "update");
             getActionMap().put("update", updat());
-            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_I)), "reset");
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "reset");
             getActionMap().put("reset", reset());
 
         }
