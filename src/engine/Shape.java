@@ -14,6 +14,7 @@ public class Shape {
     double dRotate; //relative to object's rotation
     double rotation; //actual rotation
     double mass;//mass in g
+    double density;//density in g/cm^2
     double x, y; // X, Y coordinates; Width and Height
     double inertia; //Tröghetsmomentet
     Color myC; //Shape color    
@@ -26,15 +27,15 @@ public class Shape {
      * @param y - Y coordinate
      * @param v - vector
      * @param r - rotation, in radians
-     * @param m - mass, g
+     * @param d - density, g/cm2
      * @param c - color
      */
-    public Shape(Vector2D v, double r, double m, Color c) {
+    public Shape(Vector2D v, double r, double d, Color c) {
         vector = v;
         //vector.readyPoint();
         dRotate = r;
         rotation = r;
-        mass = m;
+        density = d;
         myC = c;
         this.x = x;
         this.y = y;
@@ -87,7 +88,8 @@ public class Shape {
     }
 
     public void calculateInertia() {
-        inertia = 1;
+        mass = 1;
+        inertia = 100;
     }
 
     //If needed implement different code for each different shape

@@ -12,13 +12,14 @@ public class CircleShape extends Shape {
 
     double radius; //radius of shape
 
-    public CircleShape(double rad, Vector2D v, double r, double m, Color c) {
-        super(v, r, m, c);
+    public CircleShape(double rad, Vector2D v, double r, double d, Color c) {
+        super(v, r, d, c);
         radius = rad;
     }
     
     @Override
     public void calculateInertia() {
+        mass = radius * radius * Math.PI * density;
         inertia = radius * radius * mass;
     }
 

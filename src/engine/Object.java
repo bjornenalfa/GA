@@ -140,7 +140,7 @@ public class Object {
         for (Shape shape : shapes) {
             shape.paint(g);
         }
-        velocity.paint(g, position.x, position.y, 1, Color.red);
+        velocity.paint(g, position.x, position.y, 1, Color.MAGENTA);
     }
 
     public void applyImpulse(Vector2D impulse, Vector2D contactVector) {

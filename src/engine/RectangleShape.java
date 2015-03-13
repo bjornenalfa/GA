@@ -23,8 +23,8 @@ public class RectangleShape extends Shape {
     int[] polygonx = new int[4];
     int[] polygony = new int[4];
 
-    public RectangleShape(int w, int h, Vector2D v, double r, double m, Color c) {
-        super(v, r, m, c);
+    public RectangleShape(int w, int h, Vector2D v, double r, double d, Color c) {
+        super(v, r, d, c);
         middleToOrigin = new Vector2D(-w / 2, -h / 2);
         middleToOrigindr = middleToOrigin.getAngle();
         middleToOrigin.rotate(r);
@@ -38,6 +38,7 @@ public class RectangleShape extends Shape {
      */
     @Override
     public void calculateInertia() {
+        mass = density*height*width;
         inertia = 1250;
         //inertia = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
     }

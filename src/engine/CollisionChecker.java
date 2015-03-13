@@ -341,8 +341,8 @@ public class CollisionChecker {
                     Object firstObject = objects.get(i);
                     Object secondObject = objects.get(j);
 
-                    CircleShape circle = null, circle2 = null;
-                    RectangleShape rectangle = null, rectangle2 = null;
+                    CircleShape circle1 = null, circle2 = null;
+                    RectangleShape rectangle1 = null, rectangle2 = null;
                     Vector2D v;
                     Point.Double collisionPoint;
                     double x, y;
@@ -351,26 +351,23 @@ public class CollisionChecker {
                         case 1:
                             break;
                         case 2:
-                            circle = (CircleShape) secondObject.shapes.get(0);
-                            circle2 = (CircleShape) firstObject.shapes.get(0);
-                            v = new Vector2D(new Point.Double(circle2.x, circle2.y), new Point.Double(circle.x, circle.y));
+                            circle1 = (CircleShape) firstObject.shapes.get(0);
+                            circle2 = (CircleShape) secondObject.shapes.get(0);
+                            v = new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y));
                             double distance = v.getLength();
-                            double radius = circle2.radius+circle.radius;
+                            double radius = circle2.radius+circle1.radius;
                             if (distance>=radius){
                                 break;
                             } else{
-                              v.normalize();
-                              Vector2D collisionVector = new Vector2D(v);
-                              Vector2D inverseCollisionVector = new Vector2D(v);
-                              inverseCollisionVector.multiply(-1);
-                              collisionVector.multiply(circle.radius);
-                              inverseCollisionVector.multiply(circle2.radius);
-                              collisionVector.add(new Vector2D(firstObject.position));
-                              inverseCollisionVector.add(new Vector2D(secondObject.position));
-                              collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
-                              double penetrationDepth = new Vector2D(collisionVector.point, collisionPoint).getLength();
+
+                              collisionPoint = new Point.Double((firstObject.nextPosition.x*circle2.radius+secondObject.nextPosition.x*circle1.radius)/(circle1.radius+circle2.radius),(firstObject.nextPosition.y*circle2.radius+secondObject.nextPosition.y*circle1.radius)/(circle1.radius+circle2.radius));
+                              //collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
+                              Point.Double point1 = v.normalize().multiply(circle1.radius).point;
+                              point1.x += firstObject.nextPosition.x;
+                              point1.y += firstObject.nextPosition.y;
+                              double penetrationDepth = new Vector2D(point1, collisionPoint).getLength();
                               
-                              solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(circle2.x, circle2.y), new Point.Double(circle.x, circle.y)), penetrationDepth, dt, g, world);  
+                              solveCollision(firstObject, secondObject, collisionPoint, new Vector2D(new Point.Double(firstObject.nextPosition.x, firstObject.nextPosition.y), new Point.Double(secondObject.nextPosition.x, secondObject.nextPosition.y)), penetrationDepth, dt, g, world);  
                             }
                             
                             break;
@@ -379,13 +376,13 @@ public class CollisionChecker {
                             firstObject = secondObject;
                             secondObject = temp;
                         case 4:
-                            circle = (CircleShape) secondObject.shapes.get(0);
-                            rectangle = (RectangleShape) firstObject.shapes.get(0);
-                            v = new Vector2D(new Point.Double(rectangle.x, rectangle.y), new Point.Double(circle.x, circle.y));
-                            x = Vector2D.scalarProductCoordinates(v, rectangle.lines[0].vector.normalize());
-                            x = Math.min(rectangle.width / 2.0, Math.max(x, -rectangle.width / 2.0));
-                            y = Vector2D.scalarProductCoordinates(v, rectangle.lines[1].vector.normalize());
-                            y = Math.min(rectangle.height / 2.0, Math.max(y, -rectangle.height / 2.0));
+                            circle1 = (CircleShape) secondObject.shapes.get(0);
+                            rectangle1 = (RectangleShape) firstObject.shapes.get(0);
+                            v = new Vector2D(new Point.Double(rectangle1.x, rectangle1.y), new Point.Double(circle1.x, circle1.y));
+                            x = Vector2D.scalarProductCoordinates(v, rectangle1.lines[0].vector.normalize());
+                            x = Math.min(rectangle1.width / 2.0, Math.max(x, -rectangle1.width / 2.0));
+                            y = Vector2D.scalarProductCoordinates(v, rectangle1.lines[1].vector.normalize());
+                            y = Math.min(rectangle1.height / 2.0, Math.max(y, -rectangle1.height / 2.0));
                             collisionPoint = new Point.Double(x, y);
                             Vector2D collisionRotate = new Vector2D(collisionPoint);
                             collisionRotate.rotate(firstObject.shapes.get(0).rotation);
@@ -394,7 +391,7 @@ public class CollisionChecker {
                             collisionPoint.y += firstObject.nextPosition.y;
                             Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
                             
-                            solveCollision(firstObject, secondObject, collisionPoint, normal, (circle.radius-normal.getLength()), dt, g, world);
+                            solveCollision(firstObject, secondObject, collisionPoint, normal, (circle1.radius-normal.getLength()), dt, g, world);
                             break;
                         case 0:
                         default:
