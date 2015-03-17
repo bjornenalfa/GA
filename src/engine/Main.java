@@ -120,6 +120,8 @@ public class Main extends JFrame {
             getActionMap().put("reset", reset());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_T)), "pos_t");
             getActionMap().put("pos_t", pos_t());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_D)), "pos_d");
+            getActionMap().put("pos_d", pos_d());
 
         }
 
@@ -230,37 +232,33 @@ public class Main extends JFrame {
                 }
             };
         }
-        
+
         private Action pos_t() {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    /*for (int i = 0;i<50;i++) {
-                        Point point = MouseInfo.getPointerInfo().getLocation();
-                        double x = point.x;//.x+Math.random()*51-25);
-                        double y = point.y;//.y+Math.random()*51-25);
-                        point.x-=panel.getLocationOnScreen().x;
-                        point.y-=panel.getLocationOnScreen().y;
-                        //x/=scale;
-                        //y/=scale;
-                        //x+=translateX;
-                        //y+=translateY;
-                        world.points.add(new Point.Double(x,y));
-                        repaint();
-                    }*/
                     int extra = 500;
                     int frequency = 5;
-                    for (int x = -extra;x<panel.getWidth()+extra;x+=frequency){
-                        for (int y = -extra;y<panel.getHeight()+extra;y+=frequency) {
+                    for (int x = -extra; x < panel.getWidth() + extra; x += frequency) {
+                        for (int y = -extra; y < panel.getHeight() + extra; y += frequency) {
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
                                     if (shape.contains(new Point.Double(x, y))) {
-                                        world.points.add(new Point.Double(x,y));
+                                        world.points.add(new Point.Double(x, y));
                                     }
                                 }
                             }
                         }
                     }
+                    repaint();
+                }
+            };
+        }
+
+        private Action pos_d() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
                     repaint();
                 }
             };
@@ -300,12 +298,12 @@ public class Main extends JFrame {
                         adding = false;
                     } else {
                         if (e.getButton() == 3) {
-                            System.out.println("X : " + (e.getX()/scale - translateX/scale) + " - Y : " + (e.getY()/scale - translateY/scale));
-                            System.out.println("X : " + (e.getX()/scale) + " - Y : " + (e.getY()/scale));
-                            System.out.println("X : " + (translateX/scale) + " - Y : " + (translateY/scale) + " - s : " + scale);
-                            double x = (e.getX()/scale - translateX);
-                            double y = (e.getY()/scale - translateY);
-                            world.impulses.add(new Line(x, y, x, y));
+                            System.out.println("X : " + (e.getX() / scale - translateX / scale) + " - Y : " + (e.getY() / scale - translateY / scale));
+                            System.out.println("X : " + (e.getX() / scale) + " - Y : " + (e.getY() / scale));
+                            System.out.println("X : " + (translateX / scale) + " - Y : " + (translateY / scale) + " - s : " + scale);
+                            double x = (e.getX() / scale - translateX);
+                            double y = (e.getY() / scale - translateY);
+                            //world.impulses.add(new Line(x, y, x, y));
                             repaint();
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
@@ -369,16 +367,50 @@ public class Main extends JFrame {
             g2.translate(translateX, translateY);
             //System.out.println("tx:" + translateX + " ty:" + translateY + " s:" + scale);
             world.paint(g2);
+            int count = 0;
             for (ClickFrame clickFrame : world.clickFrameList) {
-                g2.setColor(Color.MAGENTA);
+                count++;
+                g2.setColor(Color.getHSBColor((float) ((count * Math.E) % 1), 1f, 0.8f));
+                //g2.setColor(Color.MAGENTA);
                 Object object = clickFrame.object;
                 Shape shape = clickFrame.object.shapes.get(clickFrame.shapeIndex);
+                double x1 = (clickFrame.getX() - this.getLocationOnScreen().x) / scale - translateX;
+                double y1 = (clickFrame.getY() - this.getLocationOnScreen().y) / scale - translateY;
+                double x2 = object.position.x;
+                double y2 = object.position.y;
+                Vector2D v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
+                double kx = Math.min(1,Math.max(v.point.x/clickFrame.getWidth(),0));
+                double ky = Math.min(1,Math.max(v.point.y/clickFrame.getHeight(),0));
+                x1+=(clickFrame.getWidth()*kx)/scale;
+                y1+=(clickFrame.getHeight()*ky)/scale;
+                v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
+                Vector2D diagonal;
+                if (Math.abs(v.point.x)<Math.abs(v.point.y)) {
+                    double dx = v.point.x/Math.abs(v.point.x);
+                    double dy = v.point.y/Math.abs(v.point.y);
+                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x)*dx,Math.abs(v.point.x)*dy));
+                } else {
+                    double dx = v.point.x/Math.abs(v.point.x);
+                    double dy = v.point.y/Math.abs(v.point.y);
+                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y)*dx,Math.abs(v.point.y)*dy));
+                }
+                //Vector2D straight = v.subtract(diagonal);
                 if (shape instanceof RectangleShape) {
                     RectangleShape rs = (RectangleShape) shape;
-                    g2.drawLine((int) (object.position.x + rs.width / 2), (int) (object.position.y - rs.height / 2), clickFrame.getX() - this.getLocationOnScreen().x, clickFrame.getY() + clickFrame.getHeight() - this.getLocationOnScreen().y);
+                    if (v.point.x == 0 || v.point.y == 0) {
+                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                    } else {
+                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
+                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                    }
                 } else if (shape instanceof CircleShape) {
                     CircleShape cs = (CircleShape) shape;
-                    g2.drawLine((int) (object.position.x + cs.radius), (int) (object.position.y - cs.radius), clickFrame.getX() - this.getLocationOnScreen().x, clickFrame.getY() + clickFrame.getHeight() - this.getLocationOnScreen().y);
+                    if (v.point.x == 0 || v.point.y == 0) {
+                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                    } else {
+                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
+                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                    }
                 }
             }
             g2.translate(-translateX, -translateY);

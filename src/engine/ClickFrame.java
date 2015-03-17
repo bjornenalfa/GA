@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -42,6 +44,7 @@ public class ClickFrame extends JFrame {
         getContentPane().setPreferredSize(new Dimension(200, 200));
         pack();
         addWindowListener(windowListener());
+        addComponentListener(componentListener());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
@@ -59,6 +62,17 @@ public class ClickFrame extends JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 mainPanel.world.clickFrameList.remove(ClickFrame.this);
+                if (!Main.playing) {
+                    mainPanel.repaint();
+                }
+            }
+        };
+    }
+    
+    private ComponentAdapter componentListener() {
+        return new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
                 if (!Main.playing) {
                     mainPanel.repaint();
                 }
