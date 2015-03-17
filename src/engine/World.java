@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -18,6 +19,8 @@ public class World {
     ArrayList<Line> pImpulses = new ArrayList();
     ArrayList<Line> normals = new ArrayList();
     ArrayList<Line> pNormals = new ArrayList();
+    ArrayList<Point.Double> points = new ArrayList();
+    ArrayList<Point.Double> pPoints = new ArrayList();
     //Line impulse = new Line(0,0,0,0);
     public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
@@ -85,6 +88,12 @@ public class World {
         pNormals = (ArrayList<Line>) normals.clone();
         for (Line l : pNormals) {
             l.paint(g);
+        }
+        
+        g.setColor(new Color(1f, 0.7f, 0.1f, 1f));
+        pPoints = (ArrayList<Point.Double>) points.clone();
+        for (Point.Double p : pPoints) {
+            g.drawRect((int) (p.x), (int) (p.y), 1,1);
         }
     }
 

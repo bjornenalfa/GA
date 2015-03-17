@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -12,11 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -119,6 +118,8 @@ public class Main extends JFrame {
             getActionMap().put("update", updat());
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_R)), "reset");
             getActionMap().put("reset", reset());
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_T)), "pos_t");
+            getActionMap().put("pos_t", pos_t());
 
         }
 
@@ -226,6 +227,41 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.exit(0);
+                }
+            };
+        }
+        
+        private Action pos_t() {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    /*for (int i = 0;i<50;i++) {
+                        Point point = MouseInfo.getPointerInfo().getLocation();
+                        double x = point.x;//.x+Math.random()*51-25);
+                        double y = point.y;//.y+Math.random()*51-25);
+                        point.x-=panel.getLocationOnScreen().x;
+                        point.y-=panel.getLocationOnScreen().y;
+                        //x/=scale;
+                        //y/=scale;
+                        //x+=translateX;
+                        //y+=translateY;
+                        world.points.add(new Point.Double(x,y));
+                        repaint();
+                    }*/
+                    int extra = 500;
+                    int frequency = 5;
+                    for (int x = -extra;x<panel.getWidth()+extra;x+=frequency){
+                        for (int y = -extra;y<panel.getHeight()+extra;y+=frequency) {
+                            for (Object object : world.objects) {
+                                for (Shape shape : object.shapes) {
+                                    if (shape.contains(new Point.Double(x, y))) {
+                                        world.points.add(new Point.Double(x,y));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    repaint();
                 }
             };
         }
