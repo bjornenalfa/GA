@@ -4,13 +4,17 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 public class ClickFrame extends JFrame {
@@ -41,7 +45,7 @@ public class ClickFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x + 70), (int) (mainPanel.getLocationOnScreen().y + object.position.y - (getHeight() + 50)));
+        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x/Main.scale - Main.translateX + 70/Main.scale), (int) (mainPanel.getLocationOnScreen().y + object.position.y/Main.scale - Main.translateY - (getHeight() + 50)/Main.scale));
         setVisible(true);
 
         if (!Main.playing) {
@@ -62,19 +66,28 @@ public class ClickFrame extends JFrame {
         };
     }
 
-    public void setLabelTexts(){
+    public void setLabelTexts() {
         massLabel.setText("M : " + object.mass);
         inertiaLabel.setText("I : " + object.inertia);
         positionLabel.setText("P : " + object.position);
         velocityLabel.setText("V : " + object.velocity);
         angularVelocityLabel.setText("AV : " + object.angularVelocity);
     }
-    
+
     class MyPanel extends JPanel {
 
         public MyPanel() {
             setLayout(new GridLayout(7, 1, 5, 5));
             addButtonsLabels();
+            
+            char exit = KeyEvent.VK_ESCAPE;
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
+            getActionMap().put("exit", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ClickFrame.this.dispose();
+                }
+            });
         }
 
         private void addButtonsLabels() {
@@ -112,7 +125,7 @@ public class ClickFrame extends JFrame {
             add(velocityLabel);
             angularVelocityLabel = new JLabel("", SwingConstants.CENTER);
             add(angularVelocityLabel);
-            
+
             setLabelTexts();
         }
     }

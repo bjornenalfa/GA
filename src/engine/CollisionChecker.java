@@ -52,10 +52,10 @@ public class CollisionChecker {
 
     public static boolean pointInRectangleShape(RectangleShape shape, Point.Double point) {
         Vector2D vector = new Vector2D(new Point.Double(point.x - shape.x + shape.width / 2, point.y - shape.y + shape.height / 2));
-        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
+//        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
         vector.rotate(-shape.dRotate);
         vector.readyPoint();
-        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + shape.width + ":" + shape.height);
+//        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + shape.width + ":" + shape.height);
         System.out.println(!(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height));
         return !(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height);
     }
@@ -337,18 +337,18 @@ public class CollisionChecker {
                 }
             }
             for (int j = i + 1; j < objects.size(); j++) {
-                objectToObjectSolver(objects,i,j,world,dt,g);
+                objectToObjectSolver(objects, i, j, world, dt, g);
             }
         }
-        doObjectObject(objects,world,dt,g);
-        doObjectObject(objects,world,dt,g);
-        doObjectObject(objects,world,dt,g);
+        doObjectObject(objects, world, dt, g);
+        doObjectObject(objects, world, dt, g);
+        doObjectObject(objects, world, dt, g);
     }
 
     public static void doObjectObject(ArrayList<Object> objects, World world, double dt, Vector2D g) {
         for (int i = 0; i < objects.size(); i++) {
             for (int j = i + 1; j < objects.size(); j++) {
-                objectToObjectSolver(objects,i,j,world,dt,g);
+                objectToObjectSolver(objects, i, j, world, dt, g);
             }
         }
     }
@@ -449,7 +449,7 @@ public class CollisionChecker {
             impulseLength /= massInverseSum;
             System.out.println("IMPULSELENGTH:" + impulseLength);
             Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
-            world.impulses.add(new Line(collisionPoint, new Vector2D(normal).multiply(impulseLength*(secondObject.inverseMass+firstObject.inverseMass))));
+            world.impulses.add(new Line(collisionPoint, new Vector2D(normal).multiply(impulseLength * (secondObject.inverseMass + firstObject.inverseMass))));
             firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(impulse, secondObjectCenterToCollisionPoint);
 

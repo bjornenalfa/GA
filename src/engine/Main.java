@@ -264,9 +264,16 @@ public class Main extends JFrame {
                         adding = false;
                     } else {
                         if (e.getButton() == 3) {
+                            System.out.println("X : " + (e.getX()/scale - translateX/scale) + " - Y : " + (e.getY()/scale - translateY/scale));
+                            System.out.println("X : " + (e.getX()/scale) + " - Y : " + (e.getY()/scale));
+                            System.out.println("X : " + (translateX/scale) + " - Y : " + (translateY/scale) + " - s : " + scale);
+                            double x = (e.getX()/scale - translateX);
+                            double y = (e.getY()/scale - translateY);
+                            world.impulses.add(new Line(x, y, x, y));
+                            repaint();
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
-                                    if (shape.contains(e.getPoint())) {
+                                    if (shape.contains(new Point.Double(x, y))) {
                                         world.clickFrameList.add(new ClickFrame(MyJPanel.this, object, shape));
                                     }
                                 }
