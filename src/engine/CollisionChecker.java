@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -55,7 +56,7 @@ public class CollisionChecker {
 //        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
         vector.rotate(-shape.dRotate);
         vector.readyPoint();
-        vector.add(new Vector2D(new Point.Double(shape.width/2.0,shape.height/2.0)));
+        vector.add(new Vector2D(new Point.Double(shape.width / 2.0, shape.height / 2.0)));
 //        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + shape.width + ":" + shape.height);
         //System.out.println(!(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height));
         return !(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height);
@@ -364,9 +365,65 @@ public class CollisionChecker {
             Vector2D v;
             Point.Double collisionPoint;
             double x, y;
-
+            Vector2D normal = null;
+            
             switch (CollideObjects(objects.get(i), objects.get(j))) {
                 case 1:
+                    rectangle1 = (RectangleShape) firstObject.shapes.get(0);
+                    rectangle2 = (RectangleShape) secondObject.shapes.get(0);
+
+                    ArrayList<Point.Double> pointsInRectangle2List = new ArrayList();
+                    if (rectangle2.contains(rectangle1.lines[0].origin)) {
+                        pointsInRectangle2List.add(rectangle1.lines[0].origin);
+                    }
+                    if (rectangle2.contains(rectangle1.lines[0].end)) {
+                        pointsInRectangle2List.add(rectangle1.lines[0].end);
+                    }
+                    if (rectangle2.contains(rectangle1.lines[1].end)) {
+                        pointsInRectangle2List.add(rectangle1.lines[1].end);
+                    }
+                    if (rectangle2.contains(rectangle1.lines[0].origin)) {
+                        pointsInRectangle2List.add(rectangle1.lines[2].end);
+                    }
+
+                    ArrayList<Point.Double> pointsInRectangle1List = new ArrayList();
+                    if (rectangle1.contains(rectangle2.lines[0].origin)) {
+                        pointsInRectangle1List.add(rectangle2.lines[0].origin);
+                    }
+                    if (rectangle1.contains(rectangle2.lines[0].end)) {
+                        pointsInRectangle1List.add(rectangle2.lines[0].end);
+                    }
+                    if (rectangle1.contains(rectangle2.lines[1].end)) {
+                        pointsInRectangle1List.add(rectangle2.lines[1].end);
+                    }
+                    if (rectangle1.contains(rectangle2.lines[0].origin)) {
+                        pointsInRectangle1List.add(rectangle2.lines[2].end);
+                    }
+
+                    
+                    ArrayList<Point.Double> leastAmountOfPointsInTheOtherRectangleList;
+                    ArrayList<Point.Double> mostAmountOfPointsInTheOtherRectangleList;
+
+                    if (Math.min(pointsInRectangle2List.size(), pointsInRectangle1List.size()) == 0) {
+                        if (pointsInRectangle2List.size() > pointsInRectangle1List.size()) {
+                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
+                        } else {
+                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
+                        }
+                        
+                    } else if ((pointsInRectangle2List.size() == 1) && (pointsInRectangle1List.size() == 1)) {
+                        normal = new Vector2D(pointsInRectangle2List.get(0), pointsInRectangle1List.get(0));
+                        
+                    } else if (Math.min(pointsInRectangle2List.size(), pointsInRectangle1List.size()) != 0) {
+                        if (pointsInRectangle2List.size() > pointsInRectangle1List.size()) {
+                            leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
+                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
+                        } else {
+                            leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
+                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
+                        }
+                        
+                    }
                     break;
                 case 2:
                     circle1 = (CircleShape) firstObject.shapes.get(0);
@@ -407,7 +464,7 @@ public class CollisionChecker {
                     collisionPoint = collisionRotate.getPoint();
                     collisionPoint.x += firstObject.nextPosition.x;
                     collisionPoint.y += firstObject.nextPosition.y;
-                    Vector2D normal = new Vector2D(collisionPoint, secondObject.nextPosition);
+                    normal = new Vector2D(collisionPoint, secondObject.nextPosition);
 
                     solveCollision(firstObject, secondObject, collisionPoint, normal, (circle1.radius - normal.getLength()), dt, g, world);
                     break;
