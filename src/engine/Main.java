@@ -374,7 +374,7 @@ public class Main extends JFrame {
                 //g2.setColor(Color.MAGENTA);
                 Object object = clickFrame.object;
                 Shape shape = clickFrame.object.shapes.get(clickFrame.shapeIndex);
-                /*double x1 = (clickFrame.getX() - this.getLocationOnScreen().x) / scale - translateX;
+                double x1 = (clickFrame.getX() - this.getLocationOnScreen().x) / scale - translateX;
                 double y1 = (clickFrame.getY() - this.getLocationOnScreen().y) / scale - translateY;
                 double x2 = object.position.x;
                 double y2 = object.position.y;
@@ -411,8 +411,8 @@ public class Main extends JFrame {
                         g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
                         g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
                     }
-                }*/
-                double x2 = (clickFrame.getX() - this.getLocationOnScreen().x + clickFrame.getWidth()/2.0) / scale - translateX;
+                }
+                /*double x2 = (clickFrame.getX() - this.getLocationOnScreen().x + clickFrame.getWidth()/2.0) / scale - translateX;
                 double y2 = (clickFrame.getY() - this.getLocationOnScreen().y + clickFrame.getHeight()/2.0) / scale - translateY;
                 double x1 = object.position.x;
                 double y1 = object.position.y;
@@ -459,7 +459,7 @@ public class Main extends JFrame {
                         g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
                         g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
                     }
-                }
+                }*/
             }
             g2.translate(-translateX, -translateY);
         }
