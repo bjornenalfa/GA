@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -88,17 +89,22 @@ public class CollisionChecker {
         return false;
     }
 
+    static ArrayList<Line> intersectingLinesList1 = new ArrayList();
+    static ArrayList<Line> intersectingLinesList2 = new ArrayList();
     private static boolean rectangleAndRectangleIntersect(RectangleShape rec1, RectangleShape rec2) {
         rec1.calcLines();
         rec2.calcLines();
+        intersectingLinesList1.clear();
+        intersectingLinesList2.clear();
         for (Line line1 : rec1.lines) {
             for (Line line2 : rec2.lines) {
                 if (intersect(line1, line2)) {
-                    return true;
+                    intersectingLinesList1.add(line1);
+                    intersectingLinesList2.add(line2);
                 }
             }
         }
-        return false;
+        return !intersectingLinesList2.isEmpty() || !intersectingLinesList1.isEmpty();
     }
 
     private static boolean circleAndCirleIntersect(CircleShape cir1, CircleShape cir2) {
@@ -366,8 +372,8 @@ public class CollisionChecker {
             Point.Double collisionPoint;
             double x, y;
             Vector2D normal = null;
-            
-            switch (CollideObjects(objects.get(i), objects.get(j))) {
+
+            switch (CollideObjects(firstObject, secondObject)) {
                 case 1:
                     rectangle1 = (RectangleShape) firstObject.shapes.get(0);
                     rectangle2 = (RectangleShape) secondObject.shapes.get(0);
@@ -400,7 +406,6 @@ public class CollisionChecker {
                         pointsInRectangle1List.add(rectangle2.lines[2].end);
                     }
 
-                    
                     ArrayList<Point.Double> leastAmountOfPointsInTheOtherRectangleList;
                     ArrayList<Point.Double> mostAmountOfPointsInTheOtherRectangleList;
 
@@ -410,10 +415,14 @@ public class CollisionChecker {
                         } else {
                             mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
                         }
-                        
+                        Point.Double deepestPoint = new Point.Double(0, 0);
+                        double deepness = 0;
+                        for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
+                            
+                        }
                     } else if ((pointsInRectangle2List.size() == 1) && (pointsInRectangle1List.size() == 1)) {
                         normal = new Vector2D(pointsInRectangle2List.get(0), pointsInRectangle1List.get(0));
-                        
+
                     } else if (Math.min(pointsInRectangle2List.size(), pointsInRectangle1List.size()) != 0) {
                         if (pointsInRectangle2List.size() > pointsInRectangle1List.size()) {
                             leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
@@ -422,7 +431,7 @@ public class CollisionChecker {
                             leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
                             mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
                         }
-                        
+
                     }
                     break;
                 case 2:
