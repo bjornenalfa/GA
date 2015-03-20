@@ -38,8 +38,8 @@ public class RectangleShape extends Shape {
      */
     @Override
     public void calculateInertia() {
-        mass = density*height*width;
-        inertia = width*height*mass/Math.PI;
+        mass = density * height * width;
+        inertia = width * height * mass / Math.PI;
         //inertia = 1250;
         //inertia = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
     }
@@ -52,6 +52,10 @@ public class RectangleShape extends Shape {
         lines[1] = left;
         lines[2] = new Line(left.end, top.vector);
         lines[3] = new Line(top.end, left.vector);
+
+        //FIX NORMALS
+        lines[1].invertNormal();
+        lines[2].invertNormal();
 
         polygonx[0] = (int) top.origin.x;
         polygony[0] = (int) top.origin.y;
@@ -99,7 +103,7 @@ public class RectangleShape extends Shape {
     public boolean contains(Point.Double p) {
         return CollisionChecker.pointInRectangleShape(this, p);
     }
-    
+
     @Override
     public void setParent(Object object) {
         super.setParent(object);

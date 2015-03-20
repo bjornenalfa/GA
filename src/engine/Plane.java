@@ -17,23 +17,23 @@ public class Plane {
 
     public Plane(Line line) {
         surface = line;
-        normal = surface.vector.getCounterClockwiseNormal().normalize();
+        normal = surface.normal;
     }
 
     public Plane(double x1, double y1, double x2, double y2) {
         surface = new Line(x1, y1, x2, y2);
-        normal = surface.vector.getCounterClockwiseNormal().normalize();
+        normal = surface.normal;
     }
 
     public Plane(Line line, int mat) {
         surface = line;
-        normal = surface.vector.getCounterClockwiseNormal().normalize();
+        normal = surface.normal;
         material = mat;
     }
 
     public Plane(double x1, double y1, double x2, double y2, int mat) {
         surface = new Line(x1, y1, x2, y2);
-        normal = surface.vector.getCounterClockwiseNormal().normalize();
+        normal = surface.normal;
         material = mat;
     }
 

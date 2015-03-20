@@ -12,17 +12,20 @@ public class Line {
     Point.Double origin;
     Point.Double end;
     Vector2D vector;
+    Vector2D normal;
 
     public Line(Point.Double orig, Vector2D vec) {
         origin = orig;
         end = new Point.Double(orig.x + vec.getPoint().x, orig.y + vec.getPoint().y);
         vector = vec;
+        normal = vector.getCounterClockwiseNormal().normalize();
     }
 
     public Line(double x1, double y1, double x2, double y2) {
         origin = new Point.Double(x1, y1);
         end = new Point.Double(x2, y2);
         vector = new Vector2D(new Point.Double(x2 - x1, y2 - y1));
+        normal = vector.getCounterClockwiseNormal().normalize();
     }
 
     public Point.Double getEnd() {
@@ -35,6 +38,10 @@ public class Line {
 
     public static double getAngleBetween(double dx, double dy) {
         return Math.atan2(dy, dx);
+    }
+    
+    public void invertNormal() {
+        normal.multiply(-1);
     }
 
     public void paint(Graphics2D g) {
