@@ -39,7 +39,7 @@ public class RectangleShape extends Shape {
     @Override
     public void calculateInertia() {
         mass = density * height * width;
-        inertia = width * height * mass / Math.PI;
+        inertia =  (width*width + height*height) * mass /3.0;
         //inertia = 1250;
         //inertia = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
     }

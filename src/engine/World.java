@@ -72,7 +72,7 @@ public class World {
             impulses.remove(0);
         }
 
-        g.setColor(new Color(0.3f, 0.3f, 1f, 0.7f));
+        g.setColor(new Color(0.3f, 0.3f, 1f, 1f));
         //impulse.paint(g);
         pImpulses = (ArrayList<Line>) impulses.clone();
         for (Line l : pImpulses) {
@@ -83,7 +83,7 @@ public class World {
             normals.remove(0);
         }
 
-        g.setColor(new Color(0.3f, 1f, 0.3f, 0.7f));
+        g.setColor(new Color(0.3f, 1f, 0.3f, 1f));
         //impulse.paint(g);
         pNormals = (ArrayList<Line>) normals.clone();
         for (Line l : pNormals) {

@@ -484,7 +484,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.follow = false;
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.addPlane(new Plane(0, 500, 800, 500, Material.Concrete));
+                panel.world.objects.add(new FixedObject(0, 500, 800, 500,20, Material.Concrete));
 //                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 10, Material.Concrete));
 
                 afterSetup();
@@ -627,6 +627,9 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Bounce));
                 panel.world.objects.add(new FixedObject(0, 550, 0, 0, 20, Material.Bounce));
                 panel.world.objects.add(new FixedObject(800, 550, 800, 0, 20, Material.Bounce));
+                panel.world.objects.add(new FixedObject(0, 0, 800, 0, 20, Material.Bounce));
+                panel.world.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.RED), new Point.Double(350, 250), Material.Bounce));
+
 
                 afterSetup();
             }
