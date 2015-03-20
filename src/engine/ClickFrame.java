@@ -48,7 +48,7 @@ public class ClickFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x/Main.scale - Main.translateX + 70/Main.scale), (int) (mainPanel.getLocationOnScreen().y + object.position.y/Main.scale - Main.translateY - (getHeight() + 50)/Main.scale));
+        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x / Main.scale - Main.translateX + 70 / Main.scale), (int) (mainPanel.getLocationOnScreen().y + object.position.y / Main.scale - Main.translateY - (getHeight() + 50) / Main.scale));
         setVisible(true);
 
         if (!Main.playing) {
@@ -68,7 +68,7 @@ public class ClickFrame extends JFrame {
             }
         };
     }
-    
+
     private ComponentAdapter componentListener() {
         return new ComponentAdapter() {
             @Override
@@ -93,7 +93,7 @@ public class ClickFrame extends JFrame {
         public MyPanel() {
             setLayout(new GridLayout(7, 1, 5, 5));
             addButtonsLabels();
-            
+
             char exit = KeyEvent.VK_ESCAPE;
             getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(exit), "exit");
             getActionMap().put("exit", new AbstractAction() {

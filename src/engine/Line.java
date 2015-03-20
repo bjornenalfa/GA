@@ -39,7 +39,7 @@ public class Line {
     public static double getAngleBetween(double dx, double dy) {
         return Math.atan2(dy, dx);
     }
-    
+
     public void invertNormal() {
         normal.multiply(-1);
     }

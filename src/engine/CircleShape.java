@@ -16,7 +16,7 @@ public class CircleShape extends Shape {
         super(v, r, d, c);
         radius = rad;
     }
-    
+
     @Override
     public void calculateInertia() {
         mass = radius * radius * Math.PI * density;

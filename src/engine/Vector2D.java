@@ -203,10 +203,16 @@ public class Vector2D {
     }
 
     public Vector2D getCounterClockwiseNormal() {
+        if (point == null) {
+            readyPoint();
+        }
         return new Vector2D(new Point.Double(point.y, -point.x));
     }
 
     public Vector2D getClockwiseNormal() {
+        if (point == null) {
+            readyPoint();
+        }
         return new Vector2D(new Point.Double(-point.y, point.x));
     }
 
@@ -227,9 +233,9 @@ public class Vector2D {
         g.setColor(c);
         g.drawLine((int) x, (int) y, (int) (x + getPoint().x * scale), (int) (y + getPoint().y * scale));
     }
-    
+
     @Override
     public String toString() {
-        return "A:"+getAngle()+" L:"+getLength()+" X:"+getPoint().x+" Y:"+point.y;
+        return "A:" + getAngle() + " L:" + getLength() + " X:" + getPoint().x + " Y:" + point.y;
     }
 }

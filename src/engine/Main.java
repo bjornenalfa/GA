@@ -30,7 +30,7 @@ public class Main extends JFrame {
     static boolean playing = false;
 
     public Main() {
-        setTitle("TITLE");
+        setTitle("Fysiksimulator 2.0");
 
         panel = new MyJPanel();
 
@@ -38,7 +38,7 @@ public class Main extends JFrame {
         //setOpacity((float) 0.9);
         panel.setPreferredSize(new Dimension(800, 600));
         CustomOptionMenu menu = (CustomOptionMenu) panel.optionFrame.getJMenuBar();
-        menu.setupFifteen.doClick();
+        menu.setupTwelve.doClick();
         setContentPane(panel);
         pack();
 
@@ -238,7 +238,7 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int extra = 500;
-                    int frequency = 5;
+                    int frequency = 1;
                     for (int x = -extra; x < panel.getWidth() + extra; x += frequency) {
                         for (int y = -extra; y < panel.getHeight() + extra; y += frequency) {
                             for (Object object : world.objects) {
@@ -378,88 +378,88 @@ public class Main extends JFrame {
                 double y1 = (clickFrame.getY() - this.getLocationOnScreen().y) / scale - translateY;
                 double x2 = object.position.x;
                 double y2 = object.position.y;
-                Vector2D v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
-                double kx = Math.min(1,Math.max(v.point.x/clickFrame.getWidth(),0));
-                double ky = Math.min(1,Math.max(v.point.y/clickFrame.getHeight(),0));
-                x1+=(clickFrame.getWidth()*kx)/scale;
-                y1+=(clickFrame.getHeight()*ky)/scale;
-                v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
+                Vector2D v = new Vector2D(new Point.Double(x1, y1), new Point.Double(x2, y2));
+                double kx = Math.min(1, Math.max(v.point.x / clickFrame.getWidth(), 0));
+                double ky = Math.min(1, Math.max(v.point.y / clickFrame.getHeight(), 0));
+                x1 += (clickFrame.getWidth() * kx) / scale;
+                y1 += (clickFrame.getHeight() * ky) / scale;
+                v = new Vector2D(new Point.Double(x1, y1), new Point.Double(x2, y2));
                 Vector2D diagonal;
-                if (Math.abs(v.point.x)<Math.abs(v.point.y)) {
-                    double dx = v.point.x/Math.abs(v.point.x);
-                    double dy = v.point.y/Math.abs(v.point.y);
-                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x)*dx,Math.abs(v.point.x)*dy));
+                if (Math.abs(v.point.x) < Math.abs(v.point.y)) {
+                    double dx = v.point.x / Math.abs(v.point.x);
+                    double dy = v.point.y / Math.abs(v.point.y);
+                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x) * dx, Math.abs(v.point.x) * dy));
                 } else {
-                    double dx = v.point.x/Math.abs(v.point.x);
-                    double dy = v.point.y/Math.abs(v.point.y);
-                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y)*dx,Math.abs(v.point.y)*dy));
+                    double dx = v.point.x / Math.abs(v.point.x);
+                    double dy = v.point.y / Math.abs(v.point.y);
+                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y) * dx, Math.abs(v.point.y) * dy));
                 }
                 //Vector2D straight = v.subtract(diagonal);
                 if (shape instanceof RectangleShape) {
                     RectangleShape rs = (RectangleShape) shape;
                     if (v.point.x == 0 || v.point.y == 0) {
-                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                        g2.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
                     } else {
-                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                        g2.drawLine((int) x1, (int) y1, (int) (x1 + diagonal.point.x), (int) (y1 + diagonal.point.y));
+                        g2.drawLine((int) (x1 + diagonal.point.x), (int) (y1 + diagonal.point.y), (int) (x2), (int) (y2));
                     }
                 } else if (shape instanceof CircleShape) {
                     CircleShape cs = (CircleShape) shape;
                     if (v.point.x == 0 || v.point.y == 0) {
-                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                        g2.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
                     } else {
-                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                        g2.drawLine((int) x1, (int) y1, (int) (x1 + diagonal.point.x), (int) (y1 + diagonal.point.y));
+                        g2.drawLine((int) (x1 + diagonal.point.x), (int) (y1 + diagonal.point.y), (int) (x2), (int) (y2));
                     }
                 }
                 /*double x2 = (clickFrame.getX() - this.getLocationOnScreen().x + clickFrame.getWidth()/2.0) / scale - translateX;
-                double y2 = (clickFrame.getY() - this.getLocationOnScreen().y + clickFrame.getHeight()/2.0) / scale - translateY;
-                double x1 = object.position.x;
-                double y1 = object.position.y;
-                Vector2D v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
-                double kx;
-                double ky;
-                if (v.point.x>0) {
-                    kx = -0.5;
-                } else {
-                    kx = 0.5;
-                }
-                if (v.point.y>0) {
-                    ky = -0.5;
-                } else {
-                    ky = 0.5;
-                }
-                x2+=(clickFrame.getWidth()*kx)/scale;
-                y2+=(clickFrame.getHeight()*ky)/scale;
-                v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
-                Vector2D diagonal;
-                if (Math.abs(v.point.x)<Math.abs(v.point.y)) {
-                    double dx = v.point.x/Math.abs(v.point.x);
-                    double dy = v.point.y/Math.abs(v.point.y);
-                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x)*dx,Math.abs(v.point.x)*dy));
-                } else {
-                    double dx = v.point.x/Math.abs(v.point.x);
-                    double dy = v.point.y/Math.abs(v.point.y);
-                    diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y)*dx,Math.abs(v.point.y)*dy));
-                }
-                //Vector2D straight = v.subtract(diagonal);
-                if (shape instanceof RectangleShape) {
-                    RectangleShape rs = (RectangleShape) shape;
-                    if (v.point.x == 0 || v.point.y == 0) {
-                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
-                    } else {
-                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
-                    }
-                } else if (shape instanceof CircleShape) {
-                    CircleShape cs = (CircleShape) shape;
-                    if (v.point.x == 0 || v.point.y == 0) {
-                        g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
-                    } else {
-                        g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                        g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
-                    }
-                }*/
+                 double y2 = (clickFrame.getY() - this.getLocationOnScreen().y + clickFrame.getHeight()/2.0) / scale - translateY;
+                 double x1 = object.position.x;
+                 double y1 = object.position.y;
+                 Vector2D v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
+                 double kx;
+                 double ky;
+                 if (v.point.x>0) {
+                 kx = -0.5;
+                 } else {
+                 kx = 0.5;
+                 }
+                 if (v.point.y>0) {
+                 ky = -0.5;
+                 } else {
+                 ky = 0.5;
+                 }
+                 x2+=(clickFrame.getWidth()*kx)/scale;
+                 y2+=(clickFrame.getHeight()*ky)/scale;
+                 v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
+                 Vector2D diagonal;
+                 if (Math.abs(v.point.x)<Math.abs(v.point.y)) {
+                 double dx = v.point.x/Math.abs(v.point.x);
+                 double dy = v.point.y/Math.abs(v.point.y);
+                 diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x)*dx,Math.abs(v.point.x)*dy));
+                 } else {
+                 double dx = v.point.x/Math.abs(v.point.x);
+                 double dy = v.point.y/Math.abs(v.point.y);
+                 diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y)*dx,Math.abs(v.point.y)*dy));
+                 }
+                 //Vector2D straight = v.subtract(diagonal);
+                 if (shape instanceof RectangleShape) {
+                 RectangleShape rs = (RectangleShape) shape;
+                 if (v.point.x == 0 || v.point.y == 0) {
+                 g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                 } else {
+                 g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
+                 g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                 }
+                 } else if (shape instanceof CircleShape) {
+                 CircleShape cs = (CircleShape) shape;
+                 if (v.point.x == 0 || v.point.y == 0) {
+                 g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
+                 } else {
+                 g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
+                 g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
+                 }
+                 }*/
             }
             g2.translate(-translateX, -translateY);
         }

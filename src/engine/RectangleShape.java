@@ -57,14 +57,14 @@ public class RectangleShape extends Shape {
         lines[1].invertNormal();
         lines[2].invertNormal();
 
-        polygonx[0] = (int) top.origin.x;
-        polygony[0] = (int) top.origin.y;
-        polygonx[1] = (int) top.end.x;
-        polygony[1] = (int) top.end.y;
-        polygonx[2] = (int) lines[2].end.x;
-        polygony[2] = (int) lines[2].end.y;
-        polygonx[3] = (int) left.end.x;
-        polygony[3] = (int) left.end.y;
+        polygonx[0] = (int) (top.origin.x);
+        polygony[0] = (int) (top.origin.y);
+        polygonx[1] = (int) (top.end.x);
+        polygony[1] = (int) (top.end.y);
+        polygonx[2] = (int) (lines[2].end.x);
+        polygony[2] = (int) (lines[2].end.y);
+        polygonx[3] = (int) (left.end.x);
+        polygony[3] = (int) (left.end.y);
     }
 
     @Override

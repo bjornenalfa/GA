@@ -89,11 +89,11 @@ public class World {
         for (Line l : pNormals) {
             l.paint(g);
         }
-        
+
         g.setColor(new Color(1f, 0.7f, 0.1f, 1f));
         pPoints = (ArrayList<Point.Double>) points.clone();
         for (Point.Double p : pPoints) {
-            g.drawRect((int) (p.x), (int) (p.y), 1,1);
+            g.drawRect((int) (p.x), (int) (p.y), 0, 0);
         }
     }
 

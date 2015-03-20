@@ -53,11 +53,14 @@ public class CollisionChecker {
     }
 
     public static boolean pointInRectangleShape(RectangleShape shape, Point.Double point) {
+        point.x += .5;
+        point.y += .5;
         Vector2D vector = new Vector2D(new Point.Double(point.x - shape.x, point.y - shape.y));
 //        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
-        vector.rotate(-shape.dRotate);
+        vector.rotate(-shape.rotation);
         vector.readyPoint();
         vector.add(new Vector2D(new Point.Double(shape.width / 2.0, shape.height / 2.0)));
+        //vector.add(new Vector2D(new Point.Double(0.5,0.5)));
 //        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + shape.width + ":" + shape.height);
         //System.out.println(!(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height));
         return !(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height);
@@ -91,6 +94,7 @@ public class CollisionChecker {
 
     static ArrayList<Line> intersectingLinesList1 = new ArrayList();
     static ArrayList<Line> intersectingLinesList2 = new ArrayList();
+
     private static boolean rectangleAndRectangleIntersect(RectangleShape rec1, RectangleShape rec2) {
         rec1.calcLines();
         rec2.calcLines();
@@ -362,6 +366,9 @@ public class CollisionChecker {
     }
 
     public static void objectToObjectSolver(ArrayList<Object> objects, int i, int j, World world, double dt, Vector2D g) {
+        if (objects.get(i).inverseMass + objects.get(j).inverseMass == 0) {
+            return;
+        }
         if (CollideObjects(objects.get(i), objects.get(j)) != 0) {
             Object firstObject = objects.get(i);
             Object secondObject = objects.get(j);
@@ -378,58 +385,96 @@ public class CollisionChecker {
                     rectangle1 = (RectangleShape) firstObject.shapes.get(0);
                     rectangle2 = (RectangleShape) secondObject.shapes.get(0);
 
-                    ArrayList<Point.Double> pointsInRectangle2List = new ArrayList();
+                    ArrayList<Point.Double> firstPointsInRectangle2List = new ArrayList();
                     if (rectangle2.contains(rectangle1.lines[0].origin)) {
-                        pointsInRectangle2List.add(rectangle1.lines[0].origin);
+                        firstPointsInRectangle2List.add(rectangle1.lines[0].origin);
                     }
                     if (rectangle2.contains(rectangle1.lines[0].end)) {
-                        pointsInRectangle2List.add(rectangle1.lines[0].end);
+                        firstPointsInRectangle2List.add(rectangle1.lines[0].end);
                     }
                     if (rectangle2.contains(rectangle1.lines[1].end)) {
-                        pointsInRectangle2List.add(rectangle1.lines[1].end);
+                        firstPointsInRectangle2List.add(rectangle1.lines[1].end);
                     }
-                    if (rectangle2.contains(rectangle1.lines[0].origin)) {
-                        pointsInRectangle2List.add(rectangle1.lines[2].end);
+                    if (rectangle2.contains(rectangle1.lines[2].end)) {
+                        firstPointsInRectangle2List.add(rectangle1.lines[2].end);
                     }
 
-                    ArrayList<Point.Double> pointsInRectangle1List = new ArrayList();
+                    ArrayList<Point.Double> secondPointsInRectangle1List = new ArrayList();
                     if (rectangle1.contains(rectangle2.lines[0].origin)) {
-                        pointsInRectangle1List.add(rectangle2.lines[0].origin);
+                        secondPointsInRectangle1List.add(rectangle2.lines[0].origin);
                     }
                     if (rectangle1.contains(rectangle2.lines[0].end)) {
-                        pointsInRectangle1List.add(rectangle2.lines[0].end);
+                        secondPointsInRectangle1List.add(rectangle2.lines[0].end);
                     }
                     if (rectangle1.contains(rectangle2.lines[1].end)) {
-                        pointsInRectangle1List.add(rectangle2.lines[1].end);
+                        secondPointsInRectangle1List.add(rectangle2.lines[1].end);
                     }
-                    if (rectangle1.contains(rectangle2.lines[0].origin)) {
-                        pointsInRectangle1List.add(rectangle2.lines[2].end);
+                    if (rectangle1.contains(rectangle2.lines[2].end)) {
+                        secondPointsInRectangle1List.add(rectangle2.lines[2].end);
                     }
 
                     ArrayList<Point.Double> leastAmountOfPointsInTheOtherRectangleList;
                     ArrayList<Point.Double> mostAmountOfPointsInTheOtherRectangleList;
 
-                    if (Math.min(pointsInRectangle2List.size(), pointsInRectangle1List.size()) == 0) {
-                        if (pointsInRectangle2List.size() > pointsInRectangle1List.size()) {
-                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
-                        } else {
-                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
-                        }
-                        Point.Double deepestPoint = new Point.Double(0, 0);
-                        double deepness = 0;
-                        for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
-                            
-                        }
-                    } else if ((pointsInRectangle2List.size() == 1) && (pointsInRectangle1List.size() == 1)) {
-                        normal = new Vector2D(pointsInRectangle2List.get(0), pointsInRectangle1List.get(0));
+                    int mostRectangle = 1;
 
-                    } else if (Math.min(pointsInRectangle2List.size(), pointsInRectangle1List.size()) != 0) {
-                        if (pointsInRectangle2List.size() > pointsInRectangle1List.size()) {
-                            leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
-                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
+                    if (Math.min(firstPointsInRectangle2List.size(), secondPointsInRectangle1List.size()) == 0) {
+                        if (firstPointsInRectangle2List.size() > secondPointsInRectangle1List.size()) {
+                            mostAmountOfPointsInTheOtherRectangleList = firstPointsInRectangle2List;
                         } else {
-                            leastAmountOfPointsInTheOtherRectangleList = pointsInRectangle2List;
-                            mostAmountOfPointsInTheOtherRectangleList = pointsInRectangle1List;
+                            mostAmountOfPointsInTheOtherRectangleList = secondPointsInRectangle1List;
+                            mostRectangle = 2;
+                        }
+                        Point.Double deepestPoint = null;
+                        double deepness = 0;
+                        Line line;
+                        if (mostRectangle == 1) {
+                            line = intersectingLinesList2.get(0);
+                            for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
+                                double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
+                                if (depth <= deepness) {
+                                    deepness = depth;
+                                    deepestPoint = point;
+                                }
+                            }
+                        } else {
+                            line = intersectingLinesList1.get(0);
+                            for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
+                                double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
+                                if (depth <= deepness) {
+                                    deepness = depth;
+                                    deepestPoint = point;
+                                }
+                            }
+                        }
+                        if (deepestPoint == null) {
+                            System.out.println("PANIC!! NO POINT");
+                        } else {
+                            System.out.println("RECTANGLE IS " + mostRectangle);
+                            if (mostRectangle == 1) {
+                                solveCollision(secondObject, firstObject, deepestPoint, line.normal, -deepness, dt, g, world);
+                            } else {
+                                solveCollision(firstObject, secondObject, deepestPoint, line.normal, -deepness, dt, g, world);
+                            }
+                        }
+                    } else if ((firstPointsInRectangle2List.size() == 1) && (secondPointsInRectangle1List.size() == 1)) {
+                        if (firstObject.mass > secondObject.mass) {
+                            normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.position);
+                            double depth = normal.getLength();
+                            solveCollision(firstObject, secondObject, firstPointsInRectangle2List.get(0), normal, depth, dt, g, world);
+                        } else {
+                            normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.position);
+                            double depth = normal.getLength();
+                            solveCollision(secondObject, firstObject, secondPointsInRectangle1List.get(0), normal, depth, dt, g, world);
+                        }
+
+                    } else if (Math.min(firstPointsInRectangle2List.size(), secondPointsInRectangle1List.size()) != 0) {
+                        if (firstPointsInRectangle2List.size() > secondPointsInRectangle1List.size()) {
+                            leastAmountOfPointsInTheOtherRectangleList = secondPointsInRectangle1List;
+                            mostAmountOfPointsInTheOtherRectangleList = firstPointsInRectangle2List;
+                        } else {
+                            leastAmountOfPointsInTheOtherRectangleList = firstPointsInRectangle2List;
+                            mostAmountOfPointsInTheOtherRectangleList = secondPointsInRectangle1List;
                         }
 
                     }
@@ -537,13 +582,15 @@ public class CollisionChecker {
             firstObject.applyImpulse(new Vector2D(frictionImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(frictionImpulse, secondObjectCenterToCollisionPoint);
 
-            Vector2D correction = new Vector2D(normal).multiply(correctionPercentage * (Math.max(penetrationDepth - slop, 0d) / (firstObject.inverseMass + secondObject.inverseMass)));
-            Point.Double temporaryPoint = new Vector2D(correction).multiply(firstObject.inverseMass).getPoint();
-            firstObject.nextPosition.x -= temporaryPoint.x;
-            firstObject.nextPosition.y -= temporaryPoint.y;
-            temporaryPoint = new Vector2D(correction).multiply(secondObject.inverseMass).getPoint();
-            secondObject.nextPosition.x += temporaryPoint.x;
-            secondObject.nextPosition.y += temporaryPoint.y;
+            if ((firstObject.inverseMass + secondObject.inverseMass) > 0) {
+                Vector2D correction = new Vector2D(normal).multiply(correctionPercentage * (Math.max(penetrationDepth - slop, 0d) / (firstObject.inverseMass + secondObject.inverseMass)));
+                Point.Double temporaryPoint = new Vector2D(correction).multiply(firstObject.inverseMass).getPoint();
+                firstObject.nextPosition.x -= temporaryPoint.x;
+                firstObject.nextPosition.y -= temporaryPoint.y;
+                temporaryPoint = new Vector2D(correction).multiply(secondObject.inverseMass).getPoint();
+                secondObject.nextPosition.x += temporaryPoint.x;
+                secondObject.nextPosition.y += temporaryPoint.y;
+            }
         }
     }
 

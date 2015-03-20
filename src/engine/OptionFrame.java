@@ -175,7 +175,7 @@ public class OptionFrame extends JFrame {
                 }
             });
             add(clearArrows);
-            
+
             setDt = new JButton("Set dt");
             setDt.addActionListener(new ActionListener() {
                 @Override
