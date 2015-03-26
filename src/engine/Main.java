@@ -259,6 +259,16 @@ public class Main extends JFrame {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    for (Object object : world.objects) {
+                        for (Shape shape : object.shapes) {
+                            if (shape instanceof RectangleShape) {
+                                RectangleShape rshape = (RectangleShape) shape;
+                                rshape.calcNextPosition();
+                                System.out.println("IT HAPPENS");
+                                //System.out.println("");
+                            }
+                        }
+                    }
                     repaint();
                 }
             };

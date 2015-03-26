@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -48,7 +49,7 @@ public class ClickFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (mainPanel.getLocationOnScreen().x + object.position.x / Main.scale - Main.translateX + 70 / Main.scale), (int) (mainPanel.getLocationOnScreen().y + object.position.y / Main.scale - Main.translateY - (getHeight() + 50) / Main.scale));
+        setLocation((int) (MouseInfo.getPointerInfo().getLocation().x + 30), (int) (MouseInfo.getPointerInfo().getLocation().y - getHeight()/2));
         setVisible(true);
 
         if (!Main.playing) {

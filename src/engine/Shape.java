@@ -41,21 +41,11 @@ public class Shape {
         this.y = y;
     }
 
-    /**
-     * Rotates shape
-     *
-     * @param rad - radians
-     */
     public void rotate(double rad) {
         rotation += rad;
         vector.rotate(rad);
     }
 
-    /**
-     * Draws shape
-     *
-     * @param g - Graphics
-     */
     public void paint(Graphics2D g) {
         g.setColor(myC);
     }

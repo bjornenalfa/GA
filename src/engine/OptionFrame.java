@@ -149,8 +149,10 @@ public class OptionFrame extends JFrame {
                             clickFrame.dispose();
                         }
                         boolean temp1 = mainPanel.world.follow;
+                        int temp2 = mainPanel.world.followID;
                         mainPanel.world = copyWorld(backupWorld);
                         mainPanel.world.follow = temp1;
+                        mainPanel.world.followID = temp2;
                         if (!playing) {
                             mainPanel.repaint();
                         }
@@ -168,7 +170,7 @@ public class OptionFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     mainPanel.world.impulses.clear();
                     mainPanel.world.normals.clear();
-                    if (!Main.playing) {
+                    if (!playing) {
                         panel.repaint();
                     }
                     mainPanel.requestFocus();

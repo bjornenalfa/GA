@@ -44,7 +44,7 @@ public class RectangleShape extends Shape {
         //inertia = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
     }
 
-    public void calcLines() { //Calculated from the top left corner :>
+    public void calcLines() { //Calculated from the middle corner :<
         middleToOrigin.readyPoint();
         Line top = new Line(new Point.Double(middleToOrigin.point.x + x, middleToOrigin.point.y + y), new Vector2D(width, rotation));
         lines[0] = top;
@@ -97,6 +97,9 @@ public class RectangleShape extends Shape {
          }*/
         g.drawPolygon(polygonx, polygony, 4);
         g.fillPolygon(polygonx, polygony, 4);
+        g.setColor(Color.ORANGE);
+        middleToOrigin.readyPoint();
+        g.drawLine((int)x, (int) y, (int)(x+middleToOrigin.point.x), (int)(y+middleToOrigin.point.y));
     }
 
     @Override

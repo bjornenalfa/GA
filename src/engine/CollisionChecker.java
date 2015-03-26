@@ -453,19 +453,47 @@ public class CollisionChecker {
                             System.out.println("RECTANGLE IS " + mostRectangle);
                             if (mostRectangle == 1) {
                                 solveCollision(secondObject, firstObject, deepestPoint, line.normal, -deepness, dt, g, world);
+                                rectangle1.calcNextPosition();
+                                rectangle2.calcNextPosition();
                             } else {
                                 solveCollision(firstObject, secondObject, deepestPoint, line.normal, -deepness, dt, g, world);
+                                rectangle1.calcNextPosition();
+                                rectangle2.calcNextPosition();
                             }
                         }
                     } else if ((firstPointsInRectangle2List.size() == 1) && (secondPointsInRectangle1List.size() == 1)) {
                         if (firstObject.mass > secondObject.mass) {
-                            normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.position);
-                            double depth = normal.getLength();
-                            solveCollision(firstObject, secondObject, firstPointsInRectangle2List.get(0), normal, depth, dt, g, world);
+                            normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.nextPosition);
+                            Vector2D vec = new Vector2D(secondObject.nextPosition,firstPointsInRectangle2List.get(0));
+                            double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[0].vector).normalize());
+                            double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[1].vector).normalize());
+                            double bx = cx;
+                            double by = cy;
+                            if (Math.abs(cx)>Math.abs(cy)) {
+                                bx = (cx/Math.abs(cx))*(rectangle2.width/2.0);
+                            } else {
+                                by = (cy/Math.abs(cy))*(rectangle2.height/2.0); 
+                            }
+                            double depth = Math.sqrt((bx-cx)*(bx-cx)+(by-cy)*(by-cy));
+                            solveCollision(firstObject, secondObject, firstPointsInRectangle2List.get(0), new Vector2D(new Point.Double(cx,cy), new Point.Double(bx,by)).rotate(rectangle2.rotation+Math.PI), depth, dt, g, world);
+                            rectangle1.calcNextPosition();
+                            rectangle2.calcNextPosition();
                         } else {
-                            normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.position);
-                            double depth = normal.getLength();
-                            solveCollision(secondObject, firstObject, secondPointsInRectangle1List.get(0), normal, depth, dt, g, world);
+                            normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.nextPosition);
+                            Vector2D vec = new Vector2D(secondObject.nextPosition,secondPointsInRectangle1List.get(0));
+                            double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[0].vector).normalize());
+                            double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[1].vector).normalize());
+                            double bx = cx;
+                            double by = cy;
+                            if (Math.abs(cx)>Math.abs(cy)) {
+                                bx = (cx/Math.abs(cx))*(rectangle1.width/2.0);
+                            } else {
+                                by = (cy/Math.abs(cy))*(rectangle1.height/2.0); 
+                            }
+                            double depth = Math.sqrt((bx-cx)*(bx-cx)+(by-cy)*(by-cy));
+                            solveCollision(secondObject, firstObject, secondPointsInRectangle1List.get(0), new Vector2D(new Point.Double(cx,cy), new Point.Double(bx,by)).rotate(rectangle1.rotation+Math.PI), depth, dt, g, world);
+                            rectangle1.calcNextPosition();
+                            rectangle2.calcNextPosition();
                         }
 
                     } else if (Math.min(firstPointsInRectangle2List.size(), secondPointsInRectangle1List.size()) != 0) {
@@ -521,6 +549,7 @@ public class CollisionChecker {
                     normal = new Vector2D(collisionPoint, secondObject.nextPosition);
 
                     solveCollision(firstObject, secondObject, collisionPoint, normal, (circle1.radius - normal.getLength()), dt, g, world);
+                    rectangle1.calcNextPosition();
                     break;
                 case 0:
                 default:
