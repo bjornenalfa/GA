@@ -171,7 +171,7 @@ public class OptionFrame extends JFrame {
                     mainPanel.world.impulses.clear();
                     mainPanel.world.normals.clear();
                     if (!playing) {
-                        panel.repaint();
+                        mainPanel.repaint();
                     }
                     mainPanel.requestFocus();
                 }

@@ -463,7 +463,7 @@ public class CollisionChecker {
                         }
                     } else if ((firstPointsInRectangle2List.size() == 1) && (secondPointsInRectangle1List.size() == 1)) {
                         if (firstObject.mass > secondObject.mass) {
-                            normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.nextPosition);
+                            //normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.nextPosition);
                             Vector2D vec = new Vector2D(secondObject.nextPosition,firstPointsInRectangle2List.get(0));
                             double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[0].vector).normalize());
                             double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[1].vector).normalize());
@@ -479,7 +479,7 @@ public class CollisionChecker {
                             rectangle1.calcNextPosition();
                             rectangle2.calcNextPosition();
                         } else {
-                            normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.nextPosition);
+                            //normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.nextPosition);
                             Vector2D vec = new Vector2D(secondObject.nextPosition,secondPointsInRectangle1List.get(0));
                             double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[0].vector).normalize());
                             double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[1].vector).normalize());
