@@ -427,12 +427,18 @@ public class CollisionChecker {
                         }
                         Point.Double deepestPoint = null;
                         double deepness = 0;
+                        int pointIterator = 0;
                         Line line;
                         if (mostRectangle == 1) {
                             line = intersectingLinesList2.get(0);
                             for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
+                                pointIterator++;
                                 double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
-                                if (depth <= deepness) {
+                                if (pointIterator == 2) {
+                                    if (Math.abs(depth-deepness) < 0.001d) {
+                                        deepestPoint = new Point.Double((point.x+deepestPoint.x)/2d,(point.y+deepestPoint.y)/2d);
+                                    }
+                                } else if (depth <= deepness) {
                                     deepness = depth;
                                     deepestPoint = point;
                                 }
@@ -440,8 +446,13 @@ public class CollisionChecker {
                         } else {
                             line = intersectingLinesList1.get(0);
                             for (Point.Double point : mostAmountOfPointsInTheOtherRectangleList) {
+                                pointIterator++;
                                 double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
-                                if (depth <= deepness) {
+                                if (pointIterator == 2) {
+                                    if (Math.abs(depth-deepness) < 0.001d) {
+                                        deepestPoint = new Point.Double((point.x+deepestPoint.x)/2d,(point.y+deepestPoint.y)/2d);
+                                    }
+                                } else if (depth <= deepness) {
                                     deepness = depth;
                                     deepestPoint = point;
                                 }
