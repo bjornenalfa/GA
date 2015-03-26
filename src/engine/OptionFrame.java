@@ -202,14 +202,14 @@ public class OptionFrame extends JFrame {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
-                        } else {
                             newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                        } else {
+                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         }
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new FixedObject(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         } else {
                             newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
                         }

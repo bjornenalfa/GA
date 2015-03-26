@@ -524,7 +524,7 @@ public class CustomOptionMenu extends JMenuBar {
                 double extra = 250;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Concrete));
+                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Boost));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
@@ -582,9 +582,10 @@ public class CustomOptionMenu extends JMenuBar {
                 double angle = Math.toRadians(90);
                 double length = 102;
                 int segments = 360;
+                double extra = 5000;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * 10 + .5), (int) (y - Math.sin(angle) * 10 + .5), (int) (x + Math.cos(angle) * (length + 10) + .5), (int) (y + Math.sin(angle) * (length + 10) + .5), 20, Material.Boost));
+                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Boost));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
@@ -620,15 +621,15 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), -0, 0.0005, Color.BLUE), new Point.Double(400, 100), Material.Bounce));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), -0, 0.0005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
 //                panel.world.addPlane(new Plane(0, 550, 800, 550, Material.Concrete));
 //                panel.world.addPlane(new Plane(0, 350, 390, 350, Material.Concrete));
-                panel.world.objects.add(new FixedObject(0, 550, 800, 550, 20, Material.Bounce));
-                panel.world.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Bounce));
+                panel.world.objects.add(new FixedObject(0, 550, 800, 550, 20, Material.Concrete));
+                panel.world.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Concrete));
 //                panel.world.objects.add(new FixedObject(0, 550, 0, 0, 20, Material.Bounce));
 //                panel.world.objects.add(new FixedObject(800, 550, 800, 0, 20, Material.Bounce));
 //                panel.world.objects.add(new FixedObject(0, 0, 800, 0, 20, Material.Bounce));
-                panel.world.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.RED), new Point.Double(350, 250), Material.Bounce));
+                panel.world.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.RED), new Point.Double(350, 250), Material.Concrete));
 
                 afterSetup();
             }
@@ -643,7 +644,7 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
                 panel.world.objects.add(new FixedObject(0, 350, 399, 350, 30, Material.Concrete));
 
                 afterSetup();
@@ -659,7 +660,7 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
                 panel.world.objects.add(new FixedObject(400, 600, 400, 350, 30, Material.Concrete));
 
                 afterSetup();

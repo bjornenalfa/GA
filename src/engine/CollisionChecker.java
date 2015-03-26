@@ -352,9 +352,20 @@ public class CollisionChecker {
                 objectToObjectSolver(objects, i, j, world, dt, g);
             }
         }
-        doObjectObject(objects, world, dt, g);
-        doObjectObject(objects, world, dt, g);
-        doObjectObject(objects, world, dt, g);
+        int iterator = 0;
+        for (Object object : objects) {
+            if (!(object instanceof FixedObject)) {
+                iterator++;
+                if (iterator < 10) {
+                    doObjectObject(objects, world, dt, g);
+                } else {
+                    break;
+                }
+            }
+        }
+//        doObjectObject(objects, world, dt, g);
+//        doObjectObject(objects, world, dt, g);
+//        doObjectObject(objects, world, dt, g);
     }
 
     public static void doObjectObject(ArrayList<Object> objects, World world, double dt, Vector2D g) {
@@ -435,8 +446,16 @@ public class CollisionChecker {
                                 pointIterator++;
                                 double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
                                 if (pointIterator == 2) {
-                                    if (Math.abs(depth-deepness) < 0.001d) {
-                                        deepestPoint = new Point.Double((point.x+deepestPoint.x)/2d,(point.y+deepestPoint.y)/2d);
+                                    if (Math.abs(depth - deepness) < 0.001d) {
+                                        deepestPoint = new Point.Double((point.x + deepestPoint.x) / 2d, (point.y + deepestPoint.y) / 2d);
+                                        Vector2D vec = new Vector2D(firstObject.nextPosition,deepestPoint);
+                                        Point.Double betterPoint = new Vector2D(line.normal).multiply(Vector2D.scalarProductCoordinates(vec, line.normal)).point;
+                                        deepestPoint.x = betterPoint.x+firstObject.nextPosition.x;
+                                        deepestPoint.y = betterPoint.y+firstObject.nextPosition.y;
+                                        world.points.add(deepestPoint);
+                                    } else if (depth <= deepness) {
+                                        deepness = depth;
+                                        deepestPoint = point;
                                     }
                                 } else if (depth <= deepness) {
                                     deepness = depth;
@@ -449,8 +468,16 @@ public class CollisionChecker {
                                 pointIterator++;
                                 double depth = Vector2D.scalarProductCoordinates(new Vector2D(line.origin, point), line.normal);
                                 if (pointIterator == 2) {
-                                    if (Math.abs(depth-deepness) < 0.001d) {
-                                        deepestPoint = new Point.Double((point.x+deepestPoint.x)/2d,(point.y+deepestPoint.y)/2d);
+                                    if (Math.abs(depth - deepness) < 0.001d) {
+                                        deepestPoint = new Point.Double((point.x + deepestPoint.x) / 2d, (point.y + deepestPoint.y) / 2d);
+                                        Vector2D vec = new Vector2D(secondObject.nextPosition,deepestPoint);
+                                        Point.Double betterPoint = new Vector2D(line.normal).multiply(Vector2D.scalarProductCoordinates(vec, line.normal)).point;
+                                        deepestPoint.x = betterPoint.x+secondObject.nextPosition.x;
+                                        deepestPoint.y = betterPoint.y+secondObject.nextPosition.y;
+                                        world.points.add(deepestPoint);
+                                    } else if (depth <= deepness) {
+                                        deepness = depth;
+                                        deepestPoint = point;
                                     }
                                 } else if (depth <= deepness) {
                                     deepness = depth;
@@ -475,34 +502,34 @@ public class CollisionChecker {
                     } else if ((firstPointsInRectangle2List.size() == 1) && (secondPointsInRectangle1List.size() == 1)) {
                         if (firstObject.mass > secondObject.mass) {
                             //normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.nextPosition);
-                            Vector2D vec = new Vector2D(secondObject.nextPosition,firstPointsInRectangle2List.get(0));
-                            double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[0].vector).normalize());
-                            double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle2.lines[1].vector).normalize());
+                            Vector2D vec = new Vector2D(secondObject.nextPosition, firstPointsInRectangle2List.get(0));
+                            double cx = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle2.lines[0].vector).normalize());
+                            double cy = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle2.lines[1].vector).normalize());
                             double bx = cx;
                             double by = cy;
-                            if (Math.abs(cx)>Math.abs(cy)) {
-                                bx = (cx/Math.abs(cx))*(rectangle2.width/2.0);
+                            if (Math.abs(cx) > Math.abs(cy)) {
+                                bx = (cx / Math.abs(cx)) * (rectangle2.width / 2.0);
                             } else {
-                                by = (cy/Math.abs(cy))*(rectangle2.height/2.0); 
+                                by = (cy / Math.abs(cy)) * (rectangle2.height / 2.0);
                             }
-                            double depth = Math.sqrt((bx-cx)*(bx-cx)+(by-cy)*(by-cy));
-                            solveCollision(firstObject, secondObject, firstPointsInRectangle2List.get(0), new Vector2D(new Point.Double(cx,cy), new Point.Double(bx,by)).rotate(rectangle2.rotation+Math.PI), depth, dt, g, world);
+                            double depth = Math.sqrt((bx - cx) * (bx - cx) + (by - cy) * (by - cy));
+                            solveCollision(firstObject, secondObject, firstPointsInRectangle2List.get(0), new Vector2D(new Point.Double(cx, cy), new Point.Double(bx, by)).rotate(rectangle2.rotation + Math.PI), depth, dt, g, world);
                             rectangle1.calcNextPosition();
                             rectangle2.calcNextPosition();
                         } else {
                             //normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.nextPosition);
-                            Vector2D vec = new Vector2D(secondObject.nextPosition,secondPointsInRectangle1List.get(0));
-                            double cx = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[0].vector).normalize());
-                            double cy = Vector2D.scalarProductCoordinates(vec,new Vector2D(rectangle1.lines[1].vector).normalize());
+                            Vector2D vec = new Vector2D(firstObject.nextPosition, secondPointsInRectangle1List.get(0));
+                            double cx = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle1.lines[0].vector).normalize());
+                            double cy = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle1.lines[1].vector).normalize());
                             double bx = cx;
                             double by = cy;
-                            if (Math.abs(cx)>Math.abs(cy)) {
-                                bx = (cx/Math.abs(cx))*(rectangle1.width/2.0);
+                            if (Math.abs(cx) > Math.abs(cy)) {
+                                bx = (cx / Math.abs(cx)) * (rectangle1.width / 2.0);
                             } else {
-                                by = (cy/Math.abs(cy))*(rectangle1.height/2.0); 
+                                by = (cy / Math.abs(cy)) * (rectangle1.height / 2.0);
                             }
-                            double depth = Math.sqrt((bx-cx)*(bx-cx)+(by-cy)*(by-cy));
-                            solveCollision(secondObject, firstObject, secondPointsInRectangle1List.get(0), new Vector2D(new Point.Double(cx,cy), new Point.Double(bx,by)).rotate(rectangle1.rotation+Math.PI), depth, dt, g, world);
+                            double depth = Math.sqrt((bx - cx) * (bx - cx) + (by - cy) * (by - cy));
+                            solveCollision(secondObject, firstObject, secondPointsInRectangle1List.get(0), new Vector2D(new Point.Double(cx, cy), new Point.Double(bx, by)).rotate(rectangle1.rotation + Math.PI), depth, dt, g, world);
                             rectangle1.calcNextPosition();
                             rectangle2.calcNextPosition();
                         }
@@ -592,14 +619,22 @@ public class CollisionChecker {
 
         if (contactVelocity <= 0) {
             double firstObjectCrossNormal = Vector2D.crossProduct(firstObjectCenterToCollisionPoint, normal);
+            System.out.println("fOCN:"+firstObjectCrossNormal);
+//            if (firstObjectCrossNormal < 0.000000000001d) {
+//                firstObjectCrossNormal = 0d;
+//            }
             double secondObjectCrossNormal = Vector2D.crossProduct(secondObjectCenterToCollisionPoint, normal);
+            System.out.println("sOCN:"+secondObjectCrossNormal);
+//            if (secondObjectCrossNormal < 0.000000000001d) {
+//                secondObjectCrossNormal = 0d;
+//            }
             double massInverseSum = firstObject.inverseMass + secondObject.inverseMass + firstObjectCrossNormal * firstObjectCrossNormal * firstObject.inverseInertia + secondObjectCrossNormal * secondObjectCrossNormal * secondObject.inverseInertia;
             System.out.println("MASSINVERSESUM:" + massInverseSum);
             System.out.println("RESTITUTION:" + restitution);
             double impulseLength = -(1.0 + restitution) * contactVelocity;
-            System.out.println("IMPULSELENGTH:" + impulseLength);
+            System.out.println("IMPULSELENGTHbeforeMIS:" + impulseLength);
             impulseLength /= massInverseSum;
-            System.out.println("IMPULSELENGTH:" + impulseLength);
+            System.out.println("IMPULSELENGTHafterMIS:" + impulseLength);
             Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
             world.impulses.add(new Line(collisionPoint, new Vector2D(normal).multiply(impulseLength * (secondObject.inverseMass + firstObject.inverseMass))));
             firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
@@ -617,7 +652,7 @@ public class CollisionChecker {
                 frictionImpulse = new Vector2D(tangent).multiply(-impulseLength * dynamicFriction);
             }
 
-            world.impulses.add(new Line(collisionPoint, frictionImpulse));
+            world.impulses.add(new Line(collisionPoint, new Vector2D(frictionImpulse).multiply(massInverseSum)));
 
             firstObject.applyImpulse(new Vector2D(frictionImpulse).multiply(-1), firstObjectCenterToCollisionPoint);
             secondObject.applyImpulse(frictionImpulse, secondObjectCenterToCollisionPoint);

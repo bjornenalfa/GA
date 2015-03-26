@@ -145,7 +145,12 @@ public class Object {
 
     public void applyImpulse(Vector2D impulse, Vector2D contactVector) {
         nextVelocity.add(new Vector2D(impulse).multiply(inverseMass));
-        nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) * inverseInertia;
+        System.out.println("contact x imp:"+Math.abs(Vector2D.crossProduct(contactVector, impulse)));
+//        if (Math.abs(Vector2D.crossProduct(contactVector, impulse)) < 0.000000001d ) {
+//            
+//        } else {
+            nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) * inverseInertia;
+//        }
     }
 
 }
