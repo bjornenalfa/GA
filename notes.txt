@@ -1,0 +1,39 @@
+RESULTAT
+I fysiksimulatorn är det möjligt att lägga till flera objekt som plan, rektanglar och cirklar.
+Objekten har massa, masscentrum, hastighet, acceleration, vinkelhastighet, vinkelacceleration och tröghetsmoment.
+Objekten kan bestå av olika material som trä, betong, gummi, is, glas och stål. 
+De olika materialen har olika studs- och friktionskoefficienter.
+Vi har även lagt till en experimentiell material som vi har döpt till "bounce" som återger fullständigt elastiska stöt.
+
+Fysiksimulatorn hanterar både statisk- och dynamiskfriktion samt som den kan lätt hantera kollision mellan flera objekt och flera plan.
+Däremot, pga de begränsningarna vi blev tvunga att göra blir kollisionen fel då förhållanden mellan uppdateringshastigheten och objektets hastighet är för stor.
+
+
+
+TEORETISKT BAKGRUND
+
+Impulsen mellan två föremål räknas ut enligt följande:
+där i är impulsen[Ns], F kraften[N] och dt är förändringen i tid[s]
+
+Hastighetsdifferansvektorn hos de kollisionspunkter, 1 och 2, hos 2 kolliderande objekt räknas med:
+där v är motsvarande punkts hastighet [m/s],
+omega är mostvarande punkts vinkelhastigheten[rad/s] och
+r är vektorn från mostvarande objekts mittpunkt till mostvarande kollisionpunkt
+
+Kontakthastigheten i kollisionspunkten ges av följande skalärpodukt:
+där vr är hastighetsdifferansen och n är kollisionsnormalen 
+
+Hastighetsförändringen för ett objekt betecknas enligt:
+där i är impulsen[Ns] och m är massan[kg]
+
+Vinkelhastighetsförändringen för ett objekt i en punkt p beräknas med:
+där r vektorn mellan punkten p och objektets mittpunkt,
+i är impulsen[Ns]
+och I är tröghetsmomentet [kg*m²]
+
+Vid beräkning av hastighet- och vinkelhastighetsförändringen på det andra 
+objektet inverteras impulsen
+
+
+
+
