@@ -305,7 +305,7 @@ public class CollisionChecker {
     }
 
     public static void solveCollision(Object firstObject, Object secondObject, Point.Double collisionPoint, Vector2D normal, double penetrationDepth, double dt, Vector2D g, World world) {
-        double restitution = Math.min(Restitution.get(firstObject.material), Restitution.get(secondObject.material));
+        double restitution = Restitution.get(firstObject,secondObject);
         double staticFriction = Friction.getStatic(firstObject.material, secondObject.material);
         double dynamicFriction = Friction.getDynamic(firstObject.material, secondObject.material);
         Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.nextPosition, collisionPoint);
@@ -313,11 +313,7 @@ public class CollisionChecker {
         Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.nextVelocity).subtract(Vector2D.crossProduct(firstObject.nextAngularVelocity, firstObjectCenterToCollisionPoint));
 
         if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
-            if (firstObject.inverseMass == 0) {
-                restitution = 0;
-            } else {
-                restitution = 0;
-            }
+            restitution = 0;
         }
         world.normals.add(new Line(collisionPoint, normal));
         normal.normalize();

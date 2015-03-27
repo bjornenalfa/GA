@@ -119,7 +119,7 @@ public class ClickFrame extends JFrame {
             });
             add(button1);
 
-            String[] matArray = {"Wood", "Steel", "Rubber", "Concrete", "Ice", "Glass", "Boost", "Slow", "Bounce", "Glide"};
+            String[] matArray = {"Wood", "Steel", "Rubber", "Concrete", "Ice", "Glass", "Boost", "Slow", "Bounce", "Glide", "Super Bounce"};
             final JComboBox comboBox = new JComboBox(matArray);
             comboBox.setSelectedIndex(object.material);
             comboBox.addActionListener(new ActionListener() {
