@@ -47,6 +47,7 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupThirteen = makeSetupThirteen();
     JMenuItem setupFourteen = makeSetupFourteen();
     JMenuItem setupFifteen = makeSetupFifteen();
+    JMenuItem setupSixteen = makeSetupSixteen();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -76,6 +77,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupThirteen);
         setup.add(setupFourteen);
         setup.add(setupFifteen);
+        setup.add(setupSixteen);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -690,6 +692,37 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.get(5).angularVelocity = -9;
                 panel.world.objects.add(new FixedObject(-800, 400, 800, 600, 100, Material.Wood));
                 panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
+                afterSetup();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupSixteen() {
+        JMenuItem setup = new JMenuItem("Setup Sixteen");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.follow = false;
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(100, 100), Material.Wood));
+                panel.world.objects.get(0).velocity = new Vector2D(200,0);
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Glide));
+//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Glide));
+                
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Boost));
+                
                 afterSetup();
             }
         });

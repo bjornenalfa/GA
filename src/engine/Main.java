@@ -31,7 +31,7 @@ public class Main extends JFrame {
 
         panel.setPreferredSize(new Dimension(800, 600));
         CustomOptionMenu menu = (CustomOptionMenu) panel.optionFrame.getJMenuBar();
-        menu.setupTwelve.doClick();
+        menu.setupSixteen.doClick();
         setContentPane(panel);
         pack();
 
