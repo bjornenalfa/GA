@@ -304,6 +304,26 @@ public class CustomOptionMenu extends JMenuBar {
     private JMenu playbackMenu() {
         JMenu menu = new JMenu();
         ButtonGroup bg = new ButtonGroup();
+        
+        JRadioButton hhhhs = new JRadioButton("1/16 speed");
+        hhhhs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 16;
+            }
+        });
+        bg.add(hhhhs);
+        menu.add(hhhhs);
+        
+        JRadioButton hhhs = new JRadioButton("1/8 speed");
+        hhhs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 8;
+            }
+        });
+        bg.add(hhhs);
+        menu.add(hhhs);
 
         JRadioButton hhs = new JRadioButton("1/4 speed");
         hhs.addActionListener(new ActionListener() {
@@ -355,6 +375,26 @@ public class CustomOptionMenu extends JMenuBar {
         });
         bg.add(dds);
         menu.add(dds);
+        
+        JRadioButton ddds = new JRadioButton("8 speed");
+        ddds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 0.125;
+            }
+        });
+        bg.add(ddds);
+        menu.add(ddds);
+        
+        JRadioButton dddds = new JRadioButton("16 speed");
+        dddds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 1/16d;
+            }
+        });
+        bg.add(dddds);
+        menu.add(dddds);
 
         return menu;
     }
