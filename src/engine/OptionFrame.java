@@ -245,6 +245,7 @@ public class OptionFrame extends JFrame {
             @Override
             public void run() {
                 save.doClick();
+                double timer = 0;
                 while (true) {
                     Main.playing = true;
                     while (!paused) {
@@ -252,7 +253,15 @@ public class OptionFrame extends JFrame {
                         updateLabels();
                         mainPanel.repaint();
                         try {
-                            sleep((int) (dt * 1000 * panel.playbackSpeed));
+                            if (dt * 1000 * panel.playbackSpeed < 1) {
+                                timer += dt * 1000 * panel.playbackSpeed;
+                                if (timer > 1) {
+                                    timer = timer-1;
+                                    sleep(1);
+                                }
+                            } else {
+                                sleep((int) (dt * 1000 * panel.playbackSpeed));
+                            }
                         } catch (InterruptedException ex) {
                         }
                     }
