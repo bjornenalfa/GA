@@ -97,9 +97,11 @@ public class RectangleShape extends Shape {
          }*/
         g.drawPolygon(polygonx, polygony, 4);
         g.fillPolygon(polygonx, polygony, 4);
-        g.setColor(Color.ORANGE);
-        middleToOrigin.readyPoint();
-        g.drawLine((int)x, (int) y, (int)(x+middleToOrigin.point.x), (int)(y+middleToOrigin.point.y));
+        if (!(parent instanceof FixedObject)) {
+            g.setColor(Color.ORANGE);
+            middleToOrigin.readyPoint();
+            g.drawLine((int)x, (int) y, (int)(x+middleToOrigin.point.x), (int)(y+middleToOrigin.point.y));
+        }
     }
 
     @Override

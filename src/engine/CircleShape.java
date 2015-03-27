@@ -29,7 +29,7 @@ public class CircleShape extends Shape {
         vector.readyPoint();
         g.fillOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
         g.drawOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
-        g.setColor(new Color(0, 0, 0));
+        g.setColor(Color.BLACK);
         g.drawLine((int) (x), (int) (y), (int) (x + Math.cos(rotation) * radius), (int) (y + Math.sin(rotation) * radius));
     }
 

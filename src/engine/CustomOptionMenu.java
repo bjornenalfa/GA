@@ -502,6 +502,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(100, 0);
                 panel.world.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
+                panel.world.follow = false;
 
                 afterSetup();
             }
@@ -545,6 +546,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100), Material.Wood));
                 panel.world.objects.add(new FixedObject(0, 150, 400, 550, 30, Material.Concrete));
                 panel.world.objects.add(new FixedObject(400, 550, 8000, 550, 30, Material.Concrete));
+                panel.world.follow = false;
 
                 afterSetup();
             }
@@ -576,7 +578,7 @@ public class CustomOptionMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(155, 140), Material.Wood));
                 panel.world.objects.get(0).velocity = new Vector2D(0, 0000);
                 int x = 50, y = 100;
                 double angle = Math.toRadians(90);
@@ -602,7 +604,7 @@ public class CustomOptionMenu extends JMenuBar {
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 0));
+                panel.world = new World(new Vector2D(0, 1));
                 panel.world.follow = false;
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
                 panel.world.objects.get(0).angularVelocity = 1;
