@@ -51,7 +51,6 @@ public class World {
             Main.translateX -= (objects.get(followID).position.x - followX);
             Main.translateY -= (objects.get(followID).position.y - followY);
         }
-        System.out.println("update done - delta time:" + dt + " - time: " + time);
     }
 
     public void paint(Graphics2D g) {
@@ -67,7 +66,6 @@ public class World {
         }
 
         g.setColor(new Color(0.3f, 0.3f, 1f, 1f));
-        //impulse.paint(g);
         pImpulses = (ArrayList<Line>) impulses.clone();
         for (Line l : pImpulses) {
             l.paint(g);

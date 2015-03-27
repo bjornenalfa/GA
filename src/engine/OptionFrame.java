@@ -80,7 +80,6 @@ public class OptionFrame extends JFrame {
                     if (dt != 0) {
                         try {
                             thread.start();
-                            System.out.println("started");
                         } catch (Exception ex) {
                         }
                         paused = false;

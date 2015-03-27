@@ -264,8 +264,6 @@ public class Main extends JFrame {
                             if (shape instanceof RectangleShape) {
                                 RectangleShape rshape = (RectangleShape) shape;
                                 rshape.calcNextPosition();
-                                System.out.println("IT HAPPENS");
-                                //System.out.println("");
                             }
                         }
                     }
@@ -308,12 +306,8 @@ public class Main extends JFrame {
                         adding = false;
                     } else {
                         if (e.getButton() == 3) {
-                            System.out.println("X : " + (e.getX() / scale - translateX / scale) + " - Y : " + (e.getY() / scale - translateY / scale));
-                            System.out.println("X : " + (e.getX() / scale) + " - Y : " + (e.getY() / scale));
-                            System.out.println("X : " + (translateX / scale) + " - Y : " + (translateY / scale) + " - s : " + scale);
                             double x = (e.getX() / scale - translateX);
                             double y = (e.getY() / scale - translateY);
-                            //world.impulses.add(new Line(x, y, x, y));
                             repaint();
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
@@ -375,7 +369,6 @@ public class Main extends JFrame {
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
             g2.scale(scale, scale);
             g2.translate(translateX, translateY);
-            //System.out.println("tx:" + translateX + " ty:" + translateY + " s:" + scale);
             world.paint(g2);
             int count = 0;
             for (ClickFrame clickFrame : world.clickFrameList) {
@@ -477,6 +470,5 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         new Main();
-        System.out.println(CollisionChecker.parallel(1, 5, -2, -4, 1, 5, -2, -4));
     }
 }

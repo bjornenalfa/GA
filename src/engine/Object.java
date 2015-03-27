@@ -59,12 +59,8 @@ public class Object {
             shape.calculateInertia();
             mass += shape.mass;
             inertia += shape.inertia;
-            //todo, discuss next time
-            //massCenter.
         }
-        System.out.println("MASS" + mass);
         inverseMass = 1 / mass;
-        System.out.println("INVERSE" + inverseMass);
         inverseInertia = 1 / inertia;
     }
 
@@ -73,8 +69,6 @@ public class Object {
         nextVelocity = new Vector2D(new Point.Double(velocity.point.x + g.point.x * dt, velocity.point.y + g.point.y * dt));
         nextAngularVelocity = angularVelocity /*+ (torque / inertia) * dt*/;
         nextRotation = rotation + angularVelocity * dt;
-        System.out.println("p:{" + nextPosition.x + ":" + nextPosition.y + "} v:{" + nextVelocity.point.x + ":" + nextVelocity.point.y + "}");
-        System.out.println("av:" + angularVelocity + ";r:" + rotation/* + ";tq:" + torque*/);
 
         for (Shape shape : shapes) {
             shape.calcNextPosition();
@@ -145,12 +139,7 @@ public class Object {
 
     public void applyImpulse(Vector2D impulse, Vector2D contactVector) {
         nextVelocity.add(new Vector2D(impulse).multiply(inverseMass));
-        System.out.println("contact x imp:"+Math.abs(Vector2D.crossProduct(contactVector, impulse)));
-//        if (Math.abs(Vector2D.crossProduct(contactVector, impulse)) < 0.000000001d ) {
-//            
-//        } else {
-            nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) * inverseInertia;
-//        }
+        nextAngularVelocity += Vector2D.crossProduct(contactVector, impulse) * inverseInertia;
     }
 
 }

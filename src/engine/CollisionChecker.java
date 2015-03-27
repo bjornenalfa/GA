@@ -56,21 +56,15 @@ public class CollisionChecker {
         point.x += .5;
         point.y += .5;
         Vector2D vector = new Vector2D(new Point.Double(point.x - shape.x, point.y - shape.y));
-//        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y);
         vector.rotate(-shape.rotation);
         vector.readyPoint();
         vector.add(new Vector2D(new Point.Double(shape.width / 2.0, shape.height / 2.0)));
-        //vector.add(new Vector2D(new Point.Double(0.5,0.5)));
-//        System.out.println("vector.x : " + vector.point.x + " - vector.y : " + vector.point.y + " - Width:Height " + shape.width + ":" + shape.height);
-        //System.out.println(!(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height));
         return !(vector.point.x < 0 || vector.point.x > shape.width || vector.point.y < 0 || vector.point.y > shape.height);
     }
 
     public static boolean areLinesAlmostTouching(Line line1, Line line2, double distance, double angleLimit) {
         double firstAngle = line1.vector.getAngle() % Math.PI;
         double secondAngle = line2.vector.getAngle() % Math.PI;
-        //System.out.println("distance: " + Math.abs(new Vector2D(new Point.Double(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y)).rotate(-line1.vector.getAngle()).getPoint().y));
-        //System.out.println("angle differance: "+Math.abs(firstAngle - secondAngle));
         return (Math.abs(firstAngle - secondAngle)) <= angleLimit && Math.abs(new Vector2D(new Point.Double(line1.origin.x - line2.origin.x, line1.origin.y - line2.origin.y)).rotate(-line1.vector.getAngle()).getPoint().y) <= distance;
     }
 
@@ -245,9 +239,8 @@ public class CollisionChecker {
                             }
                         }
                         if (deepestPoint == null) {
-                            System.out.println("PANIC!! NO POINT");
+                            //NOTHING :(
                         } else {
-                            System.out.println("RECTANGLE IS " + mostRectangle);
                             if (mostRectangle == 1) {
                                 solveCollision(secondObject, firstObject, deepestPoint, line.normal, -deepness, dt, g, world);
                                 rectangle1.calcNextPosition();
@@ -362,7 +355,6 @@ public class CollisionChecker {
         Vector2D firstObjectCenterToCollisionPoint = new Vector2D(firstObject.nextPosition, collisionPoint);
         Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.nextPosition, collisionPoint);
         Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.nextVelocity).subtract(Vector2D.crossProduct(firstObject.nextAngularVelocity, firstObjectCenterToCollisionPoint));
-        System.out.println("RELATIVE VELOCITY A:" + Math.toDegrees(relativeVelocity.getAngle()) + " L:" + relativeVelocity.getLength());
 
         if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
             if (firstObject.inverseMass == 0) {
@@ -374,26 +366,13 @@ public class CollisionChecker {
         world.normals.add(new Line(collisionPoint, normal));
         normal.normalize();
         double contactVelocity = Vector2D.scalarProductCoordinates(relativeVelocity, normal);
-        System.out.println("CONTACT VELOCITY: " + contactVelocity);
 
         if (contactVelocity <= 0) {
             double firstObjectCrossNormal = Vector2D.crossProduct(firstObjectCenterToCollisionPoint, normal);
-            System.out.println("fOCN:"+firstObjectCrossNormal);
-//            if (firstObjectCrossNormal < 0.000000000001d) {
-//                firstObjectCrossNormal = 0d;
-//            }
             double secondObjectCrossNormal = Vector2D.crossProduct(secondObjectCenterToCollisionPoint, normal);
-            System.out.println("sOCN:"+secondObjectCrossNormal);
-//            if (secondObjectCrossNormal < 0.000000000001d) {
-//                secondObjectCrossNormal = 0d;
-//            }
             double massInverseSum = firstObject.inverseMass + secondObject.inverseMass + firstObjectCrossNormal * firstObjectCrossNormal * firstObject.inverseInertia + secondObjectCrossNormal * secondObjectCrossNormal * secondObject.inverseInertia;
-            System.out.println("MASSINVERSESUM:" + massInverseSum);
-            System.out.println("RESTITUTION:" + restitution);
             double impulseLength = -(1.0 + restitution) * contactVelocity;
-            System.out.println("IMPULSELENGTHbeforeMIS:" + impulseLength);
             impulseLength /= massInverseSum;
-            System.out.println("IMPULSELENGTHafterMIS:" + impulseLength);
             Vector2D impulse = new Vector2D(normal).multiply(impulseLength);
             world.impulses.add(new Line(collisionPoint, new Vector2D(normal).multiply(impulseLength * (secondObject.inverseMass + firstObject.inverseMass))));
             firstObject.applyImpulse(new Vector2D(impulse).multiply(-1), firstObjectCenterToCollisionPoint);
