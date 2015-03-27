@@ -222,11 +222,6 @@ public class OptionFrame extends JFrame {
                 newO.rotation = o.rotation;
                 newWorld.objects.add(newO);
             }
-            for (Plane p : world.planes) {
-                Plane newP = new Plane(p.surface);
-                newP.material = p.material;
-                newWorld.planes.add(newP);
-            }
             return newWorld;
         }
 

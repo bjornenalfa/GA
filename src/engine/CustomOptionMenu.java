@@ -58,12 +58,10 @@ public class CustomOptionMenu extends JMenuBar {
 
         JMenu add = new JMenu("Add");
         add.add(makeAddObjectAt());
-        add.add(makeAddPlane());
         add.add(makeAddObject());
 
         JMenu remove = new JMenu("Remove");
         remove.add(makeRemoveObject());
-        remove.add(makeResetPlanes());
         remove.add(makeResetObjects());
 
         JMenu setup = new JMenu("Setup");
@@ -107,25 +105,6 @@ public class CustomOptionMenu extends JMenuBar {
         return addObject;
     }
 
-    private JMenuItem makeAddPlane() {
-        JMenuItem addPlane = new JMenuItem("Add Plane");
-        addPlane.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK));
-        addPlane.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double x1 = Double.parseDouble(inputOptionPane("Enter x1."));
-                double y1 = Double.parseDouble(inputOptionPane("Enter y1."));
-                double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
-                double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
-                panel.world.addPlane(new Plane(x1, y1, x2, y2));
-                if (!Main.playing) {
-                    panel.repaint();
-                }
-            }
-        });
-        return addPlane;
-    }
-
     private JMenuItem makeAddObjectAt() {
         JMenuItem addObjectAt = new JMenuItem("Add Object at Click");
         addObjectAt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK));
@@ -154,24 +133,6 @@ public class CustomOptionMenu extends JMenuBar {
             }
         });
         return resetObjects;
-    }
-
-    private JMenuItem makeResetPlanes() {
-        JMenuItem resetPlanes = new JMenuItem("Reset Planes");
-        resetPlanes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
-        resetPlanes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
-                if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.world.planes = new ArrayList();
-                    if (!Main.playing) {
-                        panel.repaint();
-                    }
-                }
-            }
-        });
-        return resetPlanes;
     }
 
     private JMenuItem makeRemoveObject() {

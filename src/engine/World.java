@@ -14,7 +14,6 @@ public class World {
     ArrayList<Object> objects = new ArrayList();
     double time = 0;
     Vector2D gravity;
-    ArrayList<Plane> planes = new ArrayList();
     ArrayList<Line> impulses = new ArrayList();
     ArrayList<Line> pImpulses = new ArrayList();
     ArrayList<Line> normals = new ArrayList();
@@ -41,7 +40,7 @@ public class World {
         for (Object object : objects) {
             object.preUpdate(dt, gravity);
         }
-        CollisionChecker.findNewCollisions(objects, planes, dt, gravity, this);
+        CollisionChecker.findNewCollisions(objects, dt, gravity, this);
         for (Object object : objects) {
             object.endUpdate();
         }
@@ -61,11 +60,6 @@ public class World {
         for (Object object : objects) {
             object.paint(g);
 
-        }
-
-        g.setColor(Color.BLACK);
-        for (Plane plane : planes) {
-            plane.paint(g);
         }
 
         while (impulses.size() >= 500) {
@@ -99,10 +93,6 @@ public class World {
 
     public void addObject(Object object) {
         objects.add(object);
-    }
-
-    public void addPlane(Plane plane) {
-        planes.add(plane);
     }
 
 }
