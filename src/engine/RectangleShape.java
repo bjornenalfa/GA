@@ -4,21 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-/**
- * Rectangular shape, has width and height;
- *
- *
- * @author PastaPojken
- */
 public class RectangleShape extends Shape {
 
-    int width, height; // Width and Height
+    int width, height;
 
     double middleToOrigindr;
 
     Vector2D middleToOrigin;
 
-    //ArrayList<Line> lines = new ArrayList(4);
     Line[] lines = new Line[4];
     int[] polygonx = new int[4];
     int[] polygony = new int[4];
@@ -33,18 +26,13 @@ public class RectangleShape extends Shape {
         calculateInertia();
     }
 
-    /**
-     * Räknar ut tröghetsmomentet
-     */
     @Override
     public void calculateInertia() {
         mass = density * height * width;
-        inertia =  (width*width + height*height) * mass /3.0;
-        //inertia = 1250;
-        //inertia = (1.0 / 12.0) * mass * (width * width * 0.0001 + height * height * 0.0001);
+        inertia = (width * width + height * height) * mass / 3.0;
     }
 
-    public void calcLines() { //Calculated from the middle corner :<
+    public void calcLines() {
         middleToOrigin.readyPoint();
         Line top = new Line(new Point.Double(middleToOrigin.point.x + x, middleToOrigin.point.y + y), new Vector2D(width, rotation));
         lines[0] = top;
@@ -70,7 +58,7 @@ public class RectangleShape extends Shape {
     @Override
     public void calcNextPosition() {
         vector.readyPoint();
-        rotation = parent.nextRotation + dRotate;
+        rotation = parent.nextRotation + deltaRotation;
         middleToOrigin.rotate(rotation - (middleToOrigin.angle - middleToOrigindr));
         x = parent.nextPosition.x + vector.point.x;
         y = parent.nextPosition.y + vector.point.y;
@@ -92,7 +80,7 @@ public class RectangleShape extends Shape {
         if (!(parent instanceof FixedObject)) {
             g.setColor(Color.ORANGE);
             middleToOrigin.readyPoint();
-            g.drawLine((int)x, (int) y, (int)(x+middleToOrigin.point.x), (int)(y+middleToOrigin.point.y));
+            g.drawLine((int) x, (int) y, (int) (x + middleToOrigin.point.x), (int) (y + middleToOrigin.point.y));
         }
     }
 

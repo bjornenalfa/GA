@@ -3,10 +3,6 @@ package engine;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-/**
- *
- * @author bjodet982
- */
 public class Line {
 
     Point.Double origin;

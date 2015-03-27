@@ -5,10 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
-/**
- *
- * @author PastaPojken
- */
 public class World {
 
     ArrayList<Object> objects = new ArrayList();
@@ -20,7 +16,6 @@ public class World {
     ArrayList<Line> pNormals = new ArrayList();
     ArrayList<Point.Double> points = new ArrayList();
     ArrayList<Point.Double> pPoints = new ArrayList();
-    //Line impulse = new Line(0,0,0,0);
     public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
     public World(Vector2D gravity) {
@@ -54,7 +49,6 @@ public class World {
     }
 
     public void paint(Graphics2D g) {
-//        g.clearRect(0, 0, 1920, 1080);
         g.setColor(Color.BLACK);
         for (Object object : objects) {
             object.paint(g);
@@ -76,7 +70,6 @@ public class World {
         }
 
         g.setColor(new Color(0.3f, 1f, 0.3f, 1f));
-        //impulse.paint(g);
         pNormals = (ArrayList<Line>) normals.clone();
         for (Line l : pNormals) {
             l.paint(g);

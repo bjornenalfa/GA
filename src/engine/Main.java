@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -12,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.geom.Ellipse2D;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -21,9 +19,6 @@ import javax.swing.KeyStroke;
 
 public class Main extends JFrame {
 
-    //1 length unit = 1cm
-    //1 mass unit = 1g
-    //1 force unit = 1g*cm/s/s
     MyJPanel panel;
     boolean keyDownControl = false;
     static double scale = 1, translateX, translateY;
@@ -34,8 +29,6 @@ public class Main extends JFrame {
 
         panel = new MyJPanel();
 
-        //setUndecorated(true);
-        //setOpacity((float) 0.9);
         panel.setPreferredSize(new Dimension(800, 600));
         CustomOptionMenu menu = (CustomOptionMenu) panel.optionFrame.getJMenuBar();
         menu.setupTwelve.doClick();
@@ -45,25 +38,9 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setResizable(true);
         setVisible(true);
-        java.awt.Shape shape = new Ellipse2D.Double(0, 0, 800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-//        setShape(shape);
     }
 
-    /*private void moveWorld(World w, double x, double y) {
-     for (Object o : w.objects) {
-     o.position.x -= x;
-     o.position.y -= y;
-     }
-     for (Plane o : w.planes) {
-     o.surface.origin.x -= x;
-     o.surface.end.x -= x;
-     o.surface.origin.y -= y;
-     o.surface.end.y -= y;
-     }
-     if (!playing) repaint();
-     }*/
     private void changeScale(World w, double res) {
         double x = -res * ((panel.getWidth() / 2) / scale - translateX);
         double y = -res * ((panel.getHeight() / 2) / scale - translateY);
@@ -149,8 +126,6 @@ public class Main extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     scale = 1;
-                    //translateX = 0;
-                    //translateY = 0;
                     if (!playing) {
                         repaint();
                     }
@@ -374,7 +349,6 @@ public class Main extends JFrame {
             for (ClickFrame clickFrame : world.clickFrameList) {
                 count++;
                 g2.setColor(Color.getHSBColor((float) ((count * Math.E) % 1), 1f, 0.8f));
-                //g2.setColor(Color.MAGENTA);
                 Object object = clickFrame.object;
                 Shape shape = clickFrame.object.shapes.get(clickFrame.shapeIndex);
                 double x1 = (clickFrame.getX() - this.getLocationOnScreen().x) / scale - translateX;
@@ -397,7 +371,6 @@ public class Main extends JFrame {
                     double dy = v.point.y / Math.abs(v.point.y);
                     diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y) * dx, Math.abs(v.point.y) * dy));
                 }
-                //Vector2D straight = v.subtract(diagonal);
                 if (shape instanceof RectangleShape) {
                     RectangleShape rs = (RectangleShape) shape;
                     if (v.point.x == 0 || v.point.y == 0) {
@@ -415,54 +388,6 @@ public class Main extends JFrame {
                         g2.drawLine((int) (x1 + diagonal.point.x), (int) (y1 + diagonal.point.y), (int) (x2), (int) (y2));
                     }
                 }
-                /*double x2 = (clickFrame.getX() - this.getLocationOnScreen().x + clickFrame.getWidth()/2.0) / scale - translateX;
-                 double y2 = (clickFrame.getY() - this.getLocationOnScreen().y + clickFrame.getHeight()/2.0) / scale - translateY;
-                 double x1 = object.position.x;
-                 double y1 = object.position.y;
-                 Vector2D v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
-                 double kx;
-                 double ky;
-                 if (v.point.x>0) {
-                 kx = -0.5;
-                 } else {
-                 kx = 0.5;
-                 }
-                 if (v.point.y>0) {
-                 ky = -0.5;
-                 } else {
-                 ky = 0.5;
-                 }
-                 x2+=(clickFrame.getWidth()*kx)/scale;
-                 y2+=(clickFrame.getHeight()*ky)/scale;
-                 v = new Vector2D(new Point.Double(x1,y1),new Point.Double(x2,y2));
-                 Vector2D diagonal;
-                 if (Math.abs(v.point.x)<Math.abs(v.point.y)) {
-                 double dx = v.point.x/Math.abs(v.point.x);
-                 double dy = v.point.y/Math.abs(v.point.y);
-                 diagonal = new Vector2D(new Point.Double(Math.abs(v.point.x)*dx,Math.abs(v.point.x)*dy));
-                 } else {
-                 double dx = v.point.x/Math.abs(v.point.x);
-                 double dy = v.point.y/Math.abs(v.point.y);
-                 diagonal = new Vector2D(new Point.Double(Math.abs(v.point.y)*dx,Math.abs(v.point.y)*dy));
-                 }
-                 //Vector2D straight = v.subtract(diagonal);
-                 if (shape instanceof RectangleShape) {
-                 RectangleShape rs = (RectangleShape) shape;
-                 if (v.point.x == 0 || v.point.y == 0) {
-                 g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
-                 } else {
-                 g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                 g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
-                 }
-                 } else if (shape instanceof CircleShape) {
-                 CircleShape cs = (CircleShape) shape;
-                 if (v.point.x == 0 || v.point.y == 0) {
-                 g2.drawLine((int)x1,(int)y1,(int)x2,(int)y2);
-                 } else {
-                 g2.drawLine((int) x1, (int) y1, (int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y));
-                 g2.drawLine((int) (x1+diagonal.point.x), (int) (y1+diagonal.point.y), (int) (x2), (int) (y2));
-                 }
-                 }*/
             }
             g2.translate(-translateX, -translateY);
         }

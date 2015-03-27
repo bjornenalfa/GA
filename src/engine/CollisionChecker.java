@@ -1,40 +1,19 @@
 package engine;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Objects;
 
-/**
- *
- * @author bjodet982
- */
 public class CollisionChecker {
 
     public static final double correctionPercentage = 0.2, slop = 0.01;
 
     public static boolean intersect(double px, double py, double qx, double qy, double ex, double ey, double fx, double fy) { // CALCULATE INTERSECTIONS
-	/*double cp = (fx-ex)*(py-fy)-(fy-ey)*(px-fx);
-         double cq = (fx-ex)*(qy-fy)-(fy-ey)*(qx-fx);
-         double ce = (px-qx)*(ey-py)-(py-qy)*(ex-px);
-         double cf = (px-qx)*(fy-py)-(py-qy)*(fx-px);
-         return (isn(cp) != isn(cq)) && (isn(ce) != isn(cf));*/
         return (isNegative((fx - ex) * (py - fy) - (fy - ey) * (px - fx)) != isNegative((fx - ex) * (qy - fy) - (fy - ey) * (qx - fx))) && (isNegative((px - qx) * (ey - py) - (py - qy) * (ex - px)) != isNegative((px - qx) * (fy - py) - (py - qy) * (fx - px)));
     }
 
     public static boolean intersect(Line line1, Line line2) { // CALCULATE INTERSECTIONS
         line1.vector.readyPoint();
         line2.vector.readyPoint();
-        /*double cp = (line2.vector.point.x)*(line1.origin.y-line2.end.y)-(line2.vector.point.y)*(line1.origin.x-line2.end.x);
-         double cq = (line2.vector.point.x)*(line1.end.y-line2.end.y)-(line2.vector.point.y)*(line1.end.x-line2.end.x);
-         double ce = (-line1.vector.point.x)*(line2.origin.y-line1.origin.y)-(-line1.vector.point.y)*(line2.origin.x-line1.origin.x);
-         double cf = (-line1.vector.point.x)*(line2.end.y-line1.origin.y)-(-line1.vector.point.y)*(line2.end.x-line1.origin.x);
-        
-         double cp = (line2.vector.point.x)*(line1.origin.y-line2.end.y)-(line2.vector.point.y)*(line1.origin.x-line2.end.x);
-         double cq = (line2.vector.point.x)*(line1.end.y-line2.end.y)-(line2.vector.point.y)*(line1.end.x-line2.end.x);
-         double ce = (line1.vector.point.y)*(line2.origin.x-line1.origin.x)-(line1.vector.point.x)*(line2.origin.y-line1.origin.y);
-         double cf = (line1.vector.point.y)*(line2.end.x-line1.origin.x)-(line1.vector.point.x)*(line2.end.y-line1.origin.y);
-         return (isn(cp) != isn(cq)) && (isn(ce) != isn(cf));*/
         return (isNegative((line2.vector.point.x) * (line1.origin.y - line2.end.y) - (line2.vector.point.y) * (line1.origin.x - line2.end.x)) != isNegative((line2.vector.point.x) * (line1.end.y - line2.end.y) - (line2.vector.point.y) * (line1.end.x - line2.end.x))) && (isNegative((line1.vector.point.y) * (line2.origin.x - line1.origin.x) - (line1.vector.point.x) * (line2.origin.y - line1.origin.y)) != isNegative((line1.vector.point.y) * (line2.end.x - line1.origin.x) - (line1.vector.point.x) * (line2.end.y - line1.origin.y)));
     }
 
@@ -100,12 +79,7 @@ public class CollisionChecker {
     }
 
     public static void findNewCollisions(ArrayList<Object> objects, double dt, Vector2D g, World world) {
-        for (int i = 0; i < objects.size(); i++) {
-            for (int j = i + 1; j < objects.size(); j++) {
-                objectToObjectSolver(objects, i, j, world, dt, g);
-            }
-        }
-        int iterator = 0;
+        int iterator = -1;
         for (Object object : objects) {
             if (!(object instanceof FixedObject)) {
                 iterator++;
@@ -116,9 +90,6 @@ public class CollisionChecker {
                 }
             }
         }
-//        doObjectObject(objects, world, dt, g);
-//        doObjectObject(objects, world, dt, g);
-//        doObjectObject(objects, world, dt, g);
     }
 
     public static void doObjectObject(ArrayList<Object> objects, World world, double dt, Vector2D g) {
@@ -177,7 +148,6 @@ public class CollisionChecker {
                         secondPointsInRectangle1List.add(rectangle2.lines[2].end);
                     }
 
-                    ArrayList<Point.Double> leastAmountOfPointsInTheOtherRectangleList;
                     ArrayList<Point.Double> mostAmountOfPointsInTheOtherRectangleList;
 
                     int mostRectangle = 1;
@@ -201,10 +171,10 @@ public class CollisionChecker {
                                 if (pointIterator == 2) {
                                     if (Math.abs(depth - deepness) < 0.001d) {
                                         deepestPoint = new Point.Double((point.x + deepestPoint.x) / 2d, (point.y + deepestPoint.y) / 2d);
-                                        Vector2D vec = new Vector2D(firstObject.nextPosition,deepestPoint);
+                                        Vector2D vec = new Vector2D(firstObject.nextPosition, deepestPoint);
                                         Point.Double betterPoint = new Vector2D(line.normal).multiply(Vector2D.scalarProductCoordinates(vec, line.normal)).point;
-                                        deepestPoint.x = betterPoint.x+firstObject.nextPosition.x;
-                                        deepestPoint.y = betterPoint.y+firstObject.nextPosition.y;
+                                        deepestPoint.x = betterPoint.x + firstObject.nextPosition.x;
+                                        deepestPoint.y = betterPoint.y + firstObject.nextPosition.y;
                                         world.points.add(deepestPoint);
                                     } else if (depth <= deepness) {
                                         deepness = depth;
@@ -223,10 +193,10 @@ public class CollisionChecker {
                                 if (pointIterator == 2) {
                                     if (Math.abs(depth - deepness) < 0.001d) {
                                         deepestPoint = new Point.Double((point.x + deepestPoint.x) / 2d, (point.y + deepestPoint.y) / 2d);
-                                        Vector2D vec = new Vector2D(secondObject.nextPosition,deepestPoint);
+                                        Vector2D vec = new Vector2D(secondObject.nextPosition, deepestPoint);
                                         Point.Double betterPoint = new Vector2D(line.normal).multiply(Vector2D.scalarProductCoordinates(vec, line.normal)).point;
-                                        deepestPoint.x = betterPoint.x+secondObject.nextPosition.x;
-                                        deepestPoint.y = betterPoint.y+secondObject.nextPosition.y;
+                                        deepestPoint.x = betterPoint.x + secondObject.nextPosition.x;
+                                        deepestPoint.y = betterPoint.y + secondObject.nextPosition.y;
                                         world.points.add(deepestPoint);
                                     } else if (depth <= deepness) {
                                         deepness = depth;
@@ -253,7 +223,6 @@ public class CollisionChecker {
                         }
                     } else if ((firstPointsInRectangle2List.size() == 1) && (secondPointsInRectangle1List.size() == 1)) {
                         if (firstObject.mass > secondObject.mass) {
-                            //normal = new Vector2D(firstPointsInRectangle2List.get(0), secondObject.nextPosition);
                             Vector2D vec = new Vector2D(secondObject.nextPosition, firstPointsInRectangle2List.get(0));
                             double cx = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle2.lines[0].vector).normalize());
                             double cy = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle2.lines[1].vector).normalize());
@@ -269,7 +238,6 @@ public class CollisionChecker {
                             rectangle1.calcNextPosition();
                             rectangle2.calcNextPosition();
                         } else {
-                            //normal = new Vector2D(secondPointsInRectangle1List.get(0), firstObject.nextPosition);
                             Vector2D vec = new Vector2D(firstObject.nextPosition, secondPointsInRectangle1List.get(0));
                             double cx = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle1.lines[0].vector).normalize());
                             double cy = Vector2D.scalarProductCoordinates(vec, new Vector2D(rectangle1.lines[1].vector).normalize());
@@ -285,16 +253,6 @@ public class CollisionChecker {
                             rectangle1.calcNextPosition();
                             rectangle2.calcNextPosition();
                         }
-
-                    } else if (Math.min(firstPointsInRectangle2List.size(), secondPointsInRectangle1List.size()) != 0) {
-                        if (firstPointsInRectangle2List.size() > secondPointsInRectangle1List.size()) {
-                            leastAmountOfPointsInTheOtherRectangleList = secondPointsInRectangle1List;
-                            mostAmountOfPointsInTheOtherRectangleList = firstPointsInRectangle2List;
-                        } else {
-                            leastAmountOfPointsInTheOtherRectangleList = firstPointsInRectangle2List;
-                            mostAmountOfPointsInTheOtherRectangleList = secondPointsInRectangle1List;
-                        }
-
                     }
                     break;
                 case 2:
@@ -306,9 +264,7 @@ public class CollisionChecker {
                     if (distance >= radius) {
                         break;
                     } else {
-
                         collisionPoint = new Point.Double((firstObject.nextPosition.x * circle2.radius + secondObject.nextPosition.x * circle1.radius) / (circle1.radius + circle2.radius), (firstObject.nextPosition.y * circle2.radius + secondObject.nextPosition.y * circle1.radius) / (circle1.radius + circle2.radius));
-                        //collisionPoint=new Point.Double((collisionVector.point.x+inverseCollisionVector.point.x)/2d, (collisionVector.point.y+inverseCollisionVector.point.y)/2d);
                         Point.Double point1 = v.normalize().multiply(circle1.radius).point;
                         point1.x += firstObject.nextPosition.x;
                         point1.y += firstObject.nextPosition.y;

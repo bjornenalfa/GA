@@ -1,9 +1,5 @@
 package engine;
 
-/**
- *
- * @author pastapojken
- */
 public class Material {
 
     public static int Wood = 0;
