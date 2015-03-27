@@ -3,10 +3,6 @@ package engine;
 import java.awt.Color;
 import java.awt.Point;
 
-/**
- *
- * @author bjodet982
- */
 public class FixedObject extends Object {
 
     FixedObject(Shape shape, Point.Double pos, int mat) {

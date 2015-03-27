@@ -25,10 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 
-/**
- *
- * @author Letfik
- */
 public class CustomOptionMenu extends JMenuBar {
 
     static final ScriptEngineManager manager = new ScriptEngineManager();
@@ -58,12 +54,10 @@ public class CustomOptionMenu extends JMenuBar {
 
         JMenu add = new JMenu("Add");
         add.add(makeAddObjectAt());
-        add.add(makeAddPlane());
         add.add(makeAddObject());
 
         JMenu remove = new JMenu("Remove");
         remove.add(makeRemoveObject());
-        remove.add(makeResetPlanes());
         remove.add(makeResetObjects());
 
         JMenu setup = new JMenu("Setup");
@@ -107,25 +101,6 @@ public class CustomOptionMenu extends JMenuBar {
         return addObject;
     }
 
-    private JMenuItem makeAddPlane() {
-        JMenuItem addPlane = new JMenuItem("Add Plane");
-        addPlane.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK));
-        addPlane.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double x1 = Double.parseDouble(inputOptionPane("Enter x1."));
-                double y1 = Double.parseDouble(inputOptionPane("Enter y1."));
-                double x2 = Double.parseDouble(inputOptionPane("Enter x2."));
-                double y2 = Double.parseDouble(inputOptionPane("Enter y2."));
-                panel.world.addPlane(new Plane(x1, y1, x2, y2));
-                if (!Main.playing) {
-                    panel.repaint();
-                }
-            }
-        });
-        return addPlane;
-    }
-
     private JMenuItem makeAddObjectAt() {
         JMenuItem addObjectAt = new JMenuItem("Add Object at Click");
         addObjectAt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.SHIFT_DOWN_MASK));
@@ -154,24 +129,6 @@ public class CustomOptionMenu extends JMenuBar {
             }
         });
         return resetObjects;
-    }
-
-    private JMenuItem makeResetPlanes() {
-        JMenuItem resetPlanes = new JMenuItem("Reset Planes");
-        resetPlanes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
-        resetPlanes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int confirmReset = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset?\n This action can't be undone.", "RESET", JOptionPane.YES_NO_OPTION);
-                if (confirmReset == JOptionPane.YES_OPTION) {
-                    panel.world.planes = new ArrayList();
-                    if (!Main.playing) {
-                        panel.repaint();
-                    }
-                }
-            }
-        });
-        return resetPlanes;
     }
 
     private JMenuItem makeRemoveObject() {
@@ -347,6 +304,26 @@ public class CustomOptionMenu extends JMenuBar {
     private JMenu playbackMenu() {
         JMenu menu = new JMenu();
         ButtonGroup bg = new ButtonGroup();
+        
+        JRadioButton hhhhs = new JRadioButton("1/16 speed");
+        hhhhs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 16;
+            }
+        });
+        bg.add(hhhhs);
+        menu.add(hhhhs);
+        
+        JRadioButton hhhs = new JRadioButton("1/8 speed");
+        hhhs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 8;
+            }
+        });
+        bg.add(hhhs);
+        menu.add(hhhs);
 
         JRadioButton hhs = new JRadioButton("1/4 speed");
         hhs.addActionListener(new ActionListener() {
@@ -398,6 +375,26 @@ public class CustomOptionMenu extends JMenuBar {
         });
         bg.add(dds);
         menu.add(dds);
+        
+        JRadioButton ddds = new JRadioButton("8 speed");
+        ddds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 0.125;
+            }
+        });
+        bg.add(ddds);
+        menu.add(ddds);
+        
+        JRadioButton dddds = new JRadioButton("16 speed");
+        dddds.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                optionPanel.playbackSpeed = 1/16d;
+            }
+        });
+        bg.add(dddds);
+        menu.add(dddds);
 
         return menu;
     }
@@ -453,7 +450,7 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), Math.atan2(3, 4), 0.00005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.followID=1;
+                panel.world.followID = 1;
                 afterSetup();
             }
         });
@@ -624,14 +621,13 @@ public class CustomOptionMenu extends JMenuBar {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
                 panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), -0, 0.0005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-//                panel.world.addPlane(new Plane(0, 550, 800, 550, Material.Concrete));
-//                panel.world.addPlane(new Plane(0, 350, 390, 350, Material.Concrete));
                 panel.world.objects.add(new FixedObject(0, 550, 800, 550, 20, Material.Concrete));
                 panel.world.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Concrete));
-//                panel.world.objects.add(new FixedObject(0, 550, 0, 0, 20, Material.Bounce));
-//                panel.world.objects.add(new FixedObject(800, 550, 800, 0, 20, Material.Bounce));
-//                panel.world.objects.add(new FixedObject(0, 0, 800, 0, 20, Material.Bounce));
                 panel.world.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(350, 250), Material.Concrete));
+                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(800, 5540), Material.Boost));
+                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(3800, 5540), Material.Glide));
+                panel.world.objects.add(new FixedObject(8000, 3540, 9000, 3540, 50, Material.SuperBounce));
+                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(13500, 5540), Material.Boost));
 
                 afterSetup();
             }
@@ -678,20 +674,20 @@ public class CustomOptionMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 panel.world = new World(new Vector2D(0, 982));
                 panel.world.follow = false;
-                //panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(350, 300), Material.Wood));
+                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
 
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(290, 100), Material.Wood));
                 panel.world.objects.get(0).angularVelocity = -9.8;
                 panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
                 panel.world.objects.get(1).angularVelocity = 10;
-//                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(350, 50), Material.Wood));
-//                panel.world.objects.get(2).angularVelocity = -3;
-//                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(250, -50), Material.Wood));
-//                panel.world.objects.get(3).angularVelocity = -5;
-//                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 50), Material.Wood));
-//                panel.world.objects.get(4).angularVelocity = 7;
-//                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 50), Material.Wood));
-//                panel.world.objects.get(5).angularVelocity = -9;
+                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(350, 50), Material.Wood));
+                panel.world.objects.get(2).angularVelocity = -3;
+                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(250, -50), Material.Wood));
+                panel.world.objects.get(3).angularVelocity = -5;
+                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 50), Material.Wood));
+                panel.world.objects.get(4).angularVelocity = 7;
+                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 50), Material.Wood));
+                panel.world.objects.get(5).angularVelocity = -9;
                 panel.world.objects.add(new FixedObject(-800, 400, 800, 600, 100, Material.Wood));
                 panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
                 afterSetup();

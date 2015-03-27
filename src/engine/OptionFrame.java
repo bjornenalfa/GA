@@ -16,15 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-/**
- *
- * @author ludsiw279
- */
 public class OptionFrame extends JFrame {
 
-    //1 length unit = 1cm
-    //1 mass unit = 1g
-    //1 force unit = 1g*cm/s/s
     MyOptionPanel panel;
 
     public OptionFrame(MyJPanel mainPanel) {
@@ -80,7 +73,6 @@ public class OptionFrame extends JFrame {
                     if (dt != 0) {
                         try {
                             thread.start();
-                            System.out.println("started");
                         } catch (Exception ex) {
                         }
                         paused = false;
@@ -202,36 +194,30 @@ public class OptionFrame extends JFrame {
                     if (s instanceof RectangleShape) {
                         RectangleShape rs = (RectangleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new FixedObject(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.deltaRotation, s.density, s.color), new Point.Double(o.position.x, o.position.y), o.material);
                         } else {
-                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new Object(new RectangleShape(rs.width, rs.height, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.deltaRotation, s.density, s.color), new Point.Double(o.position.x, o.position.y), o.material);
                         }
                     } else if (s instanceof CircleShape) {
                         CircleShape cs = (CircleShape) s;
                         if (o instanceof FixedObject) {
-                            newO = new FixedObject(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new FixedObject(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.deltaRotation, s.density, s.color), new Point.Double(o.position.x, o.position.y), o.material);
                         } else {
-                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.dRotate, s.density, s.myC), new Point.Double(o.position.x, o.position.y), o.material);
+                            newO = new Object(new CircleShape(cs.radius, new Vector2D(new Point.Double(s.vector.point.x, s.vector.point.y)), s.deltaRotation, s.density, s.color), new Point.Double(o.position.x, o.position.y), o.material);
                         }
                     }
                 }
                 newO.velocity = o.velocity;
                 newO.acceleration = o.acceleration;
                 newO.angularVelocity = o.angularVelocity;
-                newO.massCenter = o.massCenter;
                 newO.rotation = o.rotation;
                 newWorld.objects.add(newO);
-            }
-            for (Plane p : world.planes) {
-                Plane newP = new Plane(p.surface);
-                newP.material = p.material;
-                newWorld.planes.add(newP);
             }
             return newWorld;
         }
 
         private void updateLabels() {
-            String dtString = Double.toString(dt);//.substring(0, 11);
+            String dtString = Double.toString(dt);
             dtLabel.setText(("<html><font color=white> " + "dt : " + dtString + " </font></html>"));
         }
 
@@ -251,6 +237,7 @@ public class OptionFrame extends JFrame {
             @Override
             public void run() {
                 save.doClick();
+                double timer = 0;
                 while (true) {
                     Main.playing = true;
                     while (!paused) {
@@ -258,7 +245,15 @@ public class OptionFrame extends JFrame {
                         updateLabels();
                         mainPanel.repaint();
                         try {
-                            sleep((int) (dt * 1000 * panel.playbackSpeed));
+                            if (dt * 1000 * panel.playbackSpeed < 1) {
+                                timer += dt * 1000 * panel.playbackSpeed;
+                                if (timer > 1) {
+                                    timer = timer - 1;
+                                    sleep(1);
+                                }
+                            } else {
+                                sleep((int) (dt * 1000 * panel.playbackSpeed));
+                            }
                         } catch (InterruptedException ex) {
                         }
                     }

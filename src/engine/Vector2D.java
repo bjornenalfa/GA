@@ -5,10 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-/**
- *
- * @author PastaPojken
- */
 public class Vector2D {
 
     static final Vector2D zero = new Vector2D(0, 0);
@@ -19,8 +15,6 @@ public class Vector2D {
 
     public Vector2D(Point.Double point) {
         this.point = point;
-        //length = calculateLength(point);
-        //angle = calculateAngle(point);
     }
 
     public Vector2D(int x, int y) {
@@ -34,7 +28,6 @@ public class Vector2D {
     public Vector2D(double len, double ang) {
         length = len;
         angle = ang;
-        //vector = calculateVector(len,ang);
     }
 
     public Vector2D(Vector2D base) {
@@ -112,7 +105,6 @@ public class Vector2D {
     }
 
     public Vector2D print() {
-        System.out.println("x:" + point.x + " y:" + point.y);
         return this;
     }
 
@@ -160,24 +152,6 @@ public class Vector2D {
         return vector;
     }
 
-    /**
-     * do this if we needed it :)
-     *
-     * @param vector1
-     * @param vector2
-     * @return
-     */
-    public static double scalarProductAngleLength(Vector2D vector1, Vector2D vector2) {
-        return (0.0); //do this if we needed it :)
-    }
-
-    /**
-     * Needs point!!
-     *
-     * @param vector1
-     * @param vector2
-     * @return
-     */
     public static double scalarProductCoordinates(Vector2D vector1, Vector2D vector2) {
         return (vector1.point.x * vector2.point.x + vector1.point.y * vector2.point.y);
     }

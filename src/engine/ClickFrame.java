@@ -49,7 +49,7 @@ public class ClickFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
-        setLocation((int) (MouseInfo.getPointerInfo().getLocation().x + 30), (int) (MouseInfo.getPointerInfo().getLocation().y - getHeight()/2));
+        setLocation((int) (MouseInfo.getPointerInfo().getLocation().x + 30), (int) (MouseInfo.getPointerInfo().getLocation().y - getHeight() / 2));
         setVisible(true);
 
         if (!Main.playing) {
@@ -119,7 +119,7 @@ public class ClickFrame extends JFrame {
             });
             add(button1);
 
-            String[] matArray = {"Wood", "Steel", "Rubber", "Concrete", "Ice", "Glass", "Boost", "Slow", "Bounce","Glide"};
+            String[] matArray = {"Wood", "Steel", "Rubber", "Concrete", "Ice", "Glass", "Boost", "Slow", "Bounce", "Glide", "Super Bounce"};
             final JComboBox comboBox = new JComboBox(matArray);
             comboBox.setSelectedIndex(object.material);
             comboBox.addActionListener(new ActionListener() {

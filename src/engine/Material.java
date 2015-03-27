@@ -1,9 +1,5 @@
 package engine;
 
-/**
- *
- * @author pastapojken
- */
 public class Material {
 
     public static int Wood = 0;
@@ -17,5 +13,5 @@ public class Material {
     public static int Slow = 7;
     public static int Bounce = 8;
     public static int Glide = 9;
-
+    public static int SuperBounce = 10;
 }

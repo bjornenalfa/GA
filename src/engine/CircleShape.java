@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-/**
- *
- * @author bjodet982
- */
 public class CircleShape extends Shape {
 
     double radius; //radius of shape

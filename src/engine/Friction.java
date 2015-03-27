@@ -32,6 +32,8 @@ public class Friction {
             return 0.4;
         } else if (Math.max(mat1,mat2) == 9) {
             return 0;
+        } else if (Math.max(mat1,mat2) == 10) {
+            return 0.4;
         }
         return staticFriction[mat1][mat2];
     }
@@ -45,6 +47,8 @@ public class Friction {
             return 0.4;
         } else if (Math.max(mat1,mat2) == 9) {
             return 0;
+        } else if (Math.max(mat1,mat2) == 10) {
+            return 0.4;
         }
         return dynamicFriction[mat1][mat2];
     }
