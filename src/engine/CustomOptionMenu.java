@@ -17,6 +17,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -82,10 +83,14 @@ public class CustomOptionMenu extends JMenuBar {
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
 
+        JMenu arrows = arrowsMenu();
+        arrows.setText("Arrows");
+
         add(add);
         add(remove);
         add(setup);
         add(playback);
+        add(arrows);
     }
 
     String temp = "Rectangle";
@@ -401,6 +406,39 @@ public class CustomOptionMenu extends JMenuBar {
         return menu;
     }
 
+    private JMenu arrowsMenu(){
+        JMenu menu = new JMenu();
+        
+        JCheckBoxMenuItem impulses = new JCheckBoxMenuItem("Show impulses", panel.world.showImpulses);
+        impulses.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world.showImpulses = !panel.world.showImpulses;
+            }
+        });
+        menu.add(impulses);
+        
+        JCheckBoxMenuItem normals = new JCheckBoxMenuItem("Show normals", panel.world.showNormals);
+        normals.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world.showNormals = !panel.world.showNormals;
+            }
+        });
+        menu.add(normals);
+        
+        JCheckBoxMenuItem collisionpoint = new JCheckBoxMenuItem("Show Collisionpoints", panel.world.showCollisionPoints);
+        collisionpoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world.showCollisionPoints = !panel.world.showCollisionPoints;
+            }
+        });
+        menu.add(collisionpoint);
+        
+        return menu;
+    }
+    
     private void afterSetup() {
         panel.optionFrame.panel.save.doClick();
         for (int i = 0; i < panel.world.clickFrameList.size(); i++) {

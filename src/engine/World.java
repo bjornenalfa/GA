@@ -18,6 +18,10 @@ public class World {
     ArrayList<Point.Double> pPoints = new ArrayList();
     public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
+    boolean showImpulses = true;
+    boolean showNormals = true;
+    boolean showCollisionPoints = true;
+
     public World(Vector2D gravity) {
         this.gravity = gravity;
     }
@@ -52,33 +56,38 @@ public class World {
         g.setColor(Color.BLACK);
         for (Object object : objects) {
             object.paint(g);
-
         }
 
         while (impulses.size() >= 500) {
             impulses.remove(0);
         }
-
-        g.setColor(new Color(0.3f, 0.3f, 1f, 1f));
-        pImpulses = (ArrayList<Line>) impulses.clone();
-        for (Line l : pImpulses) {
-            l.paint(g);
+        
+        if (showImpulses) {
+            g.setColor(new Color(0.3f, 0.3f, 1f, 1f));
+            pImpulses = (ArrayList<Line>) impulses.clone();
+            for (Line l : pImpulses) {
+                l.paint(g);
+            }
         }
 
         while (normals.size() >= 100) {
             normals.remove(0);
         }
 
-        g.setColor(new Color(0.3f, 1f, 0.3f, 1f));
-        pNormals = (ArrayList<Line>) normals.clone();
-        for (Line l : pNormals) {
-            l.paint(g);
+        if (showNormals) {
+            g.setColor(new Color(0.3f, 1f, 0.3f, 1f));
+            pNormals = (ArrayList<Line>) normals.clone();
+            for (Line l : pNormals) {
+                l.paint(g);
+            }
         }
-
-        g.setColor(new Color(1f, 0.7f, 0.1f, 1f));
-        pPoints = (ArrayList<Point.Double>) points.clone();
-        for (Point.Double p : pPoints) {
-            g.drawRect((int) (p.x), (int) (p.y), 0, 0);
+        
+        if (showCollisionPoints) {
+            g.setColor(new Color(1f, 0.7f, 0.1f, 1f));
+            pPoints = (ArrayList<Point.Double>) points.clone();
+            for (Point.Double p : pPoints) {
+                g.drawRect((int) (p.x), (int) (p.y), 0, 0);
+            }
         }
     }
 
