@@ -33,6 +33,10 @@ public class CustomOptionMenu extends JMenuBar {
     MyOptionPanel optionPanel;
     MyJPanel panel;
 
+    static boolean showImpulses = true;
+    static boolean showNormals = true;
+    static boolean showCollisionPoints = true;
+    
     JMenuItem setupOne = makeSetupOne();
     JMenuItem setupTwo = makeSetupTwo();
     JMenuItem setupThree = makeSetupThree();
@@ -83,7 +87,7 @@ public class CustomOptionMenu extends JMenuBar {
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
 
-        JMenu arrows = arrowsMenu();
+        arrows = arrowsMenu();
         arrows.setText("Arrows");
 
         add(add);
@@ -92,7 +96,7 @@ public class CustomOptionMenu extends JMenuBar {
         add(playback);
         add(arrows);
     }
-
+JMenu arrows;
     String temp = "Rectangle";
     String shape = null;
 
@@ -409,29 +413,29 @@ public class CustomOptionMenu extends JMenuBar {
     private JMenu arrowsMenu(){
         JMenu menu = new JMenu();
         
-        JCheckBoxMenuItem impulses = new JCheckBoxMenuItem("Show impulses", panel.world.showImpulses);
+        JCheckBoxMenuItem impulses = new JCheckBoxMenuItem("Show impulses", showImpulses);
         impulses.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world.showImpulses = !panel.world.showImpulses;
+                showImpulses = !showImpulses;
             }
         });
         menu.add(impulses);
         
-        JCheckBoxMenuItem normals = new JCheckBoxMenuItem("Show normals", panel.world.showNormals);
+        JCheckBoxMenuItem normals = new JCheckBoxMenuItem("Show normals", showNormals);
         normals.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world.showNormals = !panel.world.showNormals;
+                showNormals = !showNormals;
             }
         });
         menu.add(normals);
         
-        JCheckBoxMenuItem collisionpoint = new JCheckBoxMenuItem("Show Collisionpoints", panel.world.showCollisionPoints);
+        JCheckBoxMenuItem collisionpoint = new JCheckBoxMenuItem("Show Collisionpoints", showCollisionPoints);
         collisionpoint.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world.showCollisionPoints = !panel.world.showCollisionPoints;
+                showCollisionPoints = !showCollisionPoints;
             }
         });
         menu.add(collisionpoint);

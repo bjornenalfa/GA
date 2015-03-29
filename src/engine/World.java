@@ -18,10 +18,6 @@ public class World {
     ArrayList<Point.Double> pPoints = new ArrayList();
     public ArrayList<ClickFrame> clickFrameList = new ArrayList();
 
-    boolean showImpulses = true;
-    boolean showNormals = true;
-    boolean showCollisionPoints = true;
-
     public World(Vector2D gravity) {
         this.gravity = gravity;
     }
@@ -62,7 +58,7 @@ public class World {
             impulses.remove(0);
         }
         
-        if (showImpulses) {
+        if (CustomOptionMenu.showImpulses) {
             g.setColor(new Color(0.3f, 0.3f, 1f, 1f));
             pImpulses = (ArrayList<Line>) impulses.clone();
             for (Line l : pImpulses) {
@@ -74,7 +70,7 @@ public class World {
             normals.remove(0);
         }
 
-        if (showNormals) {
+        if (CustomOptionMenu.showNormals) {
             g.setColor(new Color(0.3f, 1f, 0.3f, 1f));
             pNormals = (ArrayList<Line>) normals.clone();
             for (Line l : pNormals) {
@@ -82,7 +78,7 @@ public class World {
             }
         }
         
-        if (showCollisionPoints) {
+        if (CustomOptionMenu.showCollisionPoints) {
             g.setColor(new Color(1f, 0.7f, 0.1f, 1f));
             pPoints = (ArrayList<Point.Double>) points.clone();
             for (Point.Double p : pPoints) {
