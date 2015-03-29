@@ -715,13 +715,20 @@ public class CustomOptionMenu extends JMenuBar {
 //                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Glide));
 //                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Glide));
                 
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(800,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(900,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1000,180), Material.Boost));
+//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1100,180), Material.Boost));
+                for (int i = 0;i<20;i++) {
+                    panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100+i*100,180+i*10), Material.Ice));
+                }
                 
                 afterSetup();
             }
