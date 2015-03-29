@@ -312,7 +312,7 @@ public class CollisionChecker {
         Vector2D secondObjectCenterToCollisionPoint = new Vector2D(secondObject.nextPosition, collisionPoint);
         Vector2D relativeVelocity = new Vector2D(secondObject.nextVelocity).add(Vector2D.crossProduct(secondObject.nextAngularVelocity, secondObjectCenterToCollisionPoint)).subtract(firstObject.nextVelocity).subtract(Vector2D.crossProduct(firstObject.nextAngularVelocity, firstObjectCenterToCollisionPoint));
 
-        if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt)).getLength() + 0.0001f) {
+        if (relativeVelocity.getLength() < (new Vector2D(g).multiply(dt*2)).getLength() + 0.0001f) {
             restitution = 0;
         }
         world.normals.add(new Line(collisionPoint, normal));
