@@ -255,11 +255,13 @@ public class Main extends JFrame {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     pressed = false;
+                    double x = (e.getX() / scale - translateX);
+                    double y = (e.getY() / scale - translateY);
                     if (removing) {
                         Object stiff = null;
                         for (Object object : world.objects) {
                             for (Shape shape : object.shapes) {
-                                if (shape.contains(e.getPoint())) {
+                                if (shape.contains(new Point.Double(x, y))) {
                                     stiff = object;
                                     break;
                                 }
@@ -273,16 +275,14 @@ public class Main extends JFrame {
                             removing = false;
                         }
                     } else if (adding) {
-                        CustomOptionMenu test = (CustomOptionMenu) optionFrame.getJMenuBar();
-                        test.chooseShape((new Point.Double(e.getPoint().x, e.getPoint().y)));
+                        CustomOptionMenu optionMenuBar = (CustomOptionMenu) optionFrame.getJMenuBar();
+                        optionMenuBar.chooseShape(new Point.Double(x, y));
                         if (!playing) {
                             repaint();
                         }
                         adding = false;
                     } else {
                         if (e.getButton() == 3) {
-                            double x = (e.getX() / scale - translateX);
-                            double y = (e.getY() / scale - translateY);
                             repaint();
                             for (Object object : world.objects) {
                                 for (Shape shape : object.shapes) {
