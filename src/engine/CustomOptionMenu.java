@@ -55,6 +55,8 @@ public class CustomOptionMenu extends JMenuBar {
     JMenuItem setupFourteen = makeSetupFourteen();
     JMenuItem setupFifteen = makeSetupFifteen();
     JMenuItem setupSixteen = makeSetupSixteen();
+    JMenuItem setupSeventeen = makeSetupSeventeen();
+    JMenuItem setupEighteen = makeSetupEighteen();
 
     public CustomOptionMenu(MyOptionPanel panel) {
         this.optionPanel = panel;
@@ -85,6 +87,8 @@ public class CustomOptionMenu extends JMenuBar {
         setup.add(setupFourteen);
         setup.add(setupFifteen);
         setup.add(setupSixteen);
+        setup.add(setupSeventeen);
+        setup.add(setupEighteen);
 
         JMenu playback = playbackMenu();
         playback.setText("Playback Speed");
@@ -774,6 +778,63 @@ JMenu arrows;
 //                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1100,180), Material.Boost));
                 for (int i = 0;i<20;i++) {
                     newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100+i*100,180+i*10), Material.Ice));
+                }
+                
+                afterSetup();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupSeventeen() {
+        JMenuItem setup = new JMenuItem("Setup Seventeen");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.follow = false;
+                
+                panel.world.objects.add(new Object(new CircleShape(25, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 150), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(25, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 50), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(25, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 50), Material.Wood));
+                panel.world.objects.add(new Object(new CircleShape(25, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 150), Material.Wood));
+                
+                for (int i = 0; i < panel.world.objects.size(); i++) {
+                    panel.world.objects.get(i).velocity = new Vector2D(600,0);
+                }
+                
+                panel.world.objects.add(new FixedObject(0,575,800,575,50,Material.Concrete));
+                panel.world.objects.add(new FixedObject(775,575,775,0,50,Material.Concrete));
+                
+                afterSetup();
+            }
+        });
+        return setup;
+    }
+    
+    private JMenuItem makeSetupEighteen() {
+        JMenuItem setup = new JMenuItem("Setup Eighteen");
+        setup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.world = new World(new Vector2D(0, 982));
+                panel.world.follow = false;
+                
+                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(-4000, -4000), Material.Wood));
+                
+                panel.world.objects.add(new FixedObject(-4100,-3900,500,575,50,Material.Concrete));
+                
+                int x = 500, y = 575;
+                double angle = Math.toRadians(30);
+                double length = 20;
+                int segments = 240;
+                double extra = 150;
+                double dAngle = Math.toRadians(-.5);
+                for (int i = 0; i <= segments; i++) {
+                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 50, Material.Boost));
+                    x = (int) (x + Math.cos(angle) * length + .5);
+                    y = (int) (y + Math.sin(angle) * length + .5);
+                    angle += dAngle;
                 }
                 
                 afterSetup();
