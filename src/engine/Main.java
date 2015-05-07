@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 public class Main extends JFrame {
 
     MyJPanel panel;
-    boolean keyDownControl = false;
+    boolean keyDownControl = true;
     static double scale = 1, translateX, translateY;
     static boolean playing = false;
 
@@ -116,7 +116,7 @@ public class Main extends JFrame {
             return new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    keyDownControl = false;
+                    //keyDownControl = false;
                 }
             };
         }
