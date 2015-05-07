@@ -820,7 +820,7 @@ JMenu arrows;
                 newWorld = new World(new Vector2D(0, 982));
                 newWorld.follow = false;
                 
-                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(-4000, -4000), Material.Wood));
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(-4000, -4000), Material.Glide));
                 
                 newWorld.objects.add(new FixedObject(-4100,-3900,500,575,50,Material.Concrete));
                 
@@ -831,7 +831,7 @@ JMenu arrows;
                 double extra = 150;
                 double dAngle = Math.toRadians(-.5);
                 for (int i = 0; i <= segments; i++) {
-                    newWorld.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 50, Material.Boost));
+                    newWorld.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 50, Material.Glide));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
