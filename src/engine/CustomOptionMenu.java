@@ -32,6 +32,8 @@ public class CustomOptionMenu extends JMenuBar {
     static final ScriptEngine engine = manager.getEngineByName("js");
     MyOptionPanel optionPanel;
     MyJPanel panel;
+    
+    World newWorld = null;
 
     static boolean showImpulses = true;
     static boolean showNormals = true;
@@ -444,6 +446,7 @@ JMenu arrows;
     }
     
     private void afterSetup() {
+        panel.world = newWorld;
         panel.optionFrame.panel.save.doClick();
         for (int i = 0; i < panel.world.clickFrameList.size(); i++) {
             ClickFrame clickFrame = panel.world.clickFrameList.get(i);
@@ -460,10 +463,10 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -476,9 +479,9 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -491,10 +494,10 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), Math.atan2(3, 4), 0.00005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.followID = 1;
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), Math.atan2(3, 4), 0.00005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                newWorld.followID = 1;
                 afterSetup();
             }
         });
@@ -506,9 +509,9 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 0, 8000, 6000, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -521,12 +524,12 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 20, Material.Concrete));
-//                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 10, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 500, 800, 500, 20, Material.Concrete));
+//                newWorld.objects.add(new FixedObject(0, 500, 800, 500, 10, Material.Concrete));
 
                 afterSetup();
             }
@@ -539,11 +542,11 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Wood));
-                panel.world.objects.get(0).velocity = new Vector2D(100, 0);
-                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
-                panel.world.follow = false;
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Wood));
+                newWorld.objects.get(0).velocity = new Vector2D(100, 0);
+                newWorld.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
+                newWorld.follow = false;
 
                 afterSetup();
             }
@@ -556,9 +559,9 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
-                panel.world.objects.get(0).velocity = new Vector2D(0, 5000);
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(155, 140), Material.Wood));
+                newWorld.objects.get(0).velocity = new Vector2D(0, 5000);
                 int x = 90, y = 100;
                 double angle = Math.toRadians(90);
                 double length = 200;
@@ -566,7 +569,7 @@ JMenu arrows;
                 double extra = 250;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Boost));
+                    newWorld.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Boost));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
@@ -583,11 +586,11 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 150, 400, 550, 30, Material.Concrete));
-                panel.world.objects.add(new FixedObject(400, 550, 8000, 550, 30, Material.Concrete));
-                panel.world.follow = false;
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(200, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 150, 400, 550, 30, Material.Concrete));
+                newWorld.objects.add(new FixedObject(400, 550, 8000, 550, 30, Material.Concrete));
+                newWorld.follow = false;
 
                 afterSetup();
             }
@@ -600,12 +603,12 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Boost));
-                panel.world.objects.get(0).velocity = new Vector2D(700, -100);
-                panel.world.objects.add(new FixedObject(-5000, 100, 700, 500, 30, Material.Concrete));
-                panel.world.objects.add(new FixedObject(700, 500, 700, 0, 30, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(100, 100), Material.Boost));
+                newWorld.objects.get(0).velocity = new Vector2D(700, -100);
+                newWorld.objects.add(new FixedObject(-5000, 100, 700, 500, 30, Material.Concrete));
+                newWorld.objects.add(new FixedObject(700, 500, 700, 0, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -618,9 +621,10 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(155, 140), Material.Wood));
-                panel.world.objects.get(0).velocity = new Vector2D(0, 0000);
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(155, 140), Material.Rubber));
+                //newWorld.objects.get(0).velocity = new Vector2D(0, 5000);
+                newWorld.objects.get(0).angularVelocity = 500;
                 int x = 50, y = 100;
                 double angle = Math.toRadians(90);
                 double length = 102;
@@ -628,7 +632,7 @@ JMenu arrows;
                 double extra = 5000;
                 double dAngle = Math.toRadians(-1);
                 for (int i = 0; i <= segments; i++) {
-                    panel.world.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Boost));
+                    newWorld.objects.add(new FixedObject((int) (x - Math.cos(angle) * extra + .5), (int) (y - Math.sin(angle) * extra + .5), (int) (x + Math.cos(angle) * (length + extra) + .5), (int) (y + Math.sin(angle) * (length + extra) + .5), 20, Material.Concrete));
                     x = (int) (x + Math.cos(angle) * length + .5);
                     y = (int) (y + Math.sin(angle) * length + .5);
                     angle += dAngle;
@@ -645,11 +649,11 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 1));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.get(0).angularVelocity = 1;
-                panel.world.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
+                newWorld =  new World(new Vector2D(0, 1));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.get(0).angularVelocity = 1;
+                newWorld.objects.add(new FixedObject(0, 500, 800, 500, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -662,16 +666,16 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), -0, 0.0005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 550, 800, 550, 20, Material.Concrete));
-                panel.world.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Concrete));
-                panel.world.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(350, 250), Material.Concrete));
-                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(800, 5540), Material.Boost));
-                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(3800, 5540), Material.Glide));
-                panel.world.objects.add(new FixedObject(8000, 3540, 9000, 3540, 50, Material.SuperBounce));
-                panel.world.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(13500, 5540), Material.Boost));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), -0, 0.0005, Color.BLUE), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 550, 800, 550, 20, Material.Concrete));
+                newWorld.objects.add(new FixedObject(0, 350, 390, 350, 20, Material.Concrete));
+                newWorld.objects.add(new FixedObject(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(350, 250), Material.Concrete));
+                newWorld.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(800, 5540), Material.Boost));
+                newWorld.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(3800, 5540), Material.Glide));
+                newWorld.objects.add(new FixedObject(8000, 3540, 9000, 3540, 50, Material.SuperBounce));
+                newWorld.objects.add(new FixedObject(new CircleShape(5000, new Vector2D(new Point.Double(0, 0)), 0, Double.POSITIVE_INFINITY, Color.DARK_GRAY), new Point.Double(13500, 5540), Material.Boost));
 
                 afterSetup();
             }
@@ -684,10 +688,10 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(0, 350, 399, 350, 30, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(0, 350, 399, 350, 30, Material.Concrete));
 
                 afterSetup();
             }
@@ -700,10 +704,10 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.add(new FixedObject(400, 600, 400, 350, 1, Material.Concrete));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.5, Color.RED), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.add(new FixedObject(400, 600, 400, 350, 1, Material.Concrete));
 
                 afterSetup();
             }
@@ -716,24 +720,24 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(350, 300), Material.Wood));
 
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(290, 100), Material.Wood));
-                panel.world.objects.get(0).angularVelocity = -9.8;
-                panel.world.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
-                panel.world.objects.get(1).angularVelocity = 10;
-                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(350, 50), Material.Wood));
-                panel.world.objects.get(2).angularVelocity = -3;
-                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(250, -50), Material.Wood));
-                panel.world.objects.get(3).angularVelocity = -5;
-                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 50), Material.Wood));
-                panel.world.objects.get(4).angularVelocity = 7;
-                panel.world.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 50), Material.Wood));
-                panel.world.objects.get(5).angularVelocity = -9;
-                panel.world.objects.add(new FixedObject(-800, 400, 800, 600, 100, Material.Wood));
-                panel.world.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(290, 100), Material.Wood));
+                newWorld.objects.get(0).angularVelocity = -9.8;
+                newWorld.objects.add(new Object(new CircleShape(50, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(400, 100), Material.Wood));
+                newWorld.objects.get(1).angularVelocity = 10;
+                newWorld.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(350, 50), Material.Wood));
+                newWorld.objects.get(2).angularVelocity = -3;
+                newWorld.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(250, -50), Material.Wood));
+                newWorld.objects.get(3).angularVelocity = -5;
+                newWorld.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(150, 50), Material.Wood));
+                newWorld.objects.get(4).angularVelocity = 7;
+                newWorld.objects.add(new Object(new CircleShape(20, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.RED), new Point.Double(50, 50), Material.Wood));
+                newWorld.objects.get(5).angularVelocity = -9;
+                newWorld.objects.add(new FixedObject(-800, 400, 800, 600, 100, Material.Wood));
+                newWorld.objects.add(new FixedObject(800, 600, 900, 0, 100, Material.Wood));
                 afterSetup();
             }
         });
@@ -745,31 +749,31 @@ JMenu arrows;
         setup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.world = new World(new Vector2D(0, 982));
-                panel.world.follow = false;
-                panel.world.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(100, 100), Material.Wood));
-                panel.world.objects.get(0).velocity = new Vector2D(200,0);
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Glide));
-//                panel.world.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Glide));
+                newWorld = new World(new Vector2D(0, 982));
+                newWorld.follow = false;
+                newWorld.objects.add(new Object(new RectangleShape(100, 100, new Vector2D(new Point.Double(0, 0)), 0, 0.0005, Color.BLUE), new Point.Double(100, 100), Material.Wood));
+                newWorld.objects.get(0).velocity = new Vector2D(200,0);
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Glide));
+//                newWorld.objects.add(new FixedObject(new RectangleShape(50,50,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Glide));
                 
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(800,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(900,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1000,180), Material.Boost));
-//                panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1100,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(200,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(300,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(400,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(500,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(600,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(700,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(800,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(900,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1000,180), Material.Boost));
+//                newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(1100,180), Material.Boost));
                 for (int i = 0;i<20;i++) {
-                    panel.world.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100+i*100,180+i*10), Material.Ice));
+                    newWorld.objects.add(new FixedObject(new CircleShape(25,Vector2D.zero,0,Double.POSITIVE_INFINITY,Color.DARK_GRAY),new Point.Double(100+i*100,180+i*10), Material.Ice));
                 }
                 
                 afterSetup();
